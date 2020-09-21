@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/GraphControl/v15
+/GraphControl/bin
+/GraphControl/obj
+/GraphControlWinForms/bin
+/GraphControlWinForms/obj
+/GraphControlWinFormsTestApp/bin
+/GraphControlWinFormsTestApp/obj
+/packages/LightInject.6.3.4
