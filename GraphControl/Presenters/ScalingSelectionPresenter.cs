@@ -51,6 +51,10 @@ namespace GraphControl.Presenters
 
         public void MouseDown(object sender, ScaleUserSelectionEventArgs e)
         {
+            if (e == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             switch (e.Button)
             {
                 case MouseButton.Left:
@@ -65,6 +69,10 @@ namespace GraphControl.Presenters
 
         public void MouseMove(object sender, ScaleUserSelectionEventArgs e)
         {
+            if (e == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             switch (e.Button)
             {
                 case MouseButton.Left:
@@ -90,6 +98,10 @@ namespace GraphControl.Presenters
 
         public void MouseUp(object sender, ScaleUserSelectionEventArgs e)
         {
+            if (e == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             switch (e.Button)
             {
                 case MouseButton.Left:
@@ -114,6 +126,10 @@ namespace GraphControl.Presenters
 
         public void MouseWheel(object sender, ScaleUserSelectionEventArgs e)
         {
+            if (e == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             if (e.ShiftPressed)
             {
                 Scale(e.Location, e.WheelDelta);

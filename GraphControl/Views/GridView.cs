@@ -109,6 +109,7 @@ namespace GraphControl.Views
             double stepData = stepDataAbs;
             if (back)
             {
+                // If we show lines from ) and backward, change step sign
                 stepData = -stepDataAbs;
             }
 
@@ -283,9 +284,19 @@ namespace GraphControl.Views
             }
         }
 
-        private double ToNearRoundStep(Axis axis, double v1, double v2, double minGridLineDistance, int screenRange, IItemFormatter formatter)
+        /// <summary>
+        /// Returns rounded step for scale grid
+        /// </summary>
+        /// <param name="axis">For X or Y axis</param>
+        /// <param name="minDataValue">min value</param>
+        /// <param name="maxDatavakue">max value</param>
+        /// <param name="minGridLineDistance">minimal step of grid in screen coordinates</param>
+        /// <param name="screenRange">canvas width or height</param>
+        /// <param name="formatter">Formatter to show values</param>
+        /// <returns>rounded step for scale grid</returns>
+        private double ToNearRoundStep(Axis axis, double minDataValue, double maxDatavakue, double minGridLineDistance, int screenRange, IItemFormatter formatter)
         {
-            double dataRange = v2 - v1;
+            double dataRange = maxDatavakue - minDataValue;
             double dataMinStep = dataRange / (screenRange / minGridLineDistance); // log(interval / max lines count, interval / max lines count > 60 ? 60, 10) 
             int order = (int)(Math.Floor(Math.Log10(Math.Abs(dataRange))));
             double maxStep = Math.Pow(10, order);
@@ -304,6 +315,12 @@ namespace GraphControl.Views
             return maxStep / foundDivider;
         }
 
+        /// <summary>
+        /// Returns value rouded by step
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="step"></param>
+        /// <returns>value rouded by step</returns>
         private static double ToNearRoundValue(double value, double step)
         {
             return Math.Floor(value / step) * step;

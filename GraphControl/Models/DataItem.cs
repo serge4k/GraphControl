@@ -1,4 +1,4 @@
-﻿using System;
+﻿using GraphControl.Exceptions;
 using GraphControl.Interfaces.Models;
 
 namespace GraphControl.Models
@@ -19,6 +19,10 @@ namespace GraphControl.Models
 
         public DataItem(IDataItem dataItem)
         {
+            if (dataItem == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.X = dataItem.X;
             this.Y = dataItem.Y;
         }

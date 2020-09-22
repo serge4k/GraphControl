@@ -1,4 +1,5 @@
-﻿using GraphControl.Interfaces;
+﻿using GraphControl.Exceptions;
+using GraphControl.Interfaces;
 
 namespace GraphControl.Structs
 {
@@ -62,6 +63,10 @@ namespace GraphControl.Structs
 
         public Margin(IMargin margin)
         {
+            if (margin == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.Left = margin.Left;
             this.Top = margin.Top;
             this.Right = margin.Right;

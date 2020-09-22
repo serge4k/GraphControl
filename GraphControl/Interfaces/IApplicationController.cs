@@ -8,6 +8,7 @@ namespace GraphControl.Interfaces
     {
         IApplicationController RegisterInstance<TArgument>(TArgument instance);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
         IApplicationController RegisterService<TService, TImplementation>()
             where TImplementation : class, TService;
 

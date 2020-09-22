@@ -2,6 +2,7 @@
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces;
 using GraphControl.Structs;
+using GraphControl.Exceptions;
 
 namespace GraphControl.Models
 {
@@ -67,6 +68,10 @@ namespace GraphControl.Models
 
         public ScaleState(IScaleState state)
         {
+            if (state == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.Margin = new Margin(state.Margin);
             this.X1 = state.X1;
             this.X2 = state.X2;
