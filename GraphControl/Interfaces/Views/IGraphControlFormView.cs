@@ -5,7 +5,7 @@ using GraphControl.Structs;
 
 namespace GraphControl.Interfaces.Views
 {
-    public interface IGraphControlFormView : IView, IControlViewSize, IRegisterDataProvider
+    public interface IGraphControlFormView : IView, IRegisterDataProvider
     {
         Size ControlSize { get; }
 
@@ -16,6 +16,20 @@ namespace GraphControl.Interfaces.Views
         event EventHandler<FitToScreenAlwaysEventArgs> FitToScreenAlways;
 
         event EventHandler<LoadEventArgs> Load;
+
+        IItemFormatter ItemFormatter { get; set; }
+
+        IMargin GraphMargin { get; }
+
+        IBackgroundView UserBackgroundView { get; set; }
+
+        IGridView UserGridView { get; set; }
+
+        IDataView UserDataView { get; set; }
+
+        IScalingSelectionView UserScalingSelectionView { get; set; }
+
+        void Reset();
 
         void SetFitToScreenAlways(bool isChecked);
 

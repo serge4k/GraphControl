@@ -26,9 +26,9 @@ namespace GraphControl.Presenters
             this.view = view;
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            this.view.Draw(drawing, drawOptions, margin);
+            this.view.Draw(drawing, options, margin);
         }
     }
 }

@@ -2,8 +2,5 @@
 
 namespace GraphControl.Events
 {
-    public static class Delegates
-    {
-        public delegate void GraphDataHandler(double value, DateTime time);
-    }
+    public delegate void GraphDataHandler(double value, DateTime time);
 }

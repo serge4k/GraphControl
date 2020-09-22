@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GraphControl.Interfaces;
 
-namespace GraphControl.Utilites
+namespace GraphControl.Utilities
 {
     public class BaseValueFormatter : IValueFormatter
     {
@@ -35,20 +35,20 @@ namespace GraphControl.Utilites
             this.dividers = new SortedDictionary<double, double[]>();
         }
 
-        public void AddFormat(double maxVal, string format)
+        public void AddFormat(double maxValue, string format)
         {
-            this.formats.Add(maxVal, format);
+            this.formats.Add(maxValue, format);
         }
 
-        public void AddStepFormat(double maxVal, string format, double divider)
+        public void AddStepFormat(double maxValue, string format, double divider)
         {
-            this.stepFormats.Add(maxVal, format);
-            this.stepDividers.Add(maxVal, divider);
+            this.stepFormats.Add(maxValue, format);
+            this.stepDividers.Add(maxValue, divider);
         }
 
-        public void AddDividers(double maxVal, double[] dividers)
+        public void AddDividers(double maxValue, double[] newDividers)
         {
-            this.dividers.Add(maxVal, dividers);
+            this.dividers.Add(maxValue, newDividers);
         }
 
         protected string FindFormat(double value)
@@ -87,11 +87,11 @@ namespace GraphControl.Utilites
             return 1;
         }
 
-        protected double[] FindDivider(double step)
+        protected double[] FindDivider(double scaleStep)
         {
             foreach (var pair in this.dividers)
             {
-                if (step < pair.Key)
+                if (scaleStep < pair.Key)
                 {
                     return pair.Value;
                 }
@@ -99,14 +99,14 @@ namespace GraphControl.Utilites
             return this.defaultDividers;
         }
 
-        public virtual double[] GetScaleDividers(double step)
+        public virtual double[] GetScaleDividers(double scaleStep)
         {
-            return this.FindDivider(step);
+            return this.FindDivider(scaleStep);
         }
 
-        public virtual string ToString(double value, double step)
+        public virtual string ToString(double value, double scaleStep)
         {
-            var format = FindFormat(step);
+            var format = FindFormat(scaleStep);
             if (!String.IsNullOrWhiteSpace(format))
             {
                 if (format.StartsWith("{0"))
@@ -124,24 +124,24 @@ namespace GraphControl.Utilites
             }
         }
 
-        public virtual string ToStepString(double step)
+        public virtual string ToStepString(double scaleStep)
         {
-            var format = FindStepFormat(step);
-            var divider = FindStepDivider(step);
+            var format = FindStepFormat(scaleStep);
+            var divider = FindStepDivider(scaleStep);
             if (!String.IsNullOrWhiteSpace(format))
             {
                 if (format.StartsWith("{0"))
                 {
-                    return String.Format(format, step / divider);
+                    return String.Format(format, scaleStep / divider);
                 }
                 else
                 {
-                    return (step / divider).ToString(format);
+                    return (scaleStep / divider).ToString(format);
                 }                
             }
             else
             {
-                return (step / divider).ToString();
+                return (scaleStep / divider).ToString();
             }
         }
     }

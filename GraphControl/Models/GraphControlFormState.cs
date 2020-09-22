@@ -1,4 +1,5 @@
-﻿using GraphControl.Interfaces.Models;
+﻿using GraphControl.Exceptions;
+using GraphControl.Interfaces.Models;
 using System;
 
 namespace GraphControl.Models
@@ -24,6 +25,10 @@ namespace GraphControl.Models
 
         public GraphControlFormState(IGraphControlFormState state)
         {
+            if (state == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.FitToScreenByX = state.FitToScreenByX;
             this.FitToScreenByY = state.FitToScreenByY;
             this.FitToScreenAlways = state.FitToScreenAlways;

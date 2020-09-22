@@ -1,9 +1,9 @@
 ﻿using System;
-namespace GraphControl.Utilites
+namespace GraphControl.Utilities
 {
     public class DateTimeValueFormatter : BaseValueFormatter
     {
-        private long ticksPerValue;
+        private readonly long ticksPerValue;
 
         public DateTimeValueFormatter() : this(string.Empty, TimeSpan.TicksPerMillisecond)
         {
@@ -14,9 +14,9 @@ namespace GraphControl.Utilites
             this.ticksPerValue = ticksPerValue;
         }
 
-        public override string ToString(double value, double step)
+        public override string ToString(double value, double scaleStep)
         {
-            var format = FindFormat(step);
+            var format = FindFormat(scaleStep);
             double ticks = value * ticksPerValue;
             if (ticks < 0)
             {

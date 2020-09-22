@@ -18,7 +18,7 @@ namespace GraphControl.Interfaces
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]
-        void Rectangle(Color color, double x, double y, double width, double height2, RectangleF clipRectangle);
+        void Rectangle(Color color, double x, double y, double width, double height, RectangleF clipRectangle);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]
@@ -26,9 +26,9 @@ namespace GraphControl.Interfaces
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]
-        void Text(Color color, double x, double y, string text);
+        void Text(Color color, double x, double y, string value);
 
-        void Text(Color color, Rectangle rect, string text, StringAlignment alignment, StringAlignment lineAlignment);
+        void Text(Color color, Rectangle rect, string value, StringAlignment alignment, StringAlignment lineAlignment);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]

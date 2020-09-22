@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using GraphControl.Events;
 using GraphControl.Interfaces.Services;
 using GraphControl.Structs;
-using GraphControl.Utilites;
+using GraphControl.Utilities;
 
 namespace GraphControl.Services
 {
@@ -111,8 +111,16 @@ namespace GraphControl.Services
         #region IDisposable
         public void Dispose()
         {
-            this.drawingBuffer?.Dispose();
-            this.drawingTask?.Dispose();
+            if (this.drawingBuffer != null)
+            {
+                this.drawingBuffer.Dispose();
+            }
+            
+            this.drawingTask.Dispose();
+
+            this.drawingTaskCancellation.Dispose();
+
+            this.drawingRequestEvent.Dispose();
         }
         #endregion
     }

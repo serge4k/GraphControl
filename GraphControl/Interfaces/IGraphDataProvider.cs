@@ -1,4 +1,4 @@
-﻿using static GraphControl.Events.Delegates;
+﻿using GraphControl.Events;
 
 namespace GraphControl.Interfaces
 {

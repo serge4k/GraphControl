@@ -1,6 +1,6 @@
 ﻿namespace GraphControl.Definitions
 {
-    public enum MouseButtons
+    public enum MouseButton
     {
         //
         // Summary:

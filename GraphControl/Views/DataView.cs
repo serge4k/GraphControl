@@ -1,4 +1,5 @@
 ﻿using GraphControl.Definitions;
+using GraphControl.Exceptions;
 using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces.Services;
@@ -22,9 +23,13 @@ namespace GraphControl.Views
             this.dataService = dataService;            
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
-        {            
-            var canvasSize = drawOptions.CanvasSize;
+        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
+        {
+            if (drawing == null || margin == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
+            var canvasSize = options.CanvasSize;
             var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
             var startX = this.scaleService.State.X1;
             var endX = this.scaleService.State.X2;
@@ -88,6 +93,11 @@ namespace GraphControl.Views
         {
             return x >= 0 && x <= canvasSize.Width - margin.Right - margin.Left &&
                 y >= 0 && y <= canvasSize.Height - margin.Top - margin.Bottom;
+        }
+
+        public void Show()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

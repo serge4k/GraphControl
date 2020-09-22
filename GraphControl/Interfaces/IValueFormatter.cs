@@ -2,16 +2,16 @@
 {
     public interface IValueFormatter
     {
-        void AddFormat(double maxVal, string format);
+        void AddFormat(double maxValue, string format);
 
-        void AddStepFormat(double maxVal, string format, double divider);
+        void AddStepFormat(double maxValue, string format, double divider);
 
-        void AddDividers(double maxVal, double[] dividers);
+        void AddDividers(double maxValue, double[] newDividers);
 
-        string ToString(double value, double step);
+        string ToString(double value, double scaleStep);
 
-        string ToStepString(double step);
+        string ToStepString(double scaleStep);
 
-        double[] GetScaleDividers(double step);
+        double[] GetScaleDividers(double scaleStep);
     }
 }

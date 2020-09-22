@@ -1,6 +1,6 @@
 ﻿using GraphControl.Interfaces.Services;
 using GraphControl.Interfaces;
-using GraphControl.Utilites;
+using GraphControl.Utilities;
 using GraphControlWinFormsTestApp.Interfaces;
 using GraphControlWinFormsTestApp.Presenters;
 using GraphControlWinFormsTestApp.Services;

@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Linq.Expressions;
 using LightInject;
 using GraphControl.Interfaces;
 
-namespace GraphControl.Utilites
+namespace GraphControl.Utilities
 {
-    public class DependInjectWrapper : IContainer
+    public sealed class DependInjectWrapper : IContainer, IDisposable
     {
         private readonly ServiceContainer container = new ServiceContainer();
 
         public void Register<TService, TImplementation>() where TImplementation : TService
         {
             this.container.Register<TService, TImplementation>();
-        }
-
-        public void RegisterInstance<TService, TImplementation>(TService instance, string serviceName) where TImplementation : TService
-        {
-            this.container.RegisterInstance(instance, serviceName);
         }
 
         public void Register<TService>()
@@ -27,11 +21,6 @@ namespace GraphControl.Utilites
         public void RegisterInstance<T>(T instance)
         {
             this.container.RegisterInstance(instance);
-        }
-
-        public void Register<TService, TArgument>(Expression<Func<TArgument, TService>> factory)
-        {
-            this.container.Register(serviceFactory => factory);
         }
 
         public TService Resolve<TService>()
@@ -49,9 +38,9 @@ namespace GraphControl.Utilites
             return this.container.GetInstance<TService>();
         }
 
-        public TService GetInstance<TService>(string serviceName) where TService : class
+        public void Dispose()
         {
-            return this.container.GetInstance(typeof(TService), serviceName) as TService;
+            this.container.Dispose();
         }
     }
 }

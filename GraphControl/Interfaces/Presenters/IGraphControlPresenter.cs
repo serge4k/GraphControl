@@ -10,7 +10,7 @@ namespace GraphControl.Interfaces.Presenters
     {
         void ControlSizeChanged(Size canvasSize);
 
-        void UpdateFormState(IGraphControlFormState state);
+        void UpdateFormState(IGraphControlFormState formState);
 
         void OnLoad(LoadEventArgs e);
     }

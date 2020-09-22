@@ -1,4 +1,5 @@
-﻿using GraphControl.Interfaces;
+﻿using GraphControl.Exceptions;
+using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces.Views;
 using GraphControl.Structs;
@@ -14,9 +15,18 @@ namespace GraphControl.Views
             this.State = state;
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            drawing.FillRectangle(this.State.PenColor, this.State.BackgroundColor, 0, 0, drawOptions.CanvasSize.Width - 1, drawOptions.CanvasSize.Height - 1);
+            if (drawing == null || margin == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
+            drawing.FillRectangle(this.State.PenColor, this.State.BackgroundColor, 0, 0, options.CanvasSize.Width - 1, options.CanvasSize.Height - 1);
+        }
+
+        public void Show()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

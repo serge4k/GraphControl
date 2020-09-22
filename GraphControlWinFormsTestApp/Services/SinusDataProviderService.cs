@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Timers;
 using GraphControl.Events;
 using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces.Services;
 using GraphControl.Models;
-using static GraphControl.Events.Delegates;
 
 namespace GraphControlWinFormsTestApp.Services
 {

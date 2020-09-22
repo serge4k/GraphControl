@@ -4,6 +4,6 @@ namespace GraphControl.Interfaces.Presenters
 {
     public interface IDrawingPresenter
     {
-        void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin);
+        void Draw(IDrawing drawing, DrawOptions options, IMargin margin);
     }
 }

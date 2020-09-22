@@ -6,7 +6,7 @@ namespace GraphControl.Events
 {
     public class ScaleUserSelectionEventArgs : EventArgs
     {
-        public MouseButtons Button { get; set; }
+        public MouseButton Button { get; set; }
 
         public Point Location { get; set; }
 
@@ -14,7 +14,7 @@ namespace GraphControl.Events
 
         public bool ShiftPressed { get; internal set; }
 
-        public ScaleUserSelectionEventArgs(MouseButtons button, Point location, int wheelDelta, bool shiftPressed)
+        public ScaleUserSelectionEventArgs(MouseButton button, Point location, int wheelDelta, bool shiftPressed)
         {
             this.Button = button;
             this.Location = location;

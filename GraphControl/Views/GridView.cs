@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using GraphControl.Definitions;
+using GraphControl.Exceptions;
 using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces.Services;
 using GraphControl.Interfaces.Views;
 using GraphControl.Models;
 using GraphControl.Structs;
-using GraphControl.Utilites;
 
 namespace GraphControl.Views
 {
@@ -30,22 +30,17 @@ namespace GraphControl.Views
             this.LabelMargin = new Margin(5,5,5,5);
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            var canvasSize = drawOptions.CanvasSize;
-            double x1screen = this.scaleService.ToScreenX(this.scaleService.State.X1) + margin.Left;
-            double x2screen = this.scaleService.ToScreenX(this.scaleService.State.X2) - margin.Right;
-
-            double stepXscreen = this.state.MinGridLineDistance;
-
-            double y1screen = this.scaleService.ToScreenY(this.scaleService.State.Y1) + margin.Top;
-            double y2screen = this.scaleService.ToScreenY(this.scaleService.State.Y2) - margin.Bottom;
-
-            double stepYscreen = this.state.MinGridLineDistance;
-
+            if (drawing == null || margin == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
+            var canvasSize = options.CanvasSize;
+            
             // Step 1 - Measure all texts and calc offsets
             // For bottom offset get X string height for 0 value
-            var strValueX = this.itemFormatter.ToString(Axis.X, new DataItem(0, 0), this.scaleService.ScaleToDataX(stepXscreen));
+            var strValueX = this.itemFormatter.ToString(Axis.X, new DataItem(0, 0), this.scaleService.ScaleToDataX(this.state.MinGridLineDistance));
             var strX = drawing.MeasureText(strValueX);
 
             SizeF strY = new SizeF();
@@ -61,17 +56,6 @@ namespace GraphControl.Views
             {
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, false, false, true);
             }
-
-            // Adjust grid steps
-            stepXscreen = Math.Max(stepXscreen, strX.Width + this.LabelMargin.Left + this.LabelMargin.Right);
-            stepYscreen = Math.Max(stepYscreen, strY.Height + this.LabelMargin.Top + this.LabelMargin.Bottom);
-
-            // Adjust screen borders;
-            x1screen = this.scaleService.ToScreenX(this.scaleService.State.X1);
-            x2screen = this.scaleService.ToScreenX(this.scaleService.State.X2);
-
-            y1screen = this.scaleService.ToScreenY(this.scaleService.State.Y1);
-            y2screen = this.scaleService.ToScreenY(this.scaleService.State.Y2);
 
             // Step 2 - Draw vertical lines
             // Draw axe X and grid from axe X to left and to right
@@ -292,7 +276,6 @@ namespace GraphControl.Views
                     bool borderValue = valueData == this.scaleService.State.Y1 || valueData == this.scaleService.State.Y2;
                     if (borderValue || (rect.Top > margin.Top + (strY.Height + this.LabelMargin.TopAndBottom) / 2 && rect.Bottom < canvasSize.Height - strY.Width - this.LabelMargin.TopAndBottom))
                     {
-                        double linePos2 = canvasSize.Height - margin.Bottom;
                         drawing.Text(this.state.TextYColor, rect, strValue, StringAlignment.Far, align);
                         lastTextPos = rect.Top;
                     }
@@ -324,6 +307,11 @@ namespace GraphControl.Views
         private static double ToNearRoundValue(double value, double step)
         {
             return Math.Floor(value / step) * step;
+        }
+
+        public void Show()
+        {
+            throw new NotImplementedException();
         }
     }
 }

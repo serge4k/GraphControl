@@ -7,16 +7,16 @@ namespace GraphControl.Presenters
 {
     public class BackgroundPresenter : IBackgroundPresenter
     {
-        private readonly IBackgroundView view;
+        public IBackgroundView View { get; set; }
 
         public BackgroundPresenter(IBackgroundView view)
         {
-            this.view = view;
+            this.View = view;
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            this.view.Draw(drawing, drawOptions, margin);
+            this.View.Draw(drawing, options, margin);
         }
     }
 }

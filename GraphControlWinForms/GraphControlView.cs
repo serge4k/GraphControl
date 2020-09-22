@@ -41,7 +41,7 @@ namespace GraphControlWinForms
             base.SizeChanged += CtrlView_SizeChanged;
         }
 
-        public void Draw(IDrawing drawing, global::GraphControl.Structs.DrawOptions drawOptions, IMargin margin)
+        public void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
         }
 
@@ -101,23 +101,23 @@ namespace GraphControlWinForms
             );
         }
 
-        private static global::GraphControl.Definitions.MouseButtons ConvertMouseButton(System.Windows.Forms.MouseButtons button)
+        private static global::GraphControl.Definitions.MouseButton ConvertMouseButton(System.Windows.Forms.MouseButtons button)
         {
             switch (button)
             {
                 default:
                 case System.Windows.Forms.MouseButtons.None:
-                    return global::GraphControl.Definitions.MouseButtons.None;
+                    return global::GraphControl.Definitions.MouseButton.None;
                 case System.Windows.Forms.MouseButtons.Left:
-                    return global::GraphControl.Definitions.MouseButtons.Left;
+                    return global::GraphControl.Definitions.MouseButton.Left;
                 case System.Windows.Forms.MouseButtons.Right:
-                    return global::GraphControl.Definitions.MouseButtons.Right;
+                    return global::GraphControl.Definitions.MouseButton.Right;
                 case System.Windows.Forms.MouseButtons.Middle:
-                    return global::GraphControl.Definitions.MouseButtons.Middle;
+                    return global::GraphControl.Definitions.MouseButton.Middle;
                 case System.Windows.Forms.MouseButtons.XButton1:
-                    return global::GraphControl.Definitions.MouseButtons.XButton1;
+                    return global::GraphControl.Definitions.MouseButton.XButton1;
                 case System.Windows.Forms.MouseButtons.XButton2:
-                    return global::GraphControl.Definitions.MouseButtons.XButton2;
+                    return global::GraphControl.Definitions.MouseButton.XButton2;
             }
         }
         #endregion

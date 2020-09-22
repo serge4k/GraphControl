@@ -1,6 +1,5 @@
 ﻿using System;
 using GraphControl.Events;
-using GraphControl.Structs;
 
 namespace GraphControl.Interfaces.Views
 {

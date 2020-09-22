@@ -4,11 +4,11 @@ using GraphControl.Exceptions;
 using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 
-namespace GraphControl.Utilites
+namespace GraphControl.Utilities
 {
     public class ItemFormatter : IItemFormatter
     {
-        private Dictionary<Axis, IValueFormatter> items;
+        private readonly Dictionary<Axis, IValueFormatter> items;
 
         public ItemFormatter()
         {
@@ -27,46 +27,50 @@ namespace GraphControl.Utilites
             }
         }
 
-        public string ToString(Axis axis, IDataItem item, double step)
+        public string ToString(Axis axis, IDataItem item, double scaleStep)
         {
+            if (item == null)
+            {
+                throw new GraphControlException("parameter \"item\" is null");
+            }
             if (this.items.ContainsKey(axis))
             {
                 switch (axis)
                 {
                     case Axis.X:
-                        return this.items[axis].ToString(item.X, step);
+                        return this.items[axis].ToString(item.X, scaleStep);
                     case Axis.Y:
-                        return this.items[axis].ToString(item.Y, step);
+                        return this.items[axis].ToString(item.Y, scaleStep);
                 }
             }
             throw new GraphControlException($"Axis index {axis.ToString()} is not found");
         }
 
-        public string ToStepString(Axis axis, double step)
+        public string ToStepString(Axis axis, double scaleStep)
         {
             if (this.items.ContainsKey(axis))
             {
                 switch (axis)
                 {
                     case Axis.X:
-                        return this.items[axis].ToStepString(step);
+                        return this.items[axis].ToStepString(scaleStep);
                     case Axis.Y:
-                        return this.items[axis].ToStepString(step);
+                        return this.items[axis].ToStepString(scaleStep);
                 }
             }
             throw new GraphControlException($"Axis index {axis.ToString()} is not found");
         }
 
-        public double[] GetScaleDivisions(Axis axis, double step)
+        public double[] GetScaleDivisions(Axis axis, double scaleStep)
         {
             if (this.items.ContainsKey(axis))
             {
                 switch (axis)
                 {
                     case Axis.X:
-                        return this.items[axis].GetScaleDividers(step);
+                        return this.items[axis].GetScaleDividers(scaleStep);
                     case Axis.Y:
-                        return this.items[axis].GetScaleDividers(step);
+                        return this.items[axis].GetScaleDividers(scaleStep);
                 }
             }
             throw new GraphControlException($"Axis index {axis.ToString()} is not found");

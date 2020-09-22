@@ -1,4 +1,5 @@
-﻿using GraphControl.Interfaces;
+﻿using GraphControl.Exceptions;
+using GraphControl.Interfaces;
 using GraphControl.Interfaces.Views;
 using GraphControl.Structs;
 using System.Drawing;
@@ -9,11 +10,11 @@ namespace GraphControl.Views
     {
         public Point? MovingStart { get; set; }
 
-        public Point? MovingPos { get; set; }
+        public Point? MovingPosition { get; set; }
 
         public Point? ScalingStart { get; set; }
 
-        public Point? ScalingPos { get; set; }
+        public Point? ScalingPosition { get; set; }
 
         public bool ZoomIncrease { get; set; }
 
@@ -27,19 +28,23 @@ namespace GraphControl.Views
         {
         }
 
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            var canvasSize = drawOptions.CanvasSize;
+            if (drawing == null || margin == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
+            var canvasSize = options.CanvasSize;
             var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
 
-            if (this.MovingStart != null && this.MovingPos != null)
+            if (this.MovingStart != null && this.MovingPosition != null)
             {
-                drawing.Line(this.MovingPenColor, this.MovingStart.Value.X, this.MovingStart.Value.Y, this.MovingPos.Value.X, this.MovingPos.Value.Y, clip);
+                drawing.Line(this.MovingPenColor, this.MovingStart.Value.X, this.MovingStart.Value.Y, this.MovingPosition.Value.X, this.MovingPosition.Value.Y, clip);
             }
 
-            if (this.ScalingStart != null && this.ScalingPos != null)
+            if (this.ScalingStart != null && this.ScalingPosition != null)
             {
-                Rectangle rectangle = SortCoordinates(this.ScalingStart.Value, this.ScalingPos.Value);
+                Rectangle rectangle = SortCoordinates(this.ScalingStart.Value, this.ScalingPosition.Value);
                 var color = this.ZoomIncrease ? this.ZoomInPenColor : this.ZoomOutPenColor;
                 drawing.Rectangle(color, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, clip);
             }
@@ -62,6 +67,11 @@ namespace GraphControl.Views
                 y1 = scalingPos.Y;
             }
             return new Rectangle(x1, y1, x2 - x1, y2 - y1);
+        }
+
+        public void Show()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

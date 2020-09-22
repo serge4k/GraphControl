@@ -5,7 +5,7 @@ namespace GraphControl.Events
 {
     public class ControlSizeChangedEventArgs : EventArgs
     {
-        public Size CanvasSize;
+        public Size CanvasSize { get; private set; }
 
         public ControlSizeChangedEventArgs(Size canvasSize)
         {

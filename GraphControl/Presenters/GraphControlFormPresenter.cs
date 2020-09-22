@@ -4,18 +4,15 @@ using GraphControl.Interfaces.Presenters;
 using System;
 using GraphControl.Interfaces.Views;
 using GraphControl.Interfaces;
-using GraphControl.Structs;
-using GraphControl.Interfaces.Services;
-using GraphControl.Models;
 
 namespace GraphControl.Presenters
 {
     public class GraphControlFormPresenter : BasePresenter<IGraphControlFormView>, IGraphControlFormPresenter
     {
+        public new IGraphControlFormView View { get; set; }
+
         #region Prevate fields
         private readonly IGraphControlFormState state;
-        private readonly IGraphControlView graphControlView;
-        private readonly IScaleService scaleService;
         private readonly IGraphControlPresenter graphControlPresenter;
         #endregion
 
@@ -23,16 +20,12 @@ namespace GraphControl.Presenters
         public GraphControlFormPresenter(IApplicationController controller,
             IGraphControlFormView view,
             IGraphControlFormState state,
-            IScaleService scaleService,
-            IGraphControlPresenter graphControlPresenter,
-            IGraphControlView graphControlView
+            IGraphControlPresenter graphControlPresenter
             ) : base(controller, view)
         {
             this.state = state;
-            this.scaleService = scaleService;
-
-            this.graphControlView = graphControlView;
-
+            this.View = view;
+            
             // Store inner presenters
             this.graphControlPresenter = graphControlPresenter;
             
@@ -41,7 +34,6 @@ namespace GraphControl.Presenters
             this.View.FitToScreenByY += View_FitToScreenByY;
             this.View.FitToScreenAlways += View_FitToScreenAlways;
             this.View.Load += View_Load;
-            this.View.ControlSizeChanged += Control_CanvasSizeChanged;
             
             UpdateState();
         }
@@ -89,13 +81,6 @@ namespace GraphControl.Presenters
         private void View_Load(object sender, LoadEventArgs e)
         {
             this.graphControlPresenter.OnLoad(e);
-        }
-        #endregion
-
-        #region Control event handlers
-        private void Control_CanvasSizeChanged(object sender, ControlSizeChangedEventArgs e)
-        {
-            this.graphControlPresenter.ControlSizeChanged(e.CanvasSize);
         }
         #endregion
 

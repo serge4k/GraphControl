@@ -1,5 +1,6 @@
 ﻿using System;
 using GraphControl.Events;
+using GraphControl.Exceptions;
 using GraphControl.Interfaces;
 using GraphControl.Interfaces.Models;
 using GraphControl.Interfaces.Presenters;
@@ -62,6 +63,10 @@ namespace GraphControl.Presenters
             this.View.MouseUp += this.scalingSelectionPresenter.MouseUp;
             this.View.MouseWheel += this.scalingSelectionPresenter.MouseWheel;
             
+            if (bufferedDrawingService == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.bufferedDrawingService = bufferedDrawingService;
             this.bufferedDrawingService.UpdateScale += BufferedDrawingService_UpdateScale;
             this.bufferedDrawingService.DrawGraph += BufferedDrawingService_DrawGraph;
@@ -79,6 +84,10 @@ namespace GraphControl.Presenters
 
         public void OnLoad(LoadEventArgs e)
         {
+            if (e == null)
+            {
+                throw new GraphControlException("parameter \"e\" is null");
+            }
             this.View.SetBounds(e.Rect.Left, e.Rect.Top, e.Rect.Width, e.Rect.Height);
         }
         #endregion
@@ -118,7 +127,7 @@ namespace GraphControl.Presenters
 
         private void UpdateView(bool force)
         {
-            DrawOptions options = new DrawOptions(this.View.ControlSize, this.state.FitToScreenByX, this.state.FitToScreenByY);
+            var options = new DrawOptions(this.View.ControlSize, this.state.FitToScreenByX, this.state.FitToScreenByY);
             this.View.SetDrawOptions(options);
 
             if (force || this.state.FitToScreenAlways || this.state.FitToScreenByX || this.state.FitToScreenByY)
@@ -139,9 +148,9 @@ namespace GraphControl.Presenters
         {
         }
 
-        public void UpdateFormState(IGraphControlFormState state)
+        public void UpdateFormState(IGraphControlFormState formState)
         {
-            this.state = state;
+            this.state = formState;
             UpdateView(false);
         }
 

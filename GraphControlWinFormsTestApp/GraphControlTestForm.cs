@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using GraphControl.Definitions;
 using GraphControl.Interfaces;
-using GraphControl.Utilites;
+using GraphControl.Utilities;
 using GraphControlWinFormsTestApp.Interfaces;
 
 namespace GraphControlWinFormsTestApp

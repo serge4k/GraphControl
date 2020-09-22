@@ -36,7 +36,11 @@ namespace GraphControl.Services
         #endregion
 
         #region Constructors
-        public DataService(uint maxItems = 10000000) // Limit for list size of two double X and Y = 16 bytes * maxItems
+        public DataService() : this(10000000) // Limit for list size of two double X and Y = 16 bytes * maxItems
+        {
+        }
+
+        public DataService(uint maxItems)
         {
             this.maxItems = maxItems;
         }
@@ -47,7 +51,7 @@ namespace GraphControl.Services
         {
             if (dataProvider == null)
             {
-                throw new GraphControlException("dataProvider is null");
+                throw new GraphControlException("parameter is null");
             }
             dataProvider.OnReceiveData += DataProvider_OnReceiveData;
 
@@ -157,23 +161,23 @@ namespace GraphControl.Services
             }
         }
 
-        private void AddItemRange(ICollection<IDataItem> items)
+        private void AddItemRange(ICollection<IDataItem> newItems)
         {
             lock (this.sink)
             {
-                if (this.items.Count + items.Count > this.maxItems)
+                if (this.items.Count + newItems.Count > this.maxItems)
                 {
-                    this.items.RemoveRange(0, (int)(this.items.Count + items.Count  - this.maxItems));
+                    this.items.RemoveRange(0, (int)(this.items.Count + newItems.Count  - this.maxItems));
                 }
 
-                foreach (var item in items)
+                foreach (var item in newItems)
                 {
                     UpdateMinMax(item);
                 }
                 
-                this.items.AddRange(items);
+                this.items.AddRange(newItems);
             }
-            this.DataUpdated?.Invoke(this, new DataUpdatedEventArgs(items));
+            this.DataUpdated?.Invoke(this, new DataUpdatedEventArgs(newItems));
         }
 
         private void UpdateMinMax(IDataItem item)

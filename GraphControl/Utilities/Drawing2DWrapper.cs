@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GraphControl.Definitions;
 using GraphControl.Interfaces;
+using GraphControl.Structs;
 
-namespace GraphControl.Utilites
+namespace GraphControl.Utilities
 {
     public sealed class Drawing2DWrapper : IDrawing, IDisposable
     {
         #region Private fields
         private Graphics graphicsCanvas;
-        private FontFamily fontFamily;
-        private int fontSize;
-        private Font font;
-
+        private readonly FontFamily fontFamily;
+        private readonly int fontSize;
+        private readonly Font font;
         private ICollection<DrawingPathItem> cachePath;
         #endregion
 
@@ -32,60 +31,52 @@ namespace GraphControl.Utilites
         #region Public methods
         public void Rectangle(Color color, double x, double y, double width, double height)
         {
-            var graphics = GetGraphics();
             var path = AddPath(null, new Pen(color));
             path.AddRectangle(new RectangleF((float)x, (float)y, (float)width, (float)height));
         }
         public void Rectangle(Color color, double x, double y, double width, double height, RectangleF clipRectangle)
         {
-            var graphics = GetGraphics();
             var path = AddPath(null, new Pen(color), clipRectangle);
             path.AddRectangle(new RectangleF((float)x, (float)y, (float)width, (float)height));
         }
 
         public void FillRectangle(Color color, Color colorFill, double x, double y, double width, double height)
         {
-            var graphics = GetGraphics();
             var path = AddPath(new SolidBrush(colorFill), new Pen(color));
             path.AddRectangle(new RectangleF((float)x, (float)y, (float)width, (float)height));
         }
 
         public void Line(Color color, double x1, double y1, double x2, double y2)
         {
-            var graphics = GetGraphics();
             var path = AddPath(null, new Pen(color));
             path.AddLine((float)x1, (float)y1, (float)x2, (float)y2);
         }
 
         public void Line(Color color, double x1, double y1, double x2, double y2, RectangleF clipRectangle)
         {
-            var graphics = GetGraphics();
             var path = AddPath(null, new Pen(color), clipRectangle);
             path.AddLine((float)x1, (float)y1, (float)x2, (float)y2);
         }
 
-        public void Text(Color color, double x, double y, string text)
+        public void Text(Color color, double x, double y, string value)
         {
-            var graphics = GetGraphics();
             var path = AddPath(new SolidBrush(color), null);
             float emSize = this.graphicsCanvas.DpiY * this.font.Size / 72;
-            path.AddString(text, this.fontFamily, (int)this.font.Style, emSize, new PointF((float)x, (float)y), StringFormat.GenericDefault);
+            path.AddString(value, this.fontFamily, (int)this.font.Style, emSize, new PointF((float)x, (float)y), StringFormat.GenericDefault);
         }
 
-        public void Text(Color color, Rectangle rect, string text, StringAlignment alignment, StringAlignment lineAlignment)
+        public void Text(Color color, Rectangle rect, string value, StringAlignment alignment, StringAlignment lineAlignment)
         {
-            var graphics = GetGraphics();
             var path = AddPath(new SolidBrush(color), null);
             float emSize = this.graphicsCanvas.DpiY * this.font.Size / 72;
             StringFormat stringFormat = new StringFormat(StringFormatFlags.NoClip);
             stringFormat.Alignment = alignment;
             stringFormat.LineAlignment = lineAlignment;
-            path.AddString(text, this.fontFamily, (int)this.font.Style, emSize, rect, stringFormat);
+            path.AddString(value, this.fontFamily, (int)this.font.Style, emSize, rect, stringFormat);
         }
 
         public void Circle(Color color, double x, double y, int radius)
         {
-            var graphics = GetGraphics();
             var path = AddPath(new SolidBrush(color), null);
             path.AddEllipse((float)(x - radius/2), (float)(y - radius / 2), (float)(radius), (float)(radius));
         }

@@ -22,14 +22,6 @@ namespace GraphControl.Services
             }
         }
 
-        bool DataRangeEmpty
-        {
-            get
-            {
-                return this.State.X1 == this.State.X2 || this.State.X1 == this.State.X2;
-            }
-        }
-
         public event EventHandler StateStepUpdated;
         #endregion
 
@@ -41,6 +33,10 @@ namespace GraphControl.Services
         #region Constructors
         public ScaleService(IScaleState scaleState, IDataService dataService, IMargin margin)
         {
+            if (scaleState == null)
+            {
+                throw new GraphControlException("parameter is null");
+            }
             this.scaleState = scaleState;
             this.scaleState.Margin = margin;
             this.dataService = dataService;
@@ -140,7 +136,7 @@ namespace GraphControl.Services
             }
             catch (DivideByZeroException ex)
             {
-                throw new GraphControlException("ScaleX or ScaleY is zero error", ex);
+                throw new GraphControlException("Divide by zero error", ex);
             }
         }
 
@@ -177,7 +173,7 @@ namespace GraphControl.Services
             }
             catch (DivideByZeroException ex)
             {
-                throw new GraphControlException("ScaleX or ScaleY is zero error", ex);
+                throw new GraphControlException("Divide by zero error", ex);
             }
         }
 
@@ -327,6 +323,11 @@ namespace GraphControl.Services
 
         public bool IsItemVisible(IDataItem item)
         {
+            if (item == null)
+            {
+                throw new GraphControlException("parameter \"item\" is null");
+            }
+
             return item.X >= this.State.X1 && item.X <= this.State.X2 &&
                 item.Y >= this.State.Y1 && item.Y <= this.State.Y2;
         }

@@ -7,6 +7,7 @@ using GraphControl.Interfaces.Views;
 using GraphControl.Interfaces;
 using GraphControl.Presenters;
 using GraphControl.Structs;
+using GraphControl.Exceptions;
 
 namespace GraphControl.Presenters
 {
@@ -29,6 +30,10 @@ namespace GraphControl.Presenters
 
         public ScalingSelectionPresenter(IScalingSelectionView view, IControlView rootControlView, IScaleService scaleService, Color movingPenColor, Color zoomInPenColor, Color zoomOutPenColor) 
         {
+            if (view == null)
+            {
+                throw new GraphControlException("parameter \"view\" is null");
+            }
             this.view = view;
             this.rootControlView = rootControlView;
             this.scaleService = scaleService;
@@ -39,20 +44,20 @@ namespace GraphControl.Presenters
         #endregion
 
         #region Public methods
-        public void Draw(IDrawing drawing, DrawOptions drawOptions, IMargin margin)
+        public void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
-            this.view.Draw(drawing, drawOptions, margin);
+            this.view.Draw(drawing, options, margin);
         }
 
         public void MouseDown(object sender, ScaleUserSelectionEventArgs e)
         {
             switch (e.Button)
             {
-                case MouseButtons.Left:
+                case MouseButton.Left:
                     this.view.ZoomIncrease = !e.ShiftPressed;
                     this.view.ScalingStart = e.Location;
                     break;
-                case MouseButtons.Right:
+                case MouseButton.Right:
                     this.view.MovingStart = e.Location;
                     break;
             }
@@ -62,21 +67,21 @@ namespace GraphControl.Presenters
         {
             switch (e.Button)
             {
-                case MouseButtons.Left:
+                case MouseButton.Left:
                     if (this.view.ScalingStart != null)
                     {
-                        this.view.ScalingPos = e.Location;
+                        this.view.ScalingPosition = e.Location;
                         this.rootControlView.RefreshView();
                     }
                     break;
-                case MouseButtons.Right:
+                case MouseButton.Right:
                     if (this.view.MovingStart != null)
                     {
-                        if (this.view.MovingPos != null)
+                        if (this.view.MovingPosition != null)
                         {
-                            Shift(e.Location.X - this.view.MovingPos.Value.X, e.Location.Y - this.view.MovingPos.Value.Y);
+                            Shift(e.Location.X - this.view.MovingPosition.Value.X, e.Location.Y - this.view.MovingPosition.Value.Y);
                         }                        
-                        this.view.MovingPos = e.Location;
+                        this.view.MovingPosition = e.Location;
                         this.rootControlView.RefreshView();
                     }
                     break;
@@ -87,20 +92,20 @@ namespace GraphControl.Presenters
         {
             switch (e.Button)
             {
-                case MouseButtons.Left:
-                    if (this.view.ScalingStart != null && this.view.ScalingPos != null)
+                case MouseButton.Left:
+                    if (this.view.ScalingStart != null && this.view.ScalingPosition != null)
                     {
                         Scale(this.view.ScalingStart.Value, e.Location, this.view.ZoomIncrease);
                         this.view.ScalingStart = null;
-                        this.view.ScalingPos = null;
+                        this.view.ScalingPosition = null;
                         this.rootControlView.RefreshView();
                     }
                     break;
-                case MouseButtons.Right:
-                    if (this.view.MovingStart != null && this.view.MovingPos != null)
+                case MouseButton.Right:
+                    if (this.view.MovingStart != null && this.view.MovingPosition != null)
                     {
                         this.view.MovingStart = null;
-                        this.view.MovingPos = null;
+                        this.view.MovingPosition = null;
                         this.rootControlView.RefreshView();
                     }
                     break; 
@@ -109,7 +114,15 @@ namespace GraphControl.Presenters
 
         public void MouseWheel(object sender, ScaleUserSelectionEventArgs e)
         {
-            Scale(e.WheelDelta);
+            if (e.ShiftPressed)
+            {
+                Scale(e.Location, e.WheelDelta);
+            }
+            else
+            {
+                Scale(e.WheelDelta);
+            }
+            
             this.rootControlView.RefreshView();
         }
         #endregion

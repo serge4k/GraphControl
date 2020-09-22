@@ -4,11 +4,10 @@ using GraphControl.Definitions;
 using GraphControl.Events;
 using GraphControl.Factory;
 using GraphControl.Interfaces;
-using GraphControl.Interfaces.Presenters;
 using GraphControl.Interfaces.Services;
 using GraphControl.Interfaces.Views;
 using GraphControl.Structs;
-using GraphControl.Utilites;
+using GraphControl.Utilities;
 
 namespace GraphControlWinForms
 {
@@ -23,11 +22,9 @@ namespace GraphControlWinForms
 
         public new event EventHandler<LoadEventArgs> Load;
 
-        public event EventHandler<ControlSizeChangedEventArgs> ControlSizeChanged;
-
         public Size ControlSize => new Size(this.ClientSize.Width, this.ClientSize.Height);
 
-        public IItemFormatter ItemFormatter { get; private set; }
+        public IItemFormatter ItemFormatter { get; set; }
 
         public Padding GraphPadding
         {
@@ -43,13 +40,21 @@ namespace GraphControlWinForms
             }
         }
 
-        public Margin GraphMargin
+        public IMargin GraphMargin
         {
             get
             {
                 return new Margin(this.GraphPadding.Left, this.GraphPadding.Top, this.GraphPadding.Right, this.GraphPadding.Bottom);
             }
         }
+
+        public IBackgroundView UserBackgroundView { get; set; }
+
+        public IGridView UserGridView { get; set; }
+
+        public IDataView UserDataView { get; set; }
+
+        public IScalingSelectionView UserScalingSelectionView { get; set; }
         #endregion
 
         #region Private fields
@@ -59,7 +64,6 @@ namespace GraphControlWinForms
         // To optimize interations we will use direct links to anoter services and presenters directly
         private IDataService dataService;
         private IScaleService scaleService;
-        private IGridPresenter gridPresenter;       
         #endregion
 
         #region Constructors
@@ -75,6 +79,22 @@ namespace GraphControlWinForms
         }
         #endregion
 
+        #region Reset and Free
+        public void Reset()
+        {
+            Free();
+
+            CreatePreseter();
+
+            CreateControls();
+        }
+
+        private void Free()
+        {
+            this.applicationController.Dispose();
+        }
+        #endregion
+
         #region Private methods
         /// <summary>
         /// To make the user control autonomous create inner GraphControl Presenter manually instead of dependency injection
@@ -83,7 +103,7 @@ namespace GraphControlWinForms
         private void CreatePreseter()
         {
             // Create ApplicationController
-            this.applicationController = GraphControlFactory.Factory.CreateController();
+            this.applicationController = GraphControlFactory.CreateController();
 
             this.ItemFormatter = new ItemFormatter();
             this.ItemFormatter.Register(Axis.X, new DoubleValueFormatter());
@@ -92,13 +112,14 @@ namespace GraphControlWinForms
             this.graphPadding = new Padding(80, 5, 5, 40);
 
             // Register dependencies
-            GraphControlFactory.Factory.RegisterInstances(this.applicationController, this, new GraphControlView(), this.ItemFormatter, this.GraphMargin, true);
+            GraphControlFactory.RegisterInstances(this.applicationController, 
+                this, 
+                new GraphControlView());
 
             // To optimize interations we will use direct links to anoter services and presenters directly
             this.dataService = this.applicationController.GetInstance<IDataService>();
             this.scaleService = this.applicationController.GetInstance<IScaleService>();
             this.scaleService.StateStepUpdated += ScaleService_StateStepUpdated;
-            this.gridPresenter = this.applicationController.GetInstance<IGridPresenter>();            
         }
 
         private void CreateControls()
@@ -123,6 +144,11 @@ namespace GraphControlWinForms
         #endregion
 
         #region Interfaces implementaion
+        public void RegisterDataProvider(IGraphDataProvider dataProvider)
+        {
+            this.dataService.RegisterDataProvider(dataProvider);
+        }
+
         public void SetFitToScreenAlways(bool isChecked)
         {
             this.cbFitToScreenAlways.Checked = isChecked;
@@ -141,9 +167,14 @@ namespace GraphControlWinForms
             }            
         }
 
-        public void RegisterDataProvider(IGraphDataProvider dataProvider)
+        public void EnableFitByX(bool enabled)
         {
-            this.dataService.RegisterDataProvider(dataProvider);
+            btnFitToScreenByTime.Enabled = enabled;
+        }
+
+        public void EnableFitByY(bool enabled)
+        {
+            btnFitToSreenByValue.Enabled = enabled;
         }
         #endregion
 
@@ -161,16 +192,6 @@ namespace GraphControlWinForms
         private void cbFitToScreenAlways_CheckedChanged(object sender, EventArgs e)
         {
             this.FitToScreenAlways?.Invoke(this, new FitToScreenAlwaysEventArgs(cbFitToScreenAlways.Checked));
-        }
-
-        public void EnableFitByX(bool enabled)
-        {
-            btnFitToScreenByTime.Enabled = enabled;
-        }
-
-        public void EnableFitByY(bool enabled)
-        {
-            btnFitToSreenByValue.Enabled = enabled;
         }
         #endregion
     }
