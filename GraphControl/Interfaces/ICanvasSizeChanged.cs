@@ -1,6 +1,6 @@
-﻿using GraphControl.Structs;
+﻿using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Models
+namespace GraphControlCore.Interfaces.Models
 {
     public interface ICanvasSizeChanged
     {

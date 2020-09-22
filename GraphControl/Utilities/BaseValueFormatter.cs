@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphControl.Interfaces;
+using GraphControlCore.Interfaces;
 
-namespace GraphControl.Utilities
+namespace GraphControlCore.Utilities
 {
     public class BaseValueFormatter : IValueFormatter
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using GraphControl.Structs;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Events
+namespace GraphControlCore.Events
 {
     public class LoadEventArgs : EventArgs
     {

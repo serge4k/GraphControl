@@ -1,10 +1,10 @@
-﻿using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Views;
-using GraphControl.Structs;
+﻿using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Structs;
 using System.Drawing;
 
-namespace GraphControl.Views
+namespace GraphControlCore.Views
 {
     public class ScalingSelectionView : IScalingSelectionView
     {

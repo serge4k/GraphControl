@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControl.Interfaces.Views
+namespace GraphControlCore.Interfaces.Views
 {
     public interface IScalingSelectionView : IDrawingView
     {

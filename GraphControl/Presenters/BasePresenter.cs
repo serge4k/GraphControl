@@ -1,8 +1,8 @@
-﻿using GraphControl.Interfaces;
-using GraphControl.Interfaces.Presenters;
-using GraphControl.Interfaces.Views;
+﻿using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Presenters;
+using GraphControlCore.Interfaces.Views;
 
-namespace GraphControl.Presenters
+namespace GraphControlCore.Presenters
 {
     public abstract class BasePresenter<TView> : IPresenter 
         where TView : class, IView

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControl.Interfaces
+namespace GraphControlCore.Interfaces
 {
     public interface IDrawing
     {

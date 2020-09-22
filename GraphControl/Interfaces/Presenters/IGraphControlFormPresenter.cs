@@ -1,6 +1,6 @@
-﻿using GraphControl.Interfaces.Views;
+﻿using GraphControlCore.Interfaces.Views;
 
-namespace GraphControl.Interfaces.Presenters
+namespace GraphControlCore.Interfaces.Presenters
 {
     public interface IGraphControlFormPresenter : IPresenter
     {

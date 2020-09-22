@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace GraphControl.Exceptions
+namespace GraphControlCore.Exceptions
 {
     [Serializable]
     public class GraphControlException : Exception

@@ -1,9 +1,9 @@
 ﻿using System;
-using GraphControl.Events;
-using GraphControl.Interfaces.Services;
-using GraphControl.Structs;
+using GraphControlCore.Events;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Views
+namespace GraphControlCore.Interfaces.Views
 {
     public interface IGraphControlFormView : IView, IRegisterDataProvider
     {

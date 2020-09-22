@@ -1,7 +1,7 @@
-﻿using GraphControl.Exceptions;
-using GraphControl.Interfaces;
+﻿using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
 
-namespace GraphControl.Structs
+namespace GraphControlCore.Structs
 {
     public class Margin : IMargin
     {

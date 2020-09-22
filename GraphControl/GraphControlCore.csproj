@@ -7,8 +7,8 @@
     <ProjectGuid>{D693660A-7F01-4442-87CD-0F627F11B7F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphControl</RootNamespace>
-    <AssemblyName>GraphControl</AssemblyName>
+    <RootNamespace>GraphControlCore</RootNamespace>
+    <AssemblyName>GraphControlCore</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

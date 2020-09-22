@@ -1,4 +1,4 @@
-﻿namespace GraphControl.Interfaces.Views
+﻿namespace GraphControlCore.Interfaces.Views
 {
     public interface IGridView : IDrawingView
     {

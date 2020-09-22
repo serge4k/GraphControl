@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphControl.Structs
+namespace GraphControlCore.Structs
 {
     public struct Size : IEquatable<Size>
     {

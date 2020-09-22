@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using GraphControl.Definitions;
+using GraphControlCore.Definitions;
 
-namespace GraphControl.Events
+namespace GraphControlCore.Events
 {
     public class ScaleUserSelectionEventArgs : EventArgs
     {

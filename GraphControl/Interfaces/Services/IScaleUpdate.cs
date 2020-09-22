@@ -1,6 +1,6 @@
-﻿using GraphControl.Structs;
+﻿using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Services
+namespace GraphControlCore.Interfaces.Services
 {
     public interface IScaleUpdate
     {

@@ -1,8 +1,8 @@
 ﻿
 using System;
-using GraphControl.Events;
+using GraphControlCore.Events;
 
-namespace GraphControl.Interfaces.Services
+namespace GraphControlCore.Interfaces.Services
 {
     public interface IDataUpdated
     {

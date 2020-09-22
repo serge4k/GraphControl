@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using GraphControl.Definitions;
-using GraphControl.Events;
-using GraphControl.Factory;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Services;
-using GraphControl.Interfaces.Views;
-using GraphControl.Structs;
-using GraphControl.Utilities;
+using GraphControlCore.Definitions;
+using GraphControlCore.Events;
+using GraphControlCore.Factory;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Structs;
+using GraphControlCore.Utilities;
 
 namespace GraphControlWinForms
 {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Drawing;
-using GraphControl.Definitions;
-using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Services;
-using GraphControl.Interfaces.Views;
-using GraphControl.Models;
-using GraphControl.Structs;
+using GraphControlCore.Definitions;
+using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Models;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Views
+namespace GraphControlCore.Views
 {
     public class GridView : IGridView
     {

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControl.Interfaces.Services
+namespace GraphControlCore.Interfaces.Services
 {
     public interface IScaleControl
     {

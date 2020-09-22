@@ -1,6 +1,6 @@
-﻿using GraphControl.Structs;
+﻿using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Views
+namespace GraphControlCore.Interfaces.Views
 {
     public interface IDrawingView : IView
     {

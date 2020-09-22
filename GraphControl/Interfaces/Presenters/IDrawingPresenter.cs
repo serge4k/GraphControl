@@ -1,6 +1,6 @@
-﻿using GraphControl.Structs;
+﻿using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Presenters
+namespace GraphControlCore.Interfaces.Presenters
 {
     public interface IDrawingPresenter
     {

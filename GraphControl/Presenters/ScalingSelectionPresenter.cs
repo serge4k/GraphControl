@@ -1,15 +1,15 @@
 ﻿using System.Drawing;
-using GraphControl.Definitions;
-using GraphControl.Events;
-using GraphControl.Interfaces.Presenters;
-using GraphControl.Interfaces.Services;
-using GraphControl.Interfaces.Views;
-using GraphControl.Interfaces;
-using GraphControl.Presenters;
-using GraphControl.Structs;
-using GraphControl.Exceptions;
+using GraphControlCore.Definitions;
+using GraphControlCore.Events;
+using GraphControlCore.Interfaces.Presenters;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Presenters;
+using GraphControlCore.Structs;
+using GraphControlCore.Exceptions;
 
-namespace GraphControl.Presenters
+namespace GraphControlCore.Presenters
 {
     public class ScalingSelectionPresenter : IScalingSelectionPresenter, IDrawingPresenter
     {

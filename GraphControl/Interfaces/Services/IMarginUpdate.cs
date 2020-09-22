@@ -1,7 +1,7 @@
-﻿using GraphControl.Interfaces;
-using GraphControl.Structs;
+﻿using GraphControlCore.Interfaces;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Services
+namespace GraphControlCore.Interfaces.Services
 {
     public interface IMarginUpdate
     {

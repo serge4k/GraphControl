@@ -1,15 +1,15 @@
 ﻿using System;
-using GraphControl.Definitions;
-using GraphControl.Exceptions;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Services;
-using GraphControl.Models;
-using GraphControl.Interfaces;
-using GraphControl.Structs;
+using GraphControlCore.Definitions;
+using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Models;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Structs;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphControl.Services
+namespace GraphControlCore.Services
 {
     public class ScaleService : IScaleService
     {

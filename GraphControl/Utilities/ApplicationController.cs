@@ -1,9 +1,9 @@
 ﻿using System;
-using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Presenters;
+using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Presenters;
 
-namespace GraphControl.Utilities
+namespace GraphControlCore.Utilities
 {
     public class ApplicationController : IApplicationController
     {

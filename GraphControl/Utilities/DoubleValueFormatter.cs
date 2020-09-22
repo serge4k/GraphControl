@@ -1,4 +1,4 @@
-﻿namespace GraphControl.Utilities
+﻿namespace GraphControlCore.Utilities
 {
     public sealed class DoubleValueFormatter : BaseValueFormatter
     {

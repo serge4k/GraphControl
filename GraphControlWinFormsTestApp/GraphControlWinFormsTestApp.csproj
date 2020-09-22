@@ -98,9 +98,9 @@
       <Project>{520c1f9b-0bcc-47ff-a1cc-21d6f9c09953}</Project>
       <Name>GraphControlWinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GraphControl\GraphControl.csproj">
+    <ProjectReference Include="..\GraphControl\GraphControlCore.csproj">
       <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
-      <Name>GraphControl</Name>
+      <Name>GraphControlCore</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

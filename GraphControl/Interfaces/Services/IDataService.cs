@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GraphControl.Definitions;
-using GraphControl.Interfaces.Models;
+using GraphControlCore.Definitions;
+using GraphControlCore.Interfaces.Models;
 
-namespace GraphControl.Interfaces.Services
+namespace GraphControlCore.Interfaces.Services
 {
     public interface IDataService : IRegisterDataProvider, IDataUpdated
     {

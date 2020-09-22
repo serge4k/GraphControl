@@ -1,6 +1,6 @@
-﻿using GraphControl.Interfaces.Models;
+﻿using GraphControlCore.Interfaces.Models;
 
-namespace GraphControl.Interfaces.Views
+namespace GraphControlCore.Interfaces.Views
 {
     public interface IBackgroundView : IDrawingView
     {

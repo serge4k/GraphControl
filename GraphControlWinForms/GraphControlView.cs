@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using GraphControl.Events;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Views;
-using GraphControl.Structs;
+using GraphControlCore.Events;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Structs;
 
 namespace GraphControlWinForms
 {
     internal class GraphControlView : PictureBox, IGraphControlView
     {
-        public global::GraphControl.Structs.Size ControlSize { get => new global::GraphControl.Structs.Size(this.ClientSize.Width, this.ClientSize.Height); }
+        public global::GraphControlCore.Structs.Size ControlSize { get => new global::GraphControlCore.Structs.Size(this.ClientSize.Width, this.ClientSize.Height); }
 
         public event EventHandler<ControlSizeChangedEventArgs> ControlSizeChanged;
 
@@ -101,23 +101,23 @@ namespace GraphControlWinForms
             );
         }
 
-        private static global::GraphControl.Definitions.MouseButton ConvertMouseButton(System.Windows.Forms.MouseButtons button)
+        private static global::GraphControlCore.Definitions.MouseButton ConvertMouseButton(System.Windows.Forms.MouseButtons button)
         {
             switch (button)
             {
                 default:
                 case System.Windows.Forms.MouseButtons.None:
-                    return global::GraphControl.Definitions.MouseButton.None;
+                    return global::GraphControlCore.Definitions.MouseButton.None;
                 case System.Windows.Forms.MouseButtons.Left:
-                    return global::GraphControl.Definitions.MouseButton.Left;
+                    return global::GraphControlCore.Definitions.MouseButton.Left;
                 case System.Windows.Forms.MouseButtons.Right:
-                    return global::GraphControl.Definitions.MouseButton.Right;
+                    return global::GraphControlCore.Definitions.MouseButton.Right;
                 case System.Windows.Forms.MouseButtons.Middle:
-                    return global::GraphControl.Definitions.MouseButton.Middle;
+                    return global::GraphControlCore.Definitions.MouseButton.Middle;
                 case System.Windows.Forms.MouseButtons.XButton1:
-                    return global::GraphControl.Definitions.MouseButton.XButton1;
+                    return global::GraphControlCore.Definitions.MouseButton.XButton1;
                 case System.Windows.Forms.MouseButtons.XButton2:
-                    return global::GraphControl.Definitions.MouseButton.XButton2;
+                    return global::GraphControlCore.Definitions.MouseButton.XButton2;
             }
         }
         #endregion

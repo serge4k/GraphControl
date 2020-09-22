@@ -1,5 +1,5 @@
 ﻿using System;
-namespace GraphControl.Utilities
+namespace GraphControlCore.Utilities
 {
     public class DateTimeValueFormatter : BaseValueFormatter
     {

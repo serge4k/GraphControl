@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphControl.Interfaces
+namespace GraphControlCore.Interfaces
 {
     public interface IContainer : IDisposable
     {

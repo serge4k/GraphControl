@@ -1,10 +1,10 @@
-﻿using GraphControl.Definitions;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces;
-using GraphControl.Structs;
-using GraphControl.Exceptions;
+﻿using GraphControlCore.Definitions;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Structs;
+using GraphControlCore.Exceptions;
 
-namespace GraphControl.Models
+namespace GraphControlCore.Models
 {
     public class ScaleState : IScaleState
     {

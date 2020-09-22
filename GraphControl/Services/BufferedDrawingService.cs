@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GraphControl.Events;
-using GraphControl.Interfaces.Services;
-using GraphControl.Structs;
-using GraphControl.Utilities;
+using GraphControlCore.Events;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Structs;
+using GraphControlCore.Utilities;
 
-namespace GraphControl.Services
+namespace GraphControlCore.Services
 {
     public sealed class BufferedDrawingService : IDisposable, IBufferedDrawingService
     {

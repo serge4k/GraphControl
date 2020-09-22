@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GraphControl.Events
+namespace GraphControlCore.Events
 {
     public class SetImageEventArgs : EventArgs
     {

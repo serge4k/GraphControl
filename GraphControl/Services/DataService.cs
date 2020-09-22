@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphControl.Definitions;
-using GraphControl.Events;
-using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Services;
-using GraphControl.Models;
+using GraphControlCore.Definitions;
+using GraphControlCore.Events;
+using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Models;
 
-namespace GraphControl.Services
+namespace GraphControlCore.Services
 {
     public class DataService : IDataService
     {

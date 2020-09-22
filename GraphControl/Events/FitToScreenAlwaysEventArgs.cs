@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphControl.Events
+namespace GraphControlCore.Events
 {
     public class FitToScreenAlwaysEventArgs : EventArgs
     {

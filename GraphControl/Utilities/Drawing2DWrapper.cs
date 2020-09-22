@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GraphControl.Interfaces;
-using GraphControl.Structs;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Utilities
+namespace GraphControlCore.Utilities
 {
     public sealed class Drawing2DWrapper : IDrawing, IDisposable
     {

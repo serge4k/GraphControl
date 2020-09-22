@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using GraphControl.Events;
-using GraphControl.Structs;
+using GraphControlCore.Events;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Interfaces.Views
+namespace GraphControlCore.Interfaces.Views
 {
     public interface IGraphControlView : IControlView, IControlViewSize, IDrawingView
     {

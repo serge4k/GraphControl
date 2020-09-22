@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using GraphControl.Definitions;
-using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
+using GraphControlCore.Definitions;
+using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
 
-namespace GraphControl.Utilities
+namespace GraphControlCore.Utilities
 {
     public class ItemFormatter : IItemFormatter
     {

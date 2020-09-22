@@ -1,4 +1,4 @@
-﻿namespace GraphControl.Interfaces.Models
+﻿namespace GraphControlCore.Interfaces.Models
 {
     public interface IDataItem
     {

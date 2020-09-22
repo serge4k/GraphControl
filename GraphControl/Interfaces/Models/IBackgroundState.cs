@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControl.Interfaces.Models
+namespace GraphControlCore.Interfaces.Models
 {
     public interface IBackgroundState
     {

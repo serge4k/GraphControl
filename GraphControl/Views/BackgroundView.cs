@@ -1,10 +1,10 @@
-﻿using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Views;
-using GraphControl.Structs;
+﻿using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Views
+namespace GraphControlCore.Views
 {
     public class BackgroundView : IBackgroundView
     {

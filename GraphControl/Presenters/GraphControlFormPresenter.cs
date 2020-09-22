@@ -1,11 +1,11 @@
-﻿using GraphControl.Events;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Presenters;
+﻿using GraphControlCore.Events;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Presenters;
 using System;
-using GraphControl.Interfaces.Views;
-using GraphControl.Interfaces;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Interfaces;
 
-namespace GraphControl.Presenters
+namespace GraphControlCore.Presenters
 {
     public class GraphControlFormPresenter : BasePresenter<IGraphControlFormView>, IGraphControlFormPresenter
     {

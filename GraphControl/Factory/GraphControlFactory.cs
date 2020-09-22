@@ -1,16 +1,16 @@
-﻿using GraphControl.Exceptions;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Presenters;
-using GraphControl.Interfaces.Services;
-using GraphControl.Interfaces.Views;
-using GraphControl.Models;
-using GraphControl.Presenters;
-using GraphControl.Services;
-using GraphControl.Utilities;
-using GraphControl.Views;
+﻿using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Presenters;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Models;
+using GraphControlCore.Presenters;
+using GraphControlCore.Services;
+using GraphControlCore.Utilities;
+using GraphControlCore.Views;
 
-namespace GraphControl.Factory
+namespace GraphControlCore.Factory
 {
     public static class GraphControlFactory
     {

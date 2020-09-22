@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Timers;
-using GraphControl.Events;
-using GraphControl.Interfaces;
-using GraphControl.Interfaces.Models;
-using GraphControl.Interfaces.Services;
-using GraphControl.Models;
+using GraphControlCore.Events;
+using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Models;
+using GraphControlCore.Interfaces.Services;
+using GraphControlCore.Models;
 
 namespace GraphControlWinFormsTestApp.Services
 {

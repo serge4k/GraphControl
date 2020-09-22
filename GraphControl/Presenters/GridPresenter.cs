@@ -1,9 +1,9 @@
-﻿using GraphControl.Interfaces;
-using GraphControl.Interfaces.Presenters;
-using GraphControl.Interfaces.Views;
-using GraphControl.Structs;
+﻿using GraphControlCore.Interfaces;
+using GraphControlCore.Interfaces.Presenters;
+using GraphControlCore.Interfaces.Views;
+using GraphControlCore.Structs;
 
-namespace GraphControl.Presenters
+namespace GraphControlCore.Presenters
 {
     public class GridPresenter : IGridPresenter, IDrawingPresenter
     {

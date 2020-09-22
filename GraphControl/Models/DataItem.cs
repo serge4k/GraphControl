@@ -1,7 +1,7 @@
-﻿using GraphControl.Exceptions;
-using GraphControl.Interfaces.Models;
+﻿using GraphControlCore.Exceptions;
+using GraphControlCore.Interfaces.Models;
 
-namespace GraphControl.Models
+namespace GraphControlCore.Models
 {
     public class DataItem : IDataItem
     {

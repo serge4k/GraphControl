@@ -1,8 +1,8 @@
-﻿using GraphControl.Interfaces;
-using GraphControl.Structs;
+﻿using GraphControlCore.Interfaces;
+using GraphControlCore.Structs;
 using System;
 
-namespace GraphControl.Events
+namespace GraphControlCore.Events
 {
     public class DrawGraphEventArgs : EventArgs
     {

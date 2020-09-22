@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl", "GraphControl\GraphControl.csproj", "{D693660A-7F01-4442-87CD-0F627F11B7F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControlCore", "GraphControl\GraphControlCore.csproj", "{D693660A-7F01-4442-87CD-0F627F11B7F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControlWinForms", "GraphControlWinForms\GraphControlWinForms.csproj", "{520C1F9B-0BCC-47FF-A1CC-21D6F9C09953}"
 EndProject

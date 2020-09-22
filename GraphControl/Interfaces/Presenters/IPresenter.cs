@@ -1,4 +1,4 @@
-﻿namespace GraphControl.Interfaces.Presenters
+﻿namespace GraphControlCore.Interfaces.Presenters
 {
     public interface IPresenter
     {
