@@ -12,12 +12,12 @@ namespace GraphControl.Tests.Views
     {
         public static IGridView Create()
         {
-            return TestGridView.Create(null);
+            return TestGridView.Create(null, null);
         }
 
-        public static IGridView Create(IDataProviderService provider)
+        public static IGridView Create(IApplicationController applicationController, IDataProviderService provider)
         {
-            TestFactory.CreateBaseServices(provider,
+            TestFactory.CreateBaseServices(applicationController, provider,
                 out IGridState gridState, out IGraphState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);

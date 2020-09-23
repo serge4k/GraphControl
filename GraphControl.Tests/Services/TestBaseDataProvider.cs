@@ -7,9 +7,9 @@ using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Models;
 
-namespace GraphControlWinFormsTestApp.Services
+namespace GraphControl.Tests.Services
 {
-    internal class SinusDataProviderService : IDataProviderService, IGraphDataArrayProvider
+    internal abstract class TestBaseDataProvider : IDataProviderService, IGraphDataArrayProvider
     {
         public event GraphDataHandler OnReceiveData;
 
@@ -19,19 +19,39 @@ namespace GraphControlWinFormsTestApp.Services
 
         private Timer timer;
 
-        private long startTime;
+        protected long startTime;
 
-        private long interval = 100;
+        protected long interval = 100;
 
-        private long currentArg;
-            
-        public SinusDataProviderService()
+        protected long currentArg;
+
+        public static IDataProviderService Create(int testPoints)
         {
+            var provider = new TestSinusDataProviderService();
+            provider.TestPoints = (uint)testPoints;
+            return provider;
+        }
+
+        public TestBaseDataProvider() : this(0)
+        {
+            this.timer = new Timer();
+            this.timer.Elapsed += Timer_Elapsed;
+            this.timer.Interval = interval;
+            this.timer.AutoReset = true;
+        }
+
+        public TestBaseDataProvider(uint testPoints)
+        {
+            this.TestPoints = testPoints;
+            this.timer = new Timer();
+            this.timer.Elapsed += Timer_Elapsed;
+            this.timer.Interval = interval;
+            this.timer.AutoReset = true;
         }
 
         public void Run()
         {
-            Run(100);
+            this.Run((long)100);
         }
 
         public void Run(long interval)
@@ -43,11 +63,7 @@ namespace GraphControlWinFormsTestApp.Services
             {
                 GenerateTestPoints(this.TestPoints);
             }
-                        
-            this.timer = new Timer();
-            this.timer.Elapsed += Timer_Elapsed;
-            this.timer.Interval = interval;
-            this.timer.AutoReset = true;
+
             this.timer.Enabled = true;
         }
 
@@ -67,19 +83,9 @@ namespace GraphControlWinFormsTestApp.Services
             OnReceiveData?.Invoke(dataItem.Y, new DateTime((long)dataItem.X * TimeSpan.TicksPerMillisecond));
         }
 
-        private IDataItem GenerateNextValue()
-        {
-            var x = this.currentArg;
-            var y = Math.Sin(Math.PI * (this.currentArg - this.startTime) * 2 / (this.interval * this.interval));
-            this.currentArg += this.interval;
-            if (this.currentArg > DateTime.MaxValue.Ticks / TimeSpan.TicksPerMillisecond)
-            {
-                this.currentArg = 0;
-            }
-            return new DataItem(x, y);
-        }
+        protected abstract IDataItem GenerateNextValue();
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.timer.Dispose();
         }

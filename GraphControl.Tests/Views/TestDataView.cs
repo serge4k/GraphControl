@@ -12,7 +12,7 @@ namespace GraphControl.Tests.Views
     {
         public static IDataView Create()
         {
-            return TestDataView.Create(null);
+            return TestDataView.Create(null, null);
         }
 
         public static IDataView Create(int testPointsNumber)
@@ -21,9 +21,9 @@ namespace GraphControl.Tests.Views
             return new DataView(graphState, scaleService, dataService);
         }
 
-        public static IDataView Create(IDataProviderService provider)
+        public static IDataView Create(IApplicationController applicationController, IDataProviderService provider)
         {
-            TestFactory.CreateBaseServices(provider,
+            TestFactory.CreateBaseServices(applicationController, provider,
                 out IGridState gridState, out IGraphState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);

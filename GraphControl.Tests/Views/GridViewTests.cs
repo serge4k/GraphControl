@@ -17,6 +17,8 @@ using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Structs;
 using GraphControl.Tests.Unitilies;
 using GraphControl.Tests.Services;
+using GraphControl.Core.Interfaces;
+using System.Threading;
 
 namespace GraphControl.Tests.Views
 {
@@ -65,19 +67,44 @@ namespace GraphControl.Tests.Views
         public void DrawWithDataTest()
         {
             var linesNumber = 1000;
-            var gridView = TestGridView.Create(TestSinusDataProviderService.Create(linesNumber));
+            var pointsNumber = linesNumber + 1;
+            TestDrawingWrapper drawing = StartDataGeneration(TestSinusDataProviderService.Create(pointsNumber), pointsNumber, linesNumber);
+            Assert.IsTrue(drawing.Lines.Count >= 9, $"drawn lines for axis {drawing.Lines.Count} less than generated {9}");
+            Assert.IsTrue(drawing.Texts.Count > 5);
+            Assert.IsTrue(drawing.MeasureTexts.Count > 0);
+            Assert.IsTrue(drawing.Flushes.Count == 1, $"Flushes count = {drawing.Flushes.Count}");
+        }
+
+        private static TestDrawingWrapper StartDataGeneration(IDataProviderService dataProviderService, int pointsNumber, int linesNumber)
+        {
+            var applicationController = GraphControlFactory.CreateController();
+            var gridView = TestGridView.Create(applicationController, dataProviderService);
             var size = new Size(800, 600);
             TestDrawingWrapper drawing = null;
+            int receivedPoints = 0;
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
                 var options = new DrawOptions(size, true, true);
-                gridView.Draw(drawing, options, margin);
+
+                var scaleService = applicationController.GetInstance<IScaleService>();
+                applicationController.GetInstance<IDataService>().DataUpdated += (sender, e) =>
+                {
+                    scaleService.UpdateScale(options);
+                    drawing.Reset();
+                    gridView.Draw(drawing, options, margin);
+                    receivedPoints += e.Items.Count;
+                };
+
+                dataProviderService.Run();
+
+                while (receivedPoints < pointsNumber)
+                {
+                    Thread.Sleep(0);
+                }
             }
-            Assert.IsTrue(drawing.Lines.Count >= 10);
-            Assert.IsTrue(drawing.Texts.Count > 5);
-            Assert.IsTrue(drawing.MeasureTexts.Count > 0);
-            Assert.IsTrue(drawing.Flushes.Count == 1, $"Flushes count = {drawing.Flushes.Count}");
+            dataProviderService.Dispose();
+            return drawing;
         }
 
         [TestMethod()]
@@ -85,6 +112,14 @@ namespace GraphControl.Tests.Views
         {
             var gridView = TestGridView.Create();
             Assert.ThrowsException<NotImplementedException>(() => gridView.Show());
+        }
+
+        [TestMethod()]
+        public void DataExtremeRangesTest()
+        {
+            int linesNumber = 10;
+            var pointsNumber = linesNumber + 1;
+            StartDataGeneration(new TestRangesDataProviderService((uint)pointsNumber), pointsNumber, linesNumber);
         }
     }
 }

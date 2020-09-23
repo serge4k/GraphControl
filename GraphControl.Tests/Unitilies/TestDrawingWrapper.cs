@@ -27,7 +27,7 @@ namespace GraphControl.Tests.Unitilies
 
         public List<string> Flushes { get; set; }
 
-        public TestDrawingWrapper() : this(TimeSpan.TicksPerMillisecond / 100)
+        public TestDrawingWrapper() : this(TimeSpan.TicksPerMillisecond / 1000)
         {
         }
 
@@ -41,6 +41,17 @@ namespace GraphControl.Tests.Unitilies
             this.Rectangles = new List<string>();
             this.Texts = new List<string>();
             this.Flushes = new List<string>();
+        }
+
+        internal void Reset()
+        {
+            this.Circles.Clear();
+            this.FillRectangles.Clear();
+            this.Lines.Clear();
+            this.MeasureTexts.Clear();
+            this.Rectangles.Clear();
+            this.Texts.Clear();
+            this.Flushes.Clear();
         }
 
         public void Circle(Color color, double x, double y, double radius)

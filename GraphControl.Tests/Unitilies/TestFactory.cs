@@ -19,19 +19,20 @@ namespace GraphControl.Tests.Unitilies
         public static void CreateBaseServices(int testPointNumber, out IGridState gridState, out IGraphState graphState, out IDataService dataService, out IScaleService scaleService)
         {
             var provider = TestSinusDataProviderService.Create(testPointNumber);
-            TestFactory.CreateBaseServices(provider,
+            TestFactory.CreateBaseServices(null, provider,
                 out gridState, out graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out dataService, out scaleService);
             provider.Run();
         }
 
-        public static void CreateBaseServices(IDataProviderService provider,
+        public static void CreateBaseServices(IApplicationController applicationController, IDataProviderService provider,
             out IGridState gridState, out IGraphState graphState,
             out IItemFormatter itemFormatter, out IMargin margin,
             out IDataService dataService, out IScaleService scaleService)
         {
-            var applicationController = GraphControlFactory.CreateController();
+            applicationController = applicationController ?? GraphControlFactory.CreateController();
+
             IBufferedDrawingService bufferedDrawingService = null;
             TestFactory.CreateBaseServices(applicationController, provider,
                 out gridState, out graphState,
