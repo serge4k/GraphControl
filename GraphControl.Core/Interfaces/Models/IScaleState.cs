@@ -1,6 +1,8 @@
-﻿namespace GraphControl.Core.Interfaces.Models
+﻿using System;
+
+namespace GraphControl.Core.Interfaces.Models
 {
-    public interface IScaleState
+    public interface IScaleState : IEquatable<IScaleState>
     {
         /// <summary>
         /// Graph margin

@@ -26,7 +26,7 @@ namespace GraphControl.Core.Utilities
             {
                 ticks = 0;
             }
-            var dt = new DateTime((long)value * ticksPerValue);
+            var dt = new DateTime((long)ticks);
             if (!String.IsNullOrWhiteSpace(format))
             {
                 if (format.StartsWith("{0"))

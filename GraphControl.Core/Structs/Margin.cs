@@ -72,5 +72,51 @@ namespace GraphControl.Core.Structs
             this.Right = margin.Right;
             this.Bottom = margin.Bottom;
         }
+
+        public override int GetHashCode()
+        {
+            return this.Left.GetHashCode() ^ 137 
+                + this.Top.GetHashCode() ^ 137
+                + this.Right.GetHashCode() ^ 137 
+                + this.Bottom.GetHashCode() ^ 137;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is IMargin))
+                return false;
+
+            return Equals((IMargin)obj);
+        }
+
+        public bool Equals(IMargin other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return this.Left.Equals(other.Left)
+                && this.Top.Equals(other.Top)
+                && this.Right.Equals(other.Right)
+                && this.Bottom.Equals(other.Bottom);
+        }
+
+        public static bool operator ==(Margin obj1, IMargin obj2)
+        {
+            if (obj1 == null)
+            {
+                return false;
+            }
+            return obj1.Equals(obj2);
+        }
+
+        public static bool operator !=(Margin obj1, IMargin obj2)
+        {
+            if (obj1 == null)
+            {
+                return false;
+            }
+            return !obj1.Equals(obj2);
+        }
     }
 }

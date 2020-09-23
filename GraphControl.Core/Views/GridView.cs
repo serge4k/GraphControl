@@ -50,13 +50,13 @@ namespace GraphControl.Core.Views
             SizeF strY = new SizeF();
             // For left offset find max Y string width
             double stepDataY = 0;
-            if (this.scaleService.State.Y1 <= 0 && this.scaleService.State.Y2 >= 0)
+            if (this.scaleService.State.Y1 <= 0 && this.scaleService.State.Y2 > 0)
             {
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, true, false, true);
 
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, true, true, true);
             }
-            else
+            else if (this.scaleService.State.Y1 != this.scaleService.State.Y2)
             {
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, false, false, true);
             }
@@ -64,23 +64,23 @@ namespace GraphControl.Core.Views
             // Step 2 - Draw vertical lines
             // Draw axe X and grid from axe X to left and to right
             double stepDataX = 0;
-            if (this.scaleService.State.X1 <= 0 && this.scaleService.State.X2 >= 0)
+            if (this.scaleService.State.X1 <= 0 && this.scaleService.State.X2 > 0)
             {
                 DrawVerticalLines(drawing, canvasSize, margin, strX, ref stepDataX, true, false);
                 DrawVerticalLines(drawing, canvasSize, margin, strX, ref stepDataX, true, true);
             }
-            else
+            else if (this.scaleService.State.X1 != this.scaleService.State.X2)
             {
                 DrawVerticalLines(drawing, canvasSize, margin, strX, ref stepDataX, false, false);
             }
 
             // Step 3 - Draw horizontal lines
-            if (this.scaleService.State.Y1 <= 0 && this.scaleService.State.Y2 >= 0)
+            if (this.scaleService.State.Y1 <= 0 && this.scaleService.State.Y2 > 0)
             {
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, true, false, false);
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, true, true, false);
             }
-            else
+            else if (this.scaleService.State.Y1 != this.scaleService.State.Y2)
             {
                 DrawHorizontalLines(drawing, canvasSize, margin, ref strY, ref stepDataY, false, false, false);
             }

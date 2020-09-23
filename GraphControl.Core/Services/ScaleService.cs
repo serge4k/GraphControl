@@ -23,6 +23,10 @@ namespace GraphControl.Core.Services
         }
 
         public event EventHandler StateStepUpdated;
+
+        public bool Initialized { get; private set; }
+
+        private const double ZoomLimit = 10000;
         #endregion
 
         #region Private fields
@@ -33,6 +37,7 @@ namespace GraphControl.Core.Services
         #region Constructors
         public ScaleService(IScaleState scaleState, IDataService dataService, IMargin margin)
         {
+            this.Initialized = false;
             if (scaleState == null)
             {
                 throw new InvalidArgumentException("parameter is null");
@@ -244,6 +249,8 @@ namespace GraphControl.Core.Services
                 }
                 this.scaleState.ScaleY = (canvasSize.Height - margin.Top - margin.Bottom) / (y2 - y1);
             }
+
+            this.Initialized = true;
         }
 
         public void UpdateMargin(IMargin margin)
@@ -295,10 +302,23 @@ namespace GraphControl.Core.Services
 
             double zoomTo = wheelDelta > 0 ? 1 : - 1D / 2;
 
-            this.scaleState.X1 = this.scaleState.X1 - (x - this.scaleState.X1) * zoomTo;
-            this.scaleState.Y1 = this.scaleState.Y1 - (y - this.scaleState.Y1) * zoomTo;
-            this.scaleState.X2 = this.scaleState.X2 + (this.scaleState.X2 - x) * zoomTo;
-            this.scaleState.Y2 = this.scaleState.Y2 + (this.scaleState.Y2 - y) * zoomTo;
+            double newX1 = this.scaleState.X1 - (x - this.scaleState.X1) * zoomTo;
+            double newX2 = this.scaleState.X2 + (this.scaleState.X2 - x) * zoomTo;
+            double diffX = this.dataService.GetMax(Axis.X) - this.dataService.GetMin(Axis.X);
+
+            double newY1 = this.scaleState.Y1 - (y - this.scaleState.Y1) * zoomTo;
+            double newY2 = this.scaleState.Y2 + (this.scaleState.Y2 - y) * zoomTo;
+            double diffY = this.dataService.GetMax(Axis.Y) - this.dataService.GetMin(Axis.Y);
+
+            // Limit zooming diff to 1/10000 and 10000x
+            if (newX2 - newX1 > diffX / ScaleService.ZoomLimit && newX2 - newX1 < diffX * ScaleService.ZoomLimit
+                && newY2 - newY1 > diffY / ScaleService.ZoomLimit && newY2 - newY1 < diffY * ScaleService.ZoomLimit)
+            {
+                this.scaleState.X1 = newX1;
+                this.scaleState.X2 = newX2;
+                this.scaleState.Y1 = newY1;
+                this.scaleState.Y2 = newY2;
+            }
         }
 
         public void Zoom(int wheelDelta)
@@ -307,17 +327,31 @@ namespace GraphControl.Core.Services
             {
                 return;
             }
-            double zoomTo = wheelDelta > 0 ? 1D / 2 : -1D / 4;
+            checked
+            {
+                double zoomTo = wheelDelta > 0 ? 1D / 2 : -1D / 4;
 
-            double width = this.scaleState.X2 - this.scaleState.X1;
-            double height = this.scaleState.Y2 - this.scaleState.Y1;
+                double width = this.scaleState.X2 - this.scaleState.X1;
+                double newX1 = this.scaleState.X1 - width * zoomTo;
+                double newX2 = this.scaleState.X2 + width * zoomTo;
+                double diffX = this.dataService.GetMax(Axis.X) - this.dataService.GetMin(Axis.X);
 
-            this.scaleState.X1 = this.scaleState.X1 - width * zoomTo;
-            this.scaleState.Y1 = this.scaleState.Y1 - height * zoomTo;
-            this.scaleState.X2 = this.scaleState.X2 + width * zoomTo;
-            this.scaleState.Y2 = this.scaleState.Y2 + height * zoomTo;
+                double height = this.scaleState.Y2 - this.scaleState.Y1;
+                double newY1 = this.scaleState.Y1 - height * zoomTo;
+                double newY2 = this.scaleState.Y2 + height * zoomTo;
+                double diffY = this.dataService.GetMax(Axis.Y) - this.dataService.GetMin(Axis.Y);
+
+                // Limit zooming diff to 1/10000 and 10000x
+                if (newX2 - newX1 > diffX / ScaleService.ZoomLimit && newX2 - newX1 < diffX * ScaleService.ZoomLimit
+                    && newY2 - newY1 > diffY / ScaleService.ZoomLimit && newY2 - newY1 < diffY * ScaleService.ZoomLimit)
+                {
+                    this.scaleState.X1 = newX1;
+                    this.scaleState.X2 = newX2;
+                    this.scaleState.Y1 = newY1;
+                    this.scaleState.Y2 = newY2;
+                }
+            }
         }
-
 
         public void Move(int offsetX, int offsetY)
         {

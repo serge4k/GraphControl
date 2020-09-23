@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataServiceTests.cs" />
+    <Compile Include="Services\ScaleServiceTests.cs" />
     <Compile Include="Services\TestBaseDataProvider.cs" />
     <Compile Include="Services\TestRangesDataProviderService.cs" />
     <Compile Include="Services\TestSinusDataProviderService.cs" />

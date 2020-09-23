@@ -13,20 +13,6 @@ namespace GraphControl.Core.Presenters
 {
     public class GraphControlPresenter : BasePresenter<IGraphControlView>, IGraphControlPresenter
     {
-        #region Public fields
-        public event EventHandler<DataUpdatedEventArgs> DataUpdated
-        {
-            add
-            {
-                this.dataPresenter.DataUpdated += value;
-            }
-            remove
-            {
-                this.dataPresenter.DataUpdated -= value;
-            }
-        }
-        #endregion
-
         #region Private fields
         private readonly IScaleService scaleService;
         private readonly IBufferedDrawingService bufferedDrawingService;
@@ -40,6 +26,7 @@ namespace GraphControl.Core.Presenters
         #region Constructors
         public GraphControlPresenter(IApplicationController controller, 
             IGraphControlView view,
+            IDataService dataService,
             IScaleService scaleService,
             IBufferedDrawingService bufferedDrawingService,
             IBackgroundPresenter backgroundPresenter,
@@ -47,6 +34,10 @@ namespace GraphControl.Core.Presenters
             IDataPresenter dataPresenter,
             IScalingSelectionPresenter scalingSelectionPresenter) : base(controller, view)
         {
+            if (dataService == null)
+            {
+                throw new InvalidArgumentException("data sevice is null");
+            }
             this.View = view;
             this.scaleService = scaleService;
             this.backgroundPresenter = backgroundPresenter;
@@ -54,7 +45,7 @@ namespace GraphControl.Core.Presenters
             this.dataPresenter = dataPresenter;
             this.scalingSelectionPresenter = scalingSelectionPresenter;
 
-            this.DataUpdated += GraphControlPresenter_DataUpdated;
+            dataService.DataUpdated += GraphControlPresenter_DataUpdated;
 
             this.View.DrawGraphInBuffer += View_GraphPaintInBuffer;
             this.View.ControlSizeChanged += View_ControlSizeChanged;
@@ -77,12 +68,21 @@ namespace GraphControl.Core.Presenters
         #endregion
 
         #region Graph control inner presenter handlers
+        /// <summary>
+        /// Data updated handler of the DataService event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GraphControlPresenter_DataUpdated(object sender, DataUpdatedEventArgs e)
         {
             bool force = this.scaleService.IsItemsVisible(e.Items);
             UpdateView(force, e.Items);
         }
 
+        /// <summary>
+        /// Updates control size after load of control form 
+        /// </summary>
+        /// <param name="e"></param>
         public void OnLoad(LoadEventArgs e)
         {
             if (e == null)
@@ -162,7 +162,7 @@ namespace GraphControl.Core.Presenters
         public void UpdateFormState(IGraphControlFormState formState)
         {
             this.state = formState;
-            UpdateView(false, null);
+            UpdateView(false, null); // Update view FixByX or Y state was changed
         }
 
         /// <summary>
@@ -171,7 +171,6 @@ namespace GraphControl.Core.Presenters
         /// <param name="canvasSize">new size</param>
         public void ControlSizeChanged(Size canvasSize)
         {
-            var size = new System.Drawing.Rectangle(0, 0, canvasSize.Width, canvasSize.Height);
             UpdateScale(canvasSize, null);
             UpdateView(true, null);
         }

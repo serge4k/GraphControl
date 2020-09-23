@@ -1,6 +1,8 @@
-﻿namespace GraphControl.Core.Interfaces
+﻿using System;
+
+namespace GraphControl.Core.Interfaces
 {
-    public interface IMargin
+    public interface IMargin : IEquatable<IMargin>
     {
         /// <summary>
         /// Screen related left graphic offet (to provide space for grid marks)

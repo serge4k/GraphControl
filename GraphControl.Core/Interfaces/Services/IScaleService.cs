@@ -8,6 +8,8 @@ namespace GraphControl.Core.Interfaces.Services
     public interface IScaleService : ICanvasSizeChanged, IScaleUpdate, IMarginUpdate, IScaleControl
     {
         IScaleState State { get; }
+        
+        bool Initialized { get; }
 
         event EventHandler StateStepUpdated;
 

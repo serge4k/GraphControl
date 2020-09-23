@@ -59,15 +59,15 @@ namespace GraphControl.Core.Factory
 
             CreatePresenterInstances(applicationController, 
                 formView, controlView, scalingView,
-                graphControlFormState, 
-                scaleService, bufferedDrawingService, 
+                graphControlFormState,
+                dataService, scaleService, bufferedDrawingService, 
                 backgroundPresenter, gridPresenter, dataPresenter);
         }
 
         private static void CreatePresenterInstances(IApplicationController applicationController, 
             IGraphControlFormView formView, IGraphControlView controlView, IScalingSelectionView scalingView,
             IGraphControlFormState graphControlFormState, 
-            IScaleService scaleService, IBufferedDrawingService bufferedDrawingService, 
+            IDataService dataService, IScaleService scaleService, IBufferedDrawingService bufferedDrawingService, 
             IBackgroundPresenter backgroundPresenter, IGridPresenter gridPresenter, IDataPresenter dataPresenter)
         {
             var scalingPresenter = new ScalingSelectionPresenter(scalingView, controlView, scaleService);
@@ -75,6 +75,7 @@ namespace GraphControl.Core.Factory
 
             var graphControlPresenter = new GraphControlPresenter(applicationController,
                 controlView,
+                dataService,
                 scaleService,
                 bufferedDrawingService,
                 backgroundPresenter,

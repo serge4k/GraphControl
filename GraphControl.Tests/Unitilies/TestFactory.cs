@@ -16,6 +16,11 @@ namespace GraphControl.Tests.Unitilies
 {
     internal static class TestFactory
     {
+        public static IApplicationController CreateApplicationController()
+        {
+            return GraphControlFactory.CreateController();
+        }
+
         public static void CreateBaseServices(int testPointNumber, out IGridState gridState, out IGraphState graphState, out IDataService dataService, out IScaleService scaleService)
         {
             var provider = TestSinusDataProviderService.Create(testPointNumber);

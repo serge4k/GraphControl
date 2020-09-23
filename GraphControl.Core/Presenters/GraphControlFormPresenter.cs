@@ -28,14 +28,14 @@ namespace GraphControl.Core.Presenters
             
             // Store inner presenters
             this.graphControlPresenter = graphControlPresenter;
-            
-            // Subsribe view events
+                        
+            UpdateState();
+
+            // Subsribe view events only after UpdateState() update initial state call!
             this.View.FitToScreenByX += View_FitToScreenByX;
             this.View.FitToScreenByY += View_FitToScreenByY;
             this.View.FitToScreenAlways += View_FitToScreenAlways;
             this.View.Load += View_Load;
-            
-            UpdateState();
         }
         #endregion
 

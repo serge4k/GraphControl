@@ -68,19 +68,17 @@ namespace GraphControl.Core.Views
                 // Draw lines
                 foreach (var item in options.NewItems)
                 {
-                    if (item != null && prevItem != null)
+                    if (item != null && prevItem != null
+                        && (this.scaleService.IsItemVisible(prevItem)
+                            || this.scaleService.IsItemVisible(item)))
                     {
-                        if (this.scaleService.IsItemVisible(prevItem)
-                            || this.scaleService.IsItemVisible(item))
-                        {
-                            var x1 = this.scaleService.ToScreen(Axis.X, prevItem.X);
-                            var y1 = this.scaleService.ToScreen(Axis.Y, prevItem.Y);
+                        var x1 = this.scaleService.ToScreen(Axis.X, prevItem.X);
+                        var y1 = this.scaleService.ToScreen(Axis.Y, prevItem.Y);
 
-                            var x2 = this.scaleService.ToScreen(Axis.X, item.X);
-                            var y2 = this.scaleService.ToScreen(Axis.Y, item.Y);
+                        var x2 = this.scaleService.ToScreen(Axis.X, item.X);
+                        var y2 = this.scaleService.ToScreen(Axis.Y, item.Y);
 
-                            drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
-                        }
+                        drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
                     }
                     prevItem = item;
                 }
@@ -97,7 +95,7 @@ namespace GraphControl.Core.Views
                 // Draw point for single data item
                 foreach (var item in this.dataService.GetItems(startX, endX))
                 {
-                    if (item != null)
+                    if (item != null && this.scaleService.IsItemVisible(item))
                     {
                         var x = this.scaleService.ToScreen(Axis.X, item.X);
                         var y = this.scaleService.ToScreen(Axis.Y, item.Y);
@@ -112,7 +110,9 @@ namespace GraphControl.Core.Views
                 // Draw lines
                 foreach (var item in this.dataService.GetItems(startX, endX))
                 {
-                    if (item != null && prevItem != null)
+                    if (item != null && prevItem != null 
+                        && (this.scaleService.IsItemVisible(prevItem)
+                            || this.scaleService.IsItemVisible(item)))
                     {
                         var x1 = this.scaleService.ToScreen(Axis.X, prevItem.X);
                         var y1 = this.scaleService.ToScreen(Axis.Y, prevItem.Y);
@@ -122,6 +122,7 @@ namespace GraphControl.Core.Views
 
                         drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
                     }
+                    
                     prevItem = item;
                 }
             }

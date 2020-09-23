@@ -45,7 +45,14 @@ namespace GraphControlWinForms
 
         public void SetImage(Bitmap bitmap)
         {
-            this.Image = bitmap;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => this.SetImage(bitmap)));
+            }
+            else
+            {
+                this.Image = bitmap;
+            }
         }
 
         public void RefreshView()

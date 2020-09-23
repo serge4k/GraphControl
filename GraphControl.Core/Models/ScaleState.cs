@@ -1,4 +1,5 @@
-﻿using GraphControl.Core.Definitions;
+﻿using System;
+using GraphControl.Core.Definitions;
 using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces;
 using GraphControl.Core.Structs;
@@ -81,6 +82,62 @@ namespace GraphControl.Core.Models
             this.ScaleY = state.ScaleY;
             this.StepX = state.StepX;
             this.StepY = state.StepY;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Margin.GetHashCode() ^ 137
+                + this.X1.GetHashCode() ^ 137 
+                + this.X2.GetHashCode() ^ 137 
+                + this.Y1.GetHashCode() ^ 137 
+                + this.Y2.GetHashCode() ^ 137
+                + this.ScaleX.GetHashCode() ^ 137 
+                + this.ScaleY.GetHashCode() ^ 137
+                + this.StepX.GetHashCode() ^ 137 
+                + this.StepY.GetHashCode() ^ 137;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is IScaleState))
+                return false;
+
+            return Equals((IScaleState)obj);
+        }
+
+        public bool Equals(IScaleState other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return this.Margin.Equals(other.Margin)
+                && this.X1.Equals(other.X1)
+                && this.X2.Equals(other.X2)
+                && this.Y1.Equals(other.Y1)
+                && this.Y2.Equals(other.Y2)
+                && this.ScaleX.Equals(other.ScaleX)
+                && this.ScaleY.Equals(other.ScaleY)
+                && this.StepX.Equals(other.StepX)
+                && this.StepY.Equals(other.StepY);
+        }
+
+        public static bool operator ==(ScaleState obj1, IScaleState obj2)
+        {
+            if (obj1 == null)
+            {
+                return false;
+            }
+            return obj1.Equals(obj2);
+        }
+
+        public static bool operator !=(ScaleState obj1, IScaleState obj2)
+        {
+            if (obj1 == null)
+            {
+                return false;
+            }
+            return !obj1.Equals(obj2);
         }
     }
 }
