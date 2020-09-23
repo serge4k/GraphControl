@@ -108,7 +108,7 @@ namespace GraphControl.Core.Presenters
 
         private void BufferedDrawingService_UpdateScale(object sender, UpdateScaleEventArgs e)
         {
-            UpdateScale(e.DrawOptions);
+            this.scaleService.UpdateScale(e.DrawOptions);
         }
 
         private void BufferedDrawingService_DrawGraph(object sender, DrawGraphEventArgs e)
@@ -143,26 +143,32 @@ namespace GraphControl.Core.Presenters
         private void UpdateScale(Size canvasSize, ICollection<IDataItem> newItems)
         {
             var options = new DrawOptions(canvasSize, this.state.FitToScreenByX, this.state.FitToScreenByY, newItems);
-            UpdateScale(options);
+            this.scaleService.UpdateScale(options);
         }
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// No special action
+        /// </summary>
         public override void Run()
         {
         }
 
+        /// <summary>
+        /// Called from parent presenter (GraphControlFormPresenter) to nofity about FitByX or FitByY was changed
+        /// </summary>
+        /// <param name="formState">updated state</param>
         public void UpdateFormState(IGraphControlFormState formState)
         {
             this.state = formState;
             UpdateView(false, null);
         }
 
-        public void UpdateScale(DrawOptions options)
-        {
-            this.scaleService.UpdateScale(options);
-        }
-
+        /// <summary>
+        /// Called from parent presenter (GraphControlFormPresenter) to nofity about control size was changed
+        /// </summary>
+        /// <param name="canvasSize">new size</param>
         public void ControlSizeChanged(Size canvasSize)
         {
             var size = new System.Drawing.Rectangle(0, 0, canvasSize.Width, canvasSize.Height);

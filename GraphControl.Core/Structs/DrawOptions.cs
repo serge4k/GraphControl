@@ -23,10 +23,6 @@ namespace GraphControl.Core.Structs
             }
         }
 
-        ////public DrawOptions(Size canvasSize) : this(canvasSize, false, false, null)
-        ////{
-        ////}
-
         public DrawOptions(Size canvasSize, bool fitToX, bool fitToY, ICollection<IDataItem> dataItems)
         {
             this.CanvasSize = canvasSize;

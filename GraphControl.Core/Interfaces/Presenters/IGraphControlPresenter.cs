@@ -6,7 +6,7 @@ using GraphControl.Core.Structs;
 namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IGraphControlPresenter : IPresenter,
-        IDataUpdated, IScaleUpdate
+        IDataUpdated
     {
         void ControlSizeChanged(Size canvasSize);
 
