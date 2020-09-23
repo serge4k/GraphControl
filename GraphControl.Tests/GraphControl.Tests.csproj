@@ -72,8 +72,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphControl\GraphControl.Core.csproj">
-      <Project>{D693660A-7F01-4442-87CD-0F627F11B7F2}</Project>
+    <ProjectReference Include="..\GraphControl.Core\GraphControl.Core.csproj">
+      <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
       <Name>GraphControl.Core</Name>
     </ProjectReference>
   </ItemGroup>

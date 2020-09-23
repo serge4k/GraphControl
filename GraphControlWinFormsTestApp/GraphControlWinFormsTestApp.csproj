@@ -94,13 +94,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GraphControl.Core\GraphControl.Core.csproj">
+      <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
+      <Name>GraphControl.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphControlWinForms\GraphControlWinForms.csproj">
       <Project>{520c1f9b-0bcc-47ff-a1cc-21d6f9c09953}</Project>
       <Name>GraphControlWinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphControl\GraphControl.Core.csproj">
-      <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
-      <Name>GraphControl.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -57,15 +57,15 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphControl\GraphControl.Core.csproj">
-      <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
-      <Name>GraphControl.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphControl.Core\GraphControl.Core.csproj">
+      <Project>{d693660a-7f01-4442-87cd-0f627f11b7f2}</Project>
+      <Name>GraphControl.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
