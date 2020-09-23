@@ -14,6 +14,8 @@ using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Factory;
 using System.Threading;
 using GraphControl.Core.Services;
+using GraphControl.Core.Utilities;
+using GraphControl.Core.Interfaces;
 
 namespace GraphControl.Tests.Views
 {
@@ -57,27 +59,49 @@ namespace GraphControl.Tests.Views
         }
 
         [TestMethod()]
-        public void DrawWith10kLinesDataTest()
+        public void DrawAllLinesDataTest()
         {
-            var linesMumber = 10000;
-            var pointsNumber = linesMumber + 1;
+            DrawWith10kLinesDataTest(1000, false);
+        }
+
+        private static void DrawWith10kLinesDataTest(int linesNumber, bool drawInBitmap)
+        {
+            var pointsNumber = linesNumber + 1;
             var linesToDraw = 0;
             IDataProviderService provider = null;
-            TestDrawingWrapper drawing = null;
+
+            TestDrawingWrapper drawingTester = null;
+            DrawingBuffer buffer = null;
+            Drawing2DWrapper drawingBitmap = null;
+            IDrawing drawing = null;
+            var size = new Size(800, 600);
+            if (drawInBitmap)
+            {
+                size = new Size(8000, 4500);
+                buffer = new DrawingBuffer(size);
+                drawingBitmap = new Drawing2DWrapper(buffer.Graphics);
+                drawing = drawingBitmap;
+            }
+            else
+            {
+                drawingTester = new TestDrawingWrapper(100);
+                drawing = drawingTester;
+            }
+
             IScaleService scaleService = null;
             IDataService dataService = null;
             var controller = GraphControlFactory.CreateController();
             IBufferedDrawingService bufferedDrawingService = new BufferedDrawingService();
-            using (drawing = new TestDrawingWrapper(100))
+            try
             {
                 IDataView view;
+                // Create all services
                 using (provider = TestSinusDataProviderService.Create(pointsNumber))
                 {
                     view = TestDataView.Create(controller, provider, bufferedDrawingService);
                     provider.Run();
                 }
 
-                var size = new Size(800, 600);
                 var margin = new Margin(100, 5, 5, 60);
                 var options = new DrawOptions(size, true, true);
                 scaleService = controller.GetInstance<IScaleService>();
@@ -87,19 +111,26 @@ namespace GraphControl.Tests.Views
                 linesToDraw = dataService.GetItems(scaleService.State.X1, scaleService.State.X2).Count();
                 scaleService.Zoom(120);
                 view.Draw(drawing, options, margin);
-
-                bufferedDrawingService.Dispose(); // dispose to flush drawing queue
             }
-            
+            finally
+            {
+                drawingBitmap?.Dispose();
+                drawingTester?.Dispose();
+                bufferedDrawingService.Dispose();
+            }
+
             Assert.IsTrue(bufferedDrawingService.LastQueueOverflow.Ticks == 0, $"drawing queue overflow, last time: {bufferedDrawingService.LastQueueOverflow.ToLongTimeString()}");
 
-            Assert.IsTrue(linesToDraw == pointsNumber, 
-                $"dataService.GetItems({new DateTime((long)scaleService.State.X1 * TimeSpan.TicksPerMillisecond).ToShortTimeString()}" 
+            Assert.IsTrue(linesToDraw == pointsNumber,
+                $"dataService.GetItems({new DateTime((long)scaleService.State.X1 * TimeSpan.TicksPerMillisecond).ToShortTimeString()}"
                 + $", {new DateTime((long)scaleService.State.X1 * TimeSpan.TicksPerMillisecond).ToShortTimeString()}) {linesToDraw} ({dataService.ItemCount}) != generated points {pointsNumber}");
 
-            Assert.IsTrue(drawing.Lines.Count >= linesMumber, $"lines count is {drawing.Lines.Count} less than {linesMumber}");
+            if (!drawInBitmap)
+            {
+                Assert.IsTrue(drawingTester.Lines.Count >= linesNumber, $"lines count is {drawingTester.Lines.Count} less than {linesNumber}");
 
-            Assert.IsTrue(drawing.Flushes.Count == 1, $"Flushes count = {drawing.Flushes.Count}");
+                Assert.IsTrue(drawingTester.Flushes.Count == 1, $"Flushes count = {drawingTester.Flushes.Count}");
+            }            
         }
 
         [TestMethod()]
@@ -107,6 +138,12 @@ namespace GraphControl.Tests.Views
         {
             var view = TestGridView.Create();
             Assert.ThrowsException<NotImplementedException>(() => view.Show());
+        }
+
+        [TestMethod()]
+        public void DrawWith10kInBitmapPerformanceTest()
+        {
+            DrawWith10kLinesDataTest(10000, true);
         }
     }
 }
