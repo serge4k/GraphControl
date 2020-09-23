@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using GraphControl.Core.Events;
-using GraphControl.Core.Structs;
 
 namespace GraphControl.Core.Interfaces.Views
 {
@@ -22,7 +21,5 @@ namespace GraphControl.Core.Interfaces.Views
         void SetBounds(int left, int top, int width, int height);
 
         void SetImage(Bitmap bitmap);
-
-        void SetDrawOptions(DrawOptions options);
     }
 }

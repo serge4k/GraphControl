@@ -24,8 +24,6 @@ namespace GraphControlWinForms
 
         public event EventHandler<DrawGraphEventArgs> DrawGraphInBuffer;
 
-        private DrawOptions drawOptions;
-
         public GraphControlView() : base()
         {
             // Whithout the ResizeRedraw statement, the control is redrawn only partially
@@ -50,14 +48,15 @@ namespace GraphControlWinForms
             this.Image = bitmap;
         }
 
-        public void SetDrawOptions(DrawOptions options)
-        {
-            this.drawOptions = new DrawOptions(options);
-        }
-
         public void RefreshView()
         {
-            this.DrawGraphInBuffer?.Invoke(this, new DrawGraphEventArgs(null, this.drawOptions));
+            DrawOptions options = new DrawOptions(this.ControlSize, false, false, null);
+            this.DrawGraphInBuffer?.Invoke(this, new DrawGraphEventArgs(null, options));
+        }
+
+        public void RefreshView(DrawOptions options)
+        {
+            this.DrawGraphInBuffer?.Invoke(this, new DrawGraphEventArgs(null, options));
         }
 
         #region Graph control handlers        

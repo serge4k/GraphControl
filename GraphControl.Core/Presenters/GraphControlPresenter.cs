@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GraphControl.Core.Events;
 using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces;
@@ -79,7 +80,7 @@ namespace GraphControl.Core.Presenters
         private void GraphControlPresenter_DataUpdated(object sender, DataUpdatedEventArgs e)
         {
             bool force = this.scaleService.IsItemsVisible(e.Items);
-            UpdateView(force);
+            UpdateView(force, e.Items);
         }
 
         public void OnLoad(LoadEventArgs e)
@@ -114,8 +115,12 @@ namespace GraphControl.Core.Presenters
         {
             var margin = this.scaleService.State.Margin;
             this.View.Draw(e.Drawing, e.DrawOptions, margin);
-            this.backgroundPresenter.Draw(e.Drawing, e.DrawOptions, margin);
-            this.gridPresenter.Draw(e.Drawing, e.DrawOptions, margin);
+            if (!e.DrawOptions.DrawOnlyNewData)
+            {
+                // When no new items, then if whould be request to update all like resize
+                this.backgroundPresenter.Draw(e.Drawing, e.DrawOptions, margin);
+                this.gridPresenter.Draw(e.Drawing, e.DrawOptions, margin);
+            }
             this.dataPresenter.Draw(e.Drawing, e.DrawOptions, margin);
             this.scalingSelectionPresenter.Draw(e.Drawing, e.DrawOptions, margin);
         }
@@ -125,20 +130,19 @@ namespace GraphControl.Core.Presenters
             this.View.SetImage(e.Bitmap);
         }
 
-        private void UpdateView(bool force)
+        private void UpdateView(bool force, ICollection<IDataItem> items)
         {
-            var options = new DrawOptions(this.View.ControlSize, this.state.FitToScreenByX, this.state.FitToScreenByY);
-            this.View.SetDrawOptions(options);
-
+            var options = new DrawOptions(this.View.ControlSize, this.state.FitToScreenByX, this.state.FitToScreenByY, items);
+            
             if (force || this.state.FitToScreenAlways || this.state.FitToScreenByX || this.state.FitToScreenByY)
             {
-                this.View.RefreshView();
+                this.View.RefreshView(options);
             }
         }
 
-        private void UpdateScale(Size canvasSize)
+        private void UpdateScale(Size canvasSize, ICollection<IDataItem> newItems)
         {
-            var options = new DrawOptions(canvasSize, this.state.FitToScreenByX, this.state.FitToScreenByY);
+            var options = new DrawOptions(canvasSize, this.state.FitToScreenByX, this.state.FitToScreenByY, newItems);
             UpdateScale(options);
         }
         #endregion
@@ -151,7 +155,7 @@ namespace GraphControl.Core.Presenters
         public void UpdateFormState(IGraphControlFormState formState)
         {
             this.state = formState;
-            UpdateView(false);
+            UpdateView(false, null);
         }
 
         public void UpdateScale(DrawOptions options)
@@ -162,8 +166,8 @@ namespace GraphControl.Core.Presenters
         public void ControlSizeChanged(Size canvasSize)
         {
             var size = new System.Drawing.Rectangle(0, 0, canvasSize.Width, canvasSize.Height);
-            UpdateScale(canvasSize);
-            UpdateView(true);
+            UpdateScale(canvasSize, null);
+            UpdateView(true, null);
         }
         #endregion
     }

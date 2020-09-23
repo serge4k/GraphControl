@@ -24,7 +24,7 @@ namespace GraphControlWinFormsTestApp
             dtFormatter.AddStepFormat(1000, "{0:G} ms", 1);
             dtFormatter.AddStepFormat(Double.MaxValue, "{0:G} s", 1000);
             this.graphControlWinForms.ItemFormatter.Register(Axis.X, dtFormatter);
-            this.graphControlWinForms.ItemFormatter.Register(Axis.Y, new DoubleValueFormatter("0.######"));
+            this.graphControlWinForms.ItemFormatter.Register(Axis.Y, new DoubleValueFormatter("0.###"));
 
             // Configure margin
             this.graphControlWinForms.GraphPadding = new Padding(90, 10, 10, 50);

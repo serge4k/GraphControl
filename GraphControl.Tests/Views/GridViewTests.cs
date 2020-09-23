@@ -54,7 +54,7 @@ namespace GraphControl.Tests.Views
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true);
+                var options = new DrawOptions(size, true, true, null);
                 gridView.Draw(drawing, options, margin);
             }
             Assert.IsTrue(drawing.Lines.Count > 0);
@@ -85,7 +85,7 @@ namespace GraphControl.Tests.Views
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true);
+                var options = new DrawOptions(size, true, true, null);
 
                 var scaleService = applicationController.GetInstance<IScaleService>();
                 applicationController.GetInstance<IDataService>().DataUpdated += (sender, e) =>

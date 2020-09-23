@@ -51,7 +51,7 @@ namespace GraphControl.Tests.Views
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true);
+                var options = new DrawOptions(size, true, true, null);
                 view.Draw(drawing, options, margin);
             }
             Assert.IsTrue(drawing.Lines.Count == 0, $"lines count is {drawing.Lines.Count} more than 0");
@@ -103,7 +103,7 @@ namespace GraphControl.Tests.Views
                 }
 
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true);
+                var options = new DrawOptions(size, true, true, null);
                 scaleService = controller.GetInstance<IScaleService>();
                 scaleService.UpdateScale(options); // to prepare scaling service without presenter
 
