@@ -1,5 +1,5 @@
-﻿using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
+﻿using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
 
 namespace GraphControlWinFormsTestApp.Interfaces
 {

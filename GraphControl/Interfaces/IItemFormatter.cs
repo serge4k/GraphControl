@@ -1,7 +1,7 @@
-﻿using GraphControlCore.Definitions;
-using GraphControlCore.Interfaces.Models;
+﻿using GraphControl.Core.Definitions;
+using GraphControl.Core.Interfaces.Models;
 
-namespace GraphControlCore.Interfaces
+namespace GraphControl.Core.Interfaces
 {
     public interface IItemFormatter
     {

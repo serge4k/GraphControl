@@ -1,10 +1,10 @@
-﻿using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Structs;
+﻿using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
 using System.Drawing;
 
-namespace GraphControlCore.Views
+namespace GraphControl.Core.Views
 {
     public class ScalingSelectionView : IScalingSelectionView
     {
@@ -32,7 +32,7 @@ namespace GraphControlCore.Views
         {
             if (drawing == null || margin == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             var canvasSize = options.CanvasSize;
             var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));

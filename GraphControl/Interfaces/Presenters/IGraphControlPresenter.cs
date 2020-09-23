@@ -1,9 +1,9 @@
-﻿using GraphControlCore.Events;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Structs;
+﻿using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Interfaces.Presenters
+namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IGraphControlPresenter : IPresenter,
         IDataUpdated, IScaleUpdate

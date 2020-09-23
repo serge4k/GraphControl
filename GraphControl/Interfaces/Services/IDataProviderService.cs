@@ -1,6 +1,8 @@
-﻿namespace GraphControlCore.Interfaces.Services
+﻿using System;
+
+namespace GraphControl.Core.Interfaces.Services
 {
-    public interface IDataProviderService : IGraphDataProvider
+    public interface IDataProviderService : IGraphDataProvider, IDisposable
     {
         uint TestPoints { get; set; }
 

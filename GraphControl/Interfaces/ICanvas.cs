@@ -1,8 +1,8 @@
 ﻿using System;
-using GraphControlCore.Events;
-using GraphControlCore.Structs;
+using GraphControl.Core.Events;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Interfaces
+namespace GraphControl.Core.Interfaces
 {
     public interface ICanvas
     {

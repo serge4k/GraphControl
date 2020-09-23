@@ -1,62 +1,61 @@
-﻿using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Presenters;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Models;
-using GraphControlCore.Presenters;
-using GraphControlCore.Services;
-using GraphControlCore.Utilities;
-using GraphControlCore.Views;
+﻿using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Presenters;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Models;
+using GraphControl.Core.Presenters;
+using GraphControl.Core.Services;
+using GraphControl.Core.Utilities;
+using GraphControl.Core.Views;
 
-namespace GraphControlCore.Factory
+namespace GraphControl.Core.Factory
 {
     public static class GraphControlFactory
     {
+        /// <summary>
+        /// Creates ApplicationController to provide dependency injection controller
+        /// </summary>
+        /// <returns>IApplicationController interface</returns>
         public static IApplicationController CreateController()
         {
             var controller = new ApplicationController(new DependInjectWrapper());
             return controller.RegisterInstance<IApplicationController>(controller);
         }
 
+        /// <summary>
+        /// Creates and registers core object instances for GraphControl
+        /// </summary>
+        /// <param name="applicationController">IApplicationController interface (Refer to the CreateController() method)</param>
+        /// <param name="formView">IGraphControlFormView interface (Refer to the GraphControlWinForms project example)</param>
+        /// <param name="controlView">inner IGraphControlView interface</param>
         public static void RegisterInstances(IApplicationController applicationController, IGraphControlFormView formView, IGraphControlView controlView)
         {
             if (applicationController == null || formView == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
 
             var margin = formView.GraphMargin;
             var itemFormatter = formView.ItemFormatter;
-            
+            var labelMargin = formView.LabelMargin;
+
             applicationController.RegisterService<IBufferedDrawingService, BufferedDrawingService>();
 
-            IBackgroundState backgroundState;
-            IGridState gridState;
-            IScaleState scaleState;
-            IGraphState graphState;
-            IGraphControlFormState graphControlFormState;
-            CreateStateInstancees(applicationController, 
-                out backgroundState, out gridState, out scaleState, out graphState, out graphControlFormState);
+            CreateStateInstancees(applicationController,
+                out IBackgroundState backgroundState, out IGridState gridState, out IScaleState scaleState, out IGraphState graphState, out IGraphControlFormState graphControlFormState);
 
-            IDataService dataService;
-            IScaleService scaleService;
-            IBufferedDrawingService bufferedDrawingService;
-            CreateServiceInstances(applicationController, 
-                margin, scaleState, 
-                out dataService, out scaleService, out bufferedDrawingService);
+            CreateServiceInstances(applicationController,
+                margin, scaleState,
+                out IDataService dataService, out IScaleService scaleService, out IBufferedDrawingService bufferedDrawingService);
 
-            IBackgroundPresenter backgroundPresenter;
-            IGridPresenter gridPresenter;
-            IDataPresenter dataPresenter;
-            IScalingSelectionView scalingView;
-            CreateViewInstances(applicationController, 
-                controlView, itemFormatter, 
-                backgroundState, gridState, graphState, 
+            CreateViewInstances(applicationController,
+                controlView, itemFormatter, labelMargin,
+                backgroundState, gridState, graphState,
                 dataService, scaleService,
                 formView.UserBackgroundView, formView.UserGridView, formView.UserDataView, formView.UserScalingSelectionView,
-                out backgroundPresenter, out gridPresenter, out dataPresenter, out scalingView);
+                out IBackgroundPresenter backgroundPresenter, out IGridPresenter gridPresenter, out IDataPresenter dataPresenter, out IScalingSelectionView scalingView);
 
             CreatePresenterInstances(applicationController, 
                 formView, controlView, scalingView,
@@ -95,7 +94,7 @@ namespace GraphControlCore.Factory
         }
 
         private static void CreateViewInstances(IApplicationController applicationController, 
-            IGraphControlView controlView, IItemFormatter itemFormatter, 
+            IGraphControlView controlView, IItemFormatter itemFormatter, IMargin labelMargin,
             IBackgroundState backgroundState, IGridState gridState, IGraphState graphState, 
             IDataService dataService, IScaleService scaleService, 
             IBackgroundView userBackGroundView, IGridView userGridView, IDataView userDataView, IScalingSelectionView userScalingSelectionView, 
@@ -105,7 +104,7 @@ namespace GraphControlCore.Factory
             backgroundPresenter = new BackgroundPresenter(backgroundView);
             applicationController.RegisterInstance<IBackgroundPresenter>(backgroundPresenter);
 
-            var gridView = userGridView ?? new GridView(gridState, scaleService, itemFormatter);
+            var gridView = userGridView ?? new GridView(gridState, scaleService, itemFormatter, labelMargin);
             gridPresenter = new GridPresenter(gridView);
             applicationController.RegisterInstance<IGridPresenter>(gridPresenter);
 

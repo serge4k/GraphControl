@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControlCore.Interfaces
+namespace GraphControl.Core.Interfaces
 {
     public interface IDrawing
     {
@@ -32,7 +32,11 @@ namespace GraphControlCore.Interfaces
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]
-        void Circle(Color color, double x, double y, int radius);
+        void Circle(Color color, double x, double y, double radius);
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Used as coordinate")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Used as coordinate")]
+        void Circle(Color color, double x, double y, double radius, RectangleF clipRectangle);
 
         SizeF MeasureText(string text);
 

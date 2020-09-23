@@ -1,7 +1,7 @@
 ﻿using System;
-using GraphControlCore.Structs;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Events
+namespace GraphControl.Core.Events
 {
     public class UpdateScaleEventArgs : EventArgs
     {

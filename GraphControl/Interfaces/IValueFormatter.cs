@@ -1,4 +1,4 @@
-﻿namespace GraphControlCore.Interfaces
+﻿namespace GraphControl.Core.Interfaces
 {
     public interface IValueFormatter
     {

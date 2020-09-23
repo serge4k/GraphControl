@@ -1,10 +1,10 @@
-﻿using GraphControlCore.Definitions;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Structs;
-using GraphControlCore.Exceptions;
+﻿using GraphControl.Core.Definitions;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Structs;
+using GraphControl.Core.Exceptions;
 
-namespace GraphControlCore.Models
+namespace GraphControl.Core.Models
 {
     public class ScaleState : IScaleState
     {
@@ -70,7 +70,7 @@ namespace GraphControlCore.Models
         {
             if (state == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             this.Margin = new Margin(state.Margin);
             this.X1 = state.X1;

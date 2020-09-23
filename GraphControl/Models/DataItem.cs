@@ -1,7 +1,7 @@
-﻿using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces.Models;
+﻿using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces.Models;
 
-namespace GraphControlCore.Models
+namespace GraphControl.Core.Models
 {
     public class DataItem : IDataItem
     {
@@ -21,7 +21,7 @@ namespace GraphControlCore.Models
         {
             if (dataItem == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             this.X = dataItem.X;
             this.Y = dataItem.Y;

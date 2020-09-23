@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphControlCore.Definitions;
-using GraphControlCore.Interfaces.Models;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Interfaces.Models;
 
-namespace GraphControlCore.Interfaces.Services
+namespace GraphControl.Core.Interfaces.Services
 {
     public interface IScaleService : ICanvasSizeChanged, IScaleUpdate, IMarginUpdate, IScaleControl
     {

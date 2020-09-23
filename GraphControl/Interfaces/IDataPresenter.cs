@@ -1,6 +1,6 @@
-﻿using GraphControlCore.Interfaces.Services;
+﻿using GraphControl.Core.Interfaces.Services;
 
-namespace GraphControlCore.Interfaces.Presenters
+namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IDataPresenter : IDataUpdated, IDrawingPresenter
     {

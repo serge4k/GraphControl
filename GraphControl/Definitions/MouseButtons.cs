@@ -1,4 +1,4 @@
-﻿namespace GraphControlCore.Definitions
+﻿namespace GraphControl.Core.Definitions
 {
     public enum MouseButton
     {

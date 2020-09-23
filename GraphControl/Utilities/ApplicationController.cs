@@ -1,9 +1,9 @@
 ﻿using System;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Presenters;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Presenters;
 
-namespace GraphControlCore.Utilities
+namespace GraphControl.Core.Utilities
 {
     public class ApplicationController : IApplicationController
     {
@@ -15,7 +15,7 @@ namespace GraphControlCore.Utilities
         {
             if (container == null)
             {
-                throw new GraphControlException("parameter \"container\" is null");
+                throw new InvalidArgumentException("parameter \"container\" is null");
             }
 
             this.container = container;

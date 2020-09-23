@@ -1,12 +1,12 @@
-﻿using GraphControlCore.Definitions;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Structs;
+﻿using GraphControl.Core.Definitions;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Views
+namespace GraphControl.Core.Views
 {
     public class DataView : IDataView
     {
@@ -18,6 +18,10 @@ namespace GraphControlCore.Views
                 
         public DataView(IGraphState graphState, IScaleService scaleService, IDataService dataService)
         {
+            if (graphState == null || scaleService == null || dataService == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
             this.State = graphState;
             this.scaleService = scaleService;
             this.dataService = dataService;            
@@ -27,8 +31,9 @@ namespace GraphControlCore.Views
         {
             if (drawing == null || margin == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
+
             var canvasSize = options.CanvasSize;
             var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
             var startX = this.scaleService.State.X1;
@@ -36,19 +41,17 @@ namespace GraphControlCore.Views
 
             if (this.dataService.ItemCount == 1)
             {
-                // Draw point for single data item
-                foreach (var item in this.dataService.GetItems(startX, endX))
-                {
-                    if (item != null)
+                    // Draw point for single data item
+                    foreach (var item in this.dataService.GetItems(startX, endX))
                     {
-                        var x = this.scaleService.ToScreen(Axis.X, item.X);
-                        var y = this.scaleService.ToScreen(Axis.Y, item.Y);
-                        if (IsVisible(canvasSize, margin, x, y))
+                        if (item != null)
                         {
-                            drawing.Circle(this.State.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4);
-                        }                        
+                            var x = this.scaleService.ToScreen(Axis.X, item.X);
+                            var y = this.scaleService.ToScreen(Axis.Y, item.Y);
+                            drawing.Circle(this.State.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4, clip);
+                        }
                     }
-                }
+                
             }
             else
             {
@@ -64,35 +67,11 @@ namespace GraphControlCore.Views
                         var x2 = this.scaleService.ToScreen(Axis.X, item.X);
                         var y2 = this.scaleService.ToScreen(Axis.Y, item.Y);
 
-                        if (ClipLine(canvasSize, margin, ref x1, ref y1, ref x2, ref y2))
-                        {
-                            drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
-                        }
+                        drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
                     }
                     prevItem = item;
                 }
             }
-        }
-
-        /// <summary>
-        /// Clip line to canvas and margin. (Currently only checks that both point are in area)
-        /// </summary>
-        /// <param name="canvasSize">canvas size to check boundaries</param>
-        /// <param name="margin">margin to clip inside margin</param>
-        /// <param name="x1">ref x start line</param>
-        /// <param name="y1">y start line</param>
-        /// <param name="x2">x end of line</param>
-        /// <param name="y2">y end of line</param>
-        /// <returns></returns>
-        private static bool ClipLine(Size canvasSize, IMargin margin, ref double x1, ref double y1, ref double x2, ref double y2)
-        {
-            return IsVisible(canvasSize, margin, x1, y1) || IsVisible(canvasSize, margin, x2, y2);
-        }
-
-        private static bool IsVisible(Size canvasSize, IMargin margin, double x, double y)
-        {
-            return x >= 0 && x <= canvasSize.Width - margin.Right - margin.Left &&
-                y >= 0 && y <= canvasSize.Height - margin.Top - margin.Bottom;
         }
 
         public void Show()

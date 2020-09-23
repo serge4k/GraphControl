@@ -1,8 +1,8 @@
-﻿using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces.Models;
+﻿using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces.Models;
 using System;
 
-namespace GraphControlCore.Models
+namespace GraphControl.Core.Models
 {
     public class GraphControlFormState : IGraphControlFormState
     {
@@ -27,7 +27,7 @@ namespace GraphControlCore.Models
         {
             if (state == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             this.FitToScreenByX = state.FitToScreenByX;
             this.FitToScreenByY = state.FitToScreenByY;

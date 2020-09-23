@@ -1,6 +1,6 @@
-﻿using GraphControlCore.Events;
+﻿using GraphControl.Core.Events;
 
-namespace GraphControlCore.Interfaces.Presenters
+namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IScalingSelectionPresenter : IDrawingPresenter
     {

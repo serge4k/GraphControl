@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace GraphControlCore.Structs
+namespace GraphControl.Core.Structs
 {
     public struct DrawingPathItem : IEquatable<DrawingPathItem>, IDisposable
     {

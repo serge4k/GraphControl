@@ -1,15 +1,15 @@
 ﻿using System;
-using GraphControlCore.Definitions;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Models;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Structs;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Models;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Structs;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraphControlCore.Services
+namespace GraphControl.Core.Services
 {
     public class ScaleService : IScaleService
     {
@@ -35,7 +35,7 @@ namespace GraphControlCore.Services
         {
             if (scaleState == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             this.scaleState = scaleState;
             this.scaleState.Margin = margin;
@@ -282,6 +282,10 @@ namespace GraphControlCore.Services
 
         public void Zoom(System.Drawing.Point location, int wheelDelta)
         {
+            if (wheelDelta == 0)
+            {
+                return;
+            }
             var margin = this.scaleState.Margin;
 
             double screenHeight = ScaleToScreenY(this.scaleState.Y2 - this.scaleState.Y1);
@@ -299,6 +303,10 @@ namespace GraphControlCore.Services
 
         public void Zoom(int wheelDelta)
         {
+            if (wheelDelta == 0)
+            {
+                return;
+            }
             double zoomTo = wheelDelta > 0 ? 1D / 2 : -1D / 4;
 
             double width = this.scaleState.X2 - this.scaleState.X1;
@@ -325,7 +333,7 @@ namespace GraphControlCore.Services
         {
             if (item == null)
             {
-                throw new GraphControlException("parameter \"item\" is null");
+                throw new InvalidArgumentException("parameter \"item\" is null");
             }
 
             return item.X >= this.State.X1 && item.X <= this.State.X2 &&

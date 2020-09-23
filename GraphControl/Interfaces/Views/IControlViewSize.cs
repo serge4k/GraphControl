@@ -1,7 +1,7 @@
 ﻿using System;
-using GraphControlCore.Events;
+using GraphControl.Core.Events;
 
-namespace GraphControlCore.Interfaces.Views
+namespace GraphControl.Core.Interfaces.Views
 {
     public interface IControlViewSize
     {

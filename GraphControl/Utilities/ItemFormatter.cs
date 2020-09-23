@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using GraphControlCore.Definitions;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
 
-namespace GraphControlCore.Utilities
+namespace GraphControl.Core.Utilities
 {
     public class ItemFormatter : IItemFormatter
     {
@@ -13,6 +13,8 @@ namespace GraphControlCore.Utilities
         public ItemFormatter()
         {
             this.items = new Dictionary<Axis, IValueFormatter>();
+            Register(Axis.X, new DoubleValueFormatter());
+            Register(Axis.Y, new DoubleValueFormatter());
         }
 
         public void Register(Axis axis, IValueFormatter presenter)
@@ -31,7 +33,7 @@ namespace GraphControlCore.Utilities
         {
             if (item == null)
             {
-                throw new GraphControlException("parameter \"item\" is null");
+                throw new InvalidArgumentException("parameter \"item\" is null");
             }
             if (this.items.ContainsKey(axis))
             {

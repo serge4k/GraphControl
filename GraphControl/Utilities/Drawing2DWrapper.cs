@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Structs;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Utilities
+namespace GraphControl.Core.Utilities
 {
     public sealed class Drawing2DWrapper : IDrawing, IDisposable
     {
@@ -75,10 +75,16 @@ namespace GraphControlCore.Utilities
             path.AddString(value, this.fontFamily, (int)this.font.Style, emSize, rect, stringFormat);
         }
 
-        public void Circle(Color color, double x, double y, int radius)
+        public void Circle(Color color, double x, double y, double radius)
         {
             var path = AddPath(new SolidBrush(color), null);
             path.AddEllipse((float)(x - radius/2), (float)(y - radius / 2), (float)(radius), (float)(radius));
+        }
+
+        public void Circle(Color color, double x, double y, double radius, RectangleF clipRectangle)
+        {
+            var path = AddPath(new SolidBrush(color), null, clipRectangle);
+            path.AddEllipse((float)(x - radius / 2), (float)(y - radius / 2), (float)(radius), (float)(radius));
         }
 
         public SizeF MeasureText(string text)

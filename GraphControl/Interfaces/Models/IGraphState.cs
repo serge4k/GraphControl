@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControlCore.Interfaces.Models
+namespace GraphControl.Core.Interfaces.Models
 {
     public interface IGraphState
     {

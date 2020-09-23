@@ -1,6 +1,6 @@
-﻿using GraphControlCore.Interfaces;
+﻿using GraphControl.Core.Interfaces;
 
-namespace GraphControlCore.Interfaces.Models
+namespace GraphControl.Core.Interfaces.Models
 {
     public interface IGraphControlFormState
     {

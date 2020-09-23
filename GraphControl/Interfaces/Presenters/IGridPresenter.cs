@@ -1,4 +1,4 @@
-﻿namespace GraphControlCore.Interfaces.Presenters
+﻿namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IGridPresenter : IDrawingPresenter
     {

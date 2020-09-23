@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GraphControlCore.Utilities
+namespace GraphControl.Core.Utilities
 {
     public sealed class DrawingBuffer : IDisposable
     {

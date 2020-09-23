@@ -1,15 +1,15 @@
 ﻿using System.Drawing;
-using GraphControlCore.Definitions;
-using GraphControlCore.Events;
-using GraphControlCore.Interfaces.Presenters;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Presenters;
-using GraphControlCore.Structs;
-using GraphControlCore.Exceptions;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces.Presenters;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Presenters;
+using GraphControl.Core.Structs;
+using GraphControl.Core.Exceptions;
 
-namespace GraphControlCore.Presenters
+namespace GraphControl.Core.Presenters
 {
     public class ScalingSelectionPresenter : IScalingSelectionPresenter, IDrawingPresenter
     {
@@ -32,7 +32,7 @@ namespace GraphControlCore.Presenters
         {
             if (view == null)
             {
-                throw new GraphControlException("parameter \"view\" is null");
+                throw new InvalidArgumentException("parameter \"view\" is null");
             }
             this.view = view;
             this.rootControlView = rootControlView;
@@ -53,7 +53,7 @@ namespace GraphControlCore.Presenters
         {
             if (e == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             switch (e.Button)
             {
@@ -71,7 +71,7 @@ namespace GraphControlCore.Presenters
         {
             if (e == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             switch (e.Button)
             {
@@ -100,7 +100,7 @@ namespace GraphControlCore.Presenters
         {
             if (e == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             switch (e.Button)
             {
@@ -128,7 +128,7 @@ namespace GraphControlCore.Presenters
         {
             if (e == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             if (e.ShiftPressed)
             {

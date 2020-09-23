@@ -1,7 +1,7 @@
-﻿using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
+﻿using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
 
-namespace GraphControlCore.Structs
+namespace GraphControl.Core.Structs
 {
     public class Margin : IMargin
     {
@@ -65,7 +65,7 @@ namespace GraphControlCore.Structs
         {
             if (margin == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             this.Left = margin.Left;
             this.Top = margin.Top;

@@ -1,6 +1,6 @@
-﻿using GraphControlCore.Interfaces.Views;
+﻿using GraphControl.Core.Interfaces.Views;
 
-namespace GraphControlCore.Interfaces.Presenters
+namespace GraphControl.Core.Interfaces.Presenters
 {
     public interface IBackgroundPresenter : IDrawingPresenter
     {

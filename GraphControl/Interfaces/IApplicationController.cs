@@ -1,8 +1,8 @@
 ﻿using System;
-using GraphControlCore.Interfaces.Presenters;
-using GraphControlCore.Interfaces.Views;
+using GraphControl.Core.Interfaces.Presenters;
+using GraphControl.Core.Interfaces.Views;
 
-namespace GraphControlCore.Interfaces
+namespace GraphControl.Core.Interfaces
 {
     public interface IApplicationController : IDisposable
     {

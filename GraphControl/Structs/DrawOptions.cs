@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphControlCore.Structs
+namespace GraphControl.Core.Structs
 {
     public struct DrawOptions : IEquatable<DrawOptions>
     {

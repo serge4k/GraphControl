@@ -10,3 +10,6 @@
 /GraphControlWinFormsTestApp/bin
 /GraphControlWinFormsTestApp/obj
 /packages/LightInject.6.3.4
+/GraphControl.Tests/bin
+/GraphControl.Tests/obj
+/packages

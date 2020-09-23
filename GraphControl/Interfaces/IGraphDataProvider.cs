@@ -1,6 +1,6 @@
-﻿using GraphControlCore.Events;
+﻿using GraphControl.Core.Events;
 
-namespace GraphControlCore.Interfaces
+namespace GraphControl.Core.Interfaces
 {
     public interface IGraphDataProvider
     {

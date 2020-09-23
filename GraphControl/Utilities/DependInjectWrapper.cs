@@ -1,8 +1,8 @@
 ﻿using System;
 using LightInject;
-using GraphControlCore.Interfaces;
+using GraphControl.Core.Interfaces;
 
-namespace GraphControlCore.Utilities
+namespace GraphControl.Core.Utilities
 {
     public sealed class DependInjectWrapper : IContainer, IDisposable
     {

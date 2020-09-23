@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using GraphControlCore.Events;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Structs;
-using GraphControlCore.Utilities;
+using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Structs;
+using GraphControl.Core.Utilities;
 
-namespace GraphControlCore.Services
+namespace GraphControl.Core.Services
 {
-    public sealed class BufferedDrawingService : IDisposable, IBufferedDrawingService
+    public class BufferedDrawingService : IBufferedDrawingService
     {
-        #region Public events
+        #region Public properties
         public event EventHandler<UpdateScaleEventArgs> UpdateScale;
 
         public event EventHandler<DrawGraphEventArgs> DrawGraph;
 
         public event EventHandler<SetImageEventArgs> SetImage;
+
+        public DateTime LastQueueOverflow { get; private set; }
         #endregion
 
         #region Private fields
@@ -33,6 +35,7 @@ namespace GraphControlCore.Services
             this.drawingRequestEvent = new ManualResetEvent(false);
             this.drawingTaskCancellation = new CancellationTokenSource();
             this.drawingTaskSink = new object();
+            this.LastQueueOverflow = new DateTime(0);
         }
         #endregion
 
@@ -42,6 +45,11 @@ namespace GraphControlCore.Services
             lock (this.drawingTaskSink)
             {
                 this.drawingTaskCanvasOptions = options;
+
+                if (this.drawingRequestEvent.WaitOne(0))
+                {
+                    this.LastQueueOverflow = DateTime.UtcNow;
+                }
 
                 this.drawingRequestEvent.Set();
 
@@ -82,7 +90,7 @@ namespace GraphControlCore.Services
             }
         }
 
-        private void DrawGraphInBuffer(DrawOptions drawOptions)
+        protected virtual void DrawGraphInBuffer(DrawOptions drawOptions)
         {
             // Do not draw if canvas size is 0
             if (drawOptions.CanvasSize.Width == 0 || drawOptions.CanvasSize.Height == 0)
@@ -108,15 +116,38 @@ namespace GraphControlCore.Services
         }
         #endregion
 
-        #region IDisposable
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    Free();
+                }
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
         public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+
+        public void Free()
         {
             if (this.drawingBuffer != null)
             {
                 this.drawingBuffer.Dispose();
             }
-            
-            this.drawingTask.Dispose();
+
+            this.drawingTask?.Dispose();
 
             this.drawingTaskCancellation.Dispose();
 

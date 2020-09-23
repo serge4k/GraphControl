@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphControlCore.Definitions;
-using GraphControlCore.Events;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Models;
+using System.Linq;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Events;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Models;
 
-namespace GraphControlCore.Services
+namespace GraphControl.Core.Services
 {
     public class DataService : IDataService
     {
@@ -42,6 +43,10 @@ namespace GraphControlCore.Services
 
         public DataService(uint maxItems)
         {
+            if (maxItems == 0)
+            {
+                throw new InvalidArgumentException("parameter max item is 0");
+            }
             this.maxItems = maxItems;
         }
         #endregion
@@ -51,7 +56,7 @@ namespace GraphControlCore.Services
         {
             if (dataProvider == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             dataProvider.OnReceiveData += DataProvider_OnReceiveData;
 
@@ -163,21 +168,47 @@ namespace GraphControlCore.Services
 
         private void AddItemRange(ICollection<IDataItem> newItems)
         {
+            ICollection<IDataItem> addedItems = null;
             lock (this.sink)
             {
                 if (this.items.Count + newItems.Count > this.maxItems)
                 {
-                    this.items.RemoveRange(0, (int)(this.items.Count + newItems.Count  - this.maxItems));
+                    // the collection will be overflowing
+                    int itemsToRemove = (int)(this.items.Count + newItems.Count - this.maxItems);
+                    if (itemsToRemove <= this.items.Count)
+                    {
+                        // remove part and add new items
+                        this.items.RemoveRange(0, itemsToRemove);
+                        addedItems = newItems;                 
+                    }
+                    else
+                    {
+                        // remove all items
+                        this.items.Clear();
+                        if (newItems.Count > this.maxItems)
+                        {
+                            // add last maxItems from newItems
+                            addedItems = newItems.ToList()
+                                .GetRange((int)(newItems.Count - this.maxItems - 1), (int)this.maxItems);
+                        }
+                        else
+                        {
+                            // add all newItems
+                            addedItems = newItems;
+                        }
+                    }
                 }
-
-                foreach (var item in newItems)
+                else
+                {
+                    addedItems = newItems;
+                }
+                this.items.AddRange(addedItems);
+                foreach (var item in addedItems)
                 {
                     UpdateMinMax(item);
                 }
-                
-                this.items.AddRange(newItems);
             }
-            this.DataUpdated?.Invoke(this, new DataUpdatedEventArgs(newItems));
+            this.DataUpdated?.Invoke(this, new DataUpdatedEventArgs(addedItems));
         }
 
         private void UpdateMinMax(IDataItem item)

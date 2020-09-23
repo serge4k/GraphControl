@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Timers;
-using GraphControlCore.Events;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Models;
+using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Models;
 
 namespace GraphControlWinFormsTestApp.Services
 {
@@ -77,6 +77,11 @@ namespace GraphControlWinFormsTestApp.Services
                 this.currentArg = 0;
             }
             return new DataItem(x, y);
+        }
+
+        public void Dispose()
+        {
+            this.timer.Dispose();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using GraphControlCore.Definitions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Utilities;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Utilities;
 using GraphControlWinFormsTestApp.Interfaces;
 
 namespace GraphControlWinFormsTestApp

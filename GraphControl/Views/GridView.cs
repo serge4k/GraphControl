@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Drawing;
-using GraphControlCore.Definitions;
-using GraphControlCore.Exceptions;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Models;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Models;
-using GraphControlCore.Structs;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Models;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Views
+namespace GraphControl.Core.Views
 {
     public class GridView : IGridView
     {
@@ -21,20 +21,24 @@ namespace GraphControlCore.Views
 
         private readonly IItemFormatter itemFormatter;
 
-        public GridView(IGridState state, IScaleService scaleService, IItemFormatter itemFormatter)
+        public GridView(IGridState state, IScaleService scaleService, IItemFormatter itemFormatter, IMargin labelMargin)
         {
+            if (state == null || scaleService == null || itemFormatter == null || labelMargin == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
             this.state = state;
             this.scaleService = scaleService;
             this.itemFormatter = itemFormatter;
 
-            this.LabelMargin = new Margin(5,5,5,5);
+            this.LabelMargin = labelMargin;
         }
 
         public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
         {
             if (drawing == null || margin == null)
             {
-                throw new GraphControlException("parameter is null");
+                throw new InvalidArgumentException("parameter is null");
             }
             var canvasSize = options.CanvasSize;
             

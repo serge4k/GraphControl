@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using GraphControlCore.Definitions;
-using GraphControlCore.Events;
-using GraphControlCore.Factory;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Structs;
-using GraphControlCore.Utilities;
+using GraphControl.Core.Definitions;
+using GraphControl.Core.Events;
+using GraphControl.Core.Factory;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
+using GraphControl.Core.Utilities;
 
 namespace GraphControlWinForms
 {
@@ -26,6 +26,9 @@ namespace GraphControlWinForms
 
         public IItemFormatter ItemFormatter { get; set; }
 
+        /// <summary>
+        /// Padding for graph area as Padding
+        /// </summary>
         public Padding GraphPadding
         {
             get
@@ -40,6 +43,9 @@ namespace GraphControlWinForms
             }
         }
 
+        /// <summary>
+        /// Padding for graph area as Margin
+        /// </summary>
         public IMargin GraphMargin
         {
             get
@@ -48,13 +54,31 @@ namespace GraphControlWinForms
             }
         }
 
+        /// <summary>
+        /// Padding for grid scale labels
+        /// </summary>
+        public IMargin LabelMargin { get; set; }
+
+        /// <summary>
+        /// Background custom view
+        /// </summary>
         public IBackgroundView UserBackgroundView { get; set; }
 
+        /// <summary>
+        /// Grid custom view
+        /// </summary>
         public IGridView UserGridView { get; set; }
 
+        /// <summary>
+        /// Data custom view
+        /// </summary>
         public IDataView UserDataView { get; set; }
 
+        /// <summary>
+        /// Scaling custom view
+        /// </summary>
         public IScalingSelectionView UserScalingSelectionView { get; set; }
+
         #endregion
 
         #region Private fields
@@ -71,15 +95,29 @@ namespace GraphControlWinForms
         {
             InitializeComponent();
 
+            SetDefaults();
+
             CreatePreseter();
 
             CreateControls();
 
             base.Load += GraphControl_Load;
         }
+
+        private void SetDefaults()
+        {
+            this.ItemFormatter = new ItemFormatter();
+
+            this.LabelMargin = new Margin(5, 5, 5, 5);
+
+            this.graphPadding = new Padding(80, 5, 5, 40);
+        }
         #endregion
 
         #region Reset and Free
+        /// <summary>
+        /// Re create internal GraphControl objects after update Control's properties
+        /// </summary>
         public void Reset()
         {
             Free();
@@ -104,12 +142,6 @@ namespace GraphControlWinForms
         {
             // Create ApplicationController
             this.applicationController = GraphControlFactory.CreateController();
-
-            this.ItemFormatter = new ItemFormatter();
-            this.ItemFormatter.Register(Axis.X, new DoubleValueFormatter());
-            this.ItemFormatter.Register(Axis.Y, new DoubleValueFormatter());
-
-            this.graphPadding = new Padding(80, 5, 5, 40);
 
             // Register dependencies
             GraphControlFactory.RegisterInstances(this.applicationController, 

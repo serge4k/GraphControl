@@ -1,4 +1,4 @@
-﻿namespace GraphControlCore.Interfaces.Services
+﻿namespace GraphControl.Core.Interfaces.Services
 {
     public interface IRegisterDataProvider
     {

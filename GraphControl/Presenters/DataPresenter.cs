@@ -1,12 +1,12 @@
 ﻿using System;
-using GraphControlCore.Events;
-using GraphControlCore.Interfaces;
-using GraphControlCore.Interfaces.Presenters;
-using GraphControlCore.Interfaces.Services;
-using GraphControlCore.Interfaces.Views;
-using GraphControlCore.Structs;
+using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Presenters;
+using GraphControl.Core.Interfaces.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
 
-namespace GraphControlCore.Presenters
+namespace GraphControl.Core.Presenters
 {
     public class DataPresenter : IDataPresenter
     {

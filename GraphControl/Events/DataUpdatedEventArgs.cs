@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GraphControlCore.Interfaces.Models;
+using GraphControl.Core.Interfaces.Models;
 
-namespace GraphControlCore.Events
+namespace GraphControl.Core.Events
 {
     public class DataUpdatedEventArgs : EventArgs
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{D693660A-7F01-4442-87CD-0F627F11B7F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GraphControlCore</RootNamespace>
-    <AssemblyName>GraphControlCore</AssemblyName>
+    <RootNamespace>GraphControl.Core</RootNamespace>
+    <AssemblyName>GraphControl.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Definitions\Axis.cs" />
+    <Compile Include="Exceptions\InvalidArgumentException.cs" />
     <Compile Include="Structs\DrawingPathItem.cs" />
     <Compile Include="Definitions\MouseButtons.cs" />
     <Compile Include="Events\CanvasSizeChangedEventArgs.cs" />
