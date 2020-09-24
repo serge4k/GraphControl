@@ -62,15 +62,18 @@ namespace GraphControl.Core.Presenters
             {
                 throw new InvalidArgumentException("parameter is null");
             }
-            switch (e.Button)
+            if (!this.scaleService.State.FitByX && !this.scaleService.State.FitByY)
             {
-                case MouseButton.Left:
-                    this.state.ZoomIncrease = !e.ShiftPressed;
-                    this.state.ScalingStart = e.Location;
-                    break;
-                case MouseButton.Right:
-                    this.state.MovingStart = e.Location;
-                    break;
+                switch (e.Button)
+                {
+                    case MouseButton.Left:
+                        this.state.ZoomIncrease = !e.ShiftPressed;
+                        this.state.ScalingStart = e.Location;
+                        break;
+                    case MouseButton.Right:
+                        this.state.MovingStart = e.Location;
+                        break;
+                }
             }
         }
 

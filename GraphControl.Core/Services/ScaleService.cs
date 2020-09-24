@@ -195,6 +195,7 @@ namespace GraphControl.Core.Services
 
             var canvasSize = options.CanvasSize;
             var margin = this.scaleState.Margin;
+            this.scaleState.FitByX = options.FitToX;
             if (options.FitToX)
             {
                 this.scaleState.X1 = this.dataService.GetMin(Axis.X);
@@ -220,7 +221,7 @@ namespace GraphControl.Core.Services
                 this.scaleState.ScaleX = (canvasSize.Width - margin.Left - margin.Right) / (x2 - x1);
             }
 
-
+            this.scaleState.FitByY = options.FitToY;
             if (options.FitToY)
             {
                 this.scaleState.Y1 = this.dataService.GetMin(Axis.Y);
