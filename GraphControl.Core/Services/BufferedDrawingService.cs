@@ -6,6 +6,7 @@ using GraphControl.Core.Interfaces.Views;
 using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Utilities;
 using GraphControl.Core.Exceptions;
+using System.Collections.Generic;
 
 namespace GraphControl.Core.Services
 {
@@ -40,7 +41,7 @@ namespace GraphControl.Core.Services
         private ManualResetEvent drawingRequestEvent;
         private CancellationTokenSource drawingTaskCancellation;
         private object drawingTaskSink;
-        private IDrawOptions drawingTaskCanvasOptions;
+        private Queue<IDrawOptions> drawingTaskCanvasOptions;
         #endregion
 
         #region Constructors
@@ -50,6 +51,7 @@ namespace GraphControl.Core.Services
             this.drawingTaskCancellation = new CancellationTokenSource();
             this.drawingTaskSink = new object();
             this.LastQueueOverflow = new DateTime(0);
+            this.drawingTaskCanvasOptions = new Queue<IDrawOptions>(5);
         }
         #endregion
 
@@ -62,12 +64,13 @@ namespace GraphControl.Core.Services
         {
             lock (this.drawingTaskSink)
             {
-                this.drawingTaskCanvasOptions = options;
-
-                if (this.drawingRequestEvent.WaitOne(0))
+                if (this.drawingTaskCanvasOptions.Count > 2)
                 {
                     this.LastQueueOverflow = DateTime.UtcNow;
+                    this.drawingTaskCanvasOptions.Dequeue();
                 }
+
+                this.drawingTaskCanvasOptions.Enqueue(options);
 
                 this.drawingRequestEvent.Set();
 
@@ -89,16 +92,28 @@ namespace GraphControl.Core.Services
                     if (EventWaitHandle.WaitAny(new[] { this.drawingTaskCancellation.Token.WaitHandle, this.drawingRequestEvent }) == 1)
                     {
                         IDrawOptions options;
-                        lock (this.drawingTaskSink)
+                        bool empty = false;
+                        while (!empty)
                         {
-                            options = this.drawingTaskCanvasOptions;
-                        }
-                        this.drawingRequestEvent.Reset();
-                        DrawGraphInBuffer(options);
-                        if (this.drawingBuffer != null)
-                        {
-                            this.SetImage?.Invoke(this, new SetImageEventArgs(this.drawingBuffer.Bitmap));
-                        }                        
+                            options = null;
+                            lock (this.drawingTaskSink)
+                            {
+                                this.drawingRequestEvent.Reset();
+                                empty = drawingTaskCanvasOptions.Count == 0;
+                                if (!empty)
+                                {
+                                    options = this.drawingTaskCanvasOptions.Dequeue();
+                                }                                
+                            }
+                            if (options != null)
+                            {
+                                DrawGraphInBuffer(options);
+                                if (this.drawingBuffer != null)
+                                {
+                                    this.SetImage?.Invoke(this, new SetImageEventArgs(this.drawingBuffer.Bitmap));
+                                }
+                            }
+                        }                                                
                     }
                 }
                 finally

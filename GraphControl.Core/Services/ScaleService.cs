@@ -3,7 +3,6 @@ using GraphControl.Core.Definitions;
 using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces.Services;
-using GraphControl.Core.Views;
 using GraphControl.Core.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,9 @@ namespace GraphControl.Core.Services
     public class ScaleService : IScaleService
     {
         #region Public properties
+        /// <summary>
+        /// Scale service state
+        /// </summary>
         public IScaleState State
         {
             get
@@ -22,6 +24,9 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Step updated event. Notifies about grid step was changed
+        /// </summary>
         public event EventHandler StateStepUpdated;
 
         private const double ZoomLimit = 10000;
@@ -46,6 +51,12 @@ namespace GraphControl.Core.Services
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// Calc coordinate in screen poins from data related to minimal visible value
+        /// </summary>
+        /// <param name="axis">X or Y</param>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns>
         public virtual double ToScreen(Axis axis, double value)
         {
             switch (axis)
@@ -59,16 +70,32 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Calc coordinate in screen poins from data related to minimal visible value
+        /// </summary>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns>
         public double ToScreenX(double value)
         {
             return ScaleToScreenX(value - this.scaleState.X1);
         }
 
+        /// <summary>
+        /// Calc coordinate in screen poins from data related to minimal visible value
+        /// </summary>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns
         public double ToScreenY(double value)
         {
             return ScaleToScreenY(value - this.scaleState.Y1);
         }
-        
+
+        /// <summary>
+        /// Calc coordinate in screen poins from data value
+        /// </summary>
+        /// <param name="axis">X or Y</param>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns>
         public virtual double ScaleToScreen(Axis axis, double value)
         {
             switch (axis)
@@ -82,16 +109,32 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Calc coordinate in screen poins from data value
+        /// </summary>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns>
         public double ScaleToScreenX(double value)
         {
             return value * this.scaleState.ScaleX;
         }
 
+        /// <summary>
+        /// Calc coordinate in screen poins from data value
+        /// </summary>
+        /// <param name="value">data value</param>
+        /// <returns>screen related coordinate</returns>
         public double ScaleToScreenY(double value)
         {
             return value * this.scaleState.ScaleY;
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate
+        /// </summary>
+        /// <param name="axis">X oR Y</param>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value including screen minimal visible value</returns>
         public virtual double ToData(Axis axis, double value)
         {
             try
@@ -112,16 +155,32 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate
+        /// </summary>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value including screen minimal visible value</returns>
         public double ToDataX(double value)
         {
             return ScaleToDataX(value) + this.scaleState.X1;
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate
+        /// </summary>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value including screen minimal visible value</returns>
         public double ToDataY(double value)
         {
             return ScaleToDataY(value) + this.scaleState.Y1;
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate without adding minimal visible value
+        /// </summary>
+        /// <param name="axis">X oR Y</param>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value without adding minimal visible value</returns>
         public double ScaleToData(Axis axis, double value)
         {
             try
@@ -142,16 +201,31 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate without adding minimal visible value
+        /// </summary>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value without adding minimal visible value</returns>
         public double ScaleToDataX(double value)
         {
             return value / this.scaleState.ScaleX;
         }
 
+        /// <summary>
+        /// Returns data value from screen related coordinate without adding minimal visible value
+        /// </summary>
+        /// <param name="value">screen related coordinate</param>
+        /// <returns>data related value without adding minimal visible value</returns>
         public double ScaleToDataY(double value)
         {
             return value / this.scaleState.ScaleY;
         }
 
+        /// <summary>
+        /// Updates grid step
+        /// </summary>
+        /// <param name="axis">X or Y</param>
+        /// <param name="value">grid step</param>
         public void SetStep(Axis axis, double value)
         {
             try
@@ -174,18 +248,56 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Updates grid step
+        /// </summary>
+        /// <param name="value">grid step</param>
         public void SetStepX(double value)
         {
             this.scaleState.StepX = value;
             this.StateStepUpdated?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Updates grid step
+        /// </summary>
+        /// <param name="value">grid step</param>
         public void SetStepY(double value)
         {
             this.scaleState.StepY = value;
             this.StateStepUpdated?.Invoke(this, new EventArgs());
         }
 
+        /// <summary>
+        /// Check that item is visible by min and max visible X,Y values
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool IsItemVisible(IDataItem item)
+        {
+            if (item == null)
+            {
+                throw new InvalidArgumentException("parameter \"item\" is null");
+            }
+
+            return item.X >= this.State.X1 && item.X <= this.State.X2 &&
+                item.Y >= this.State.Y1 && item.Y <= this.State.Y2;
+        }
+
+        /// <summary>
+        /// Check that one of items is visible by min and max visible X,Y values
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool IsItemsVisible(ICollection<IDataItem> items)
+        {
+            return items.Where((item) => IsItemVisible(item)).Count() > 0;
+        }
+
+        /// <summary>
+        /// Update scale interface (IScaleUpdate)
+        /// </summary>
+        /// <param name="options">drawing options</param>
         public void UpdateScale(IDrawOptions options)
         {
             if (options == null)
@@ -254,6 +366,11 @@ namespace GraphControl.Core.Services
             this.scaleState.Margin = margin;
         }
 
+        /// <summary>
+        /// Recrtange relateed zoom (IScaleControl)
+        /// </summary>
+        /// <param name="rectangle">rectange in screenn coordinates</param>
+        /// <param name="increase">true to zoom out, otherwise zoom in</param>
         public void Zoom(System.Drawing.Rectangle rectangle, bool increase)
         {
             var margin = this.scaleState.Margin;
@@ -262,27 +379,39 @@ namespace GraphControl.Core.Services
 
             double screenHeight = ScaleToScreenY(deltaY);
 
-            double x1 = ToDataX(rectangle.Left - margin.Left);
-            double y1 = ToDataY(screenHeight - rectangle.Bottom); // Invert and to data
-            double x2 = ToDataX(rectangle.Right - margin.Left);
-            double y2 = ToDataY(screenHeight - rectangle.Top); // Invert and to data
+            double newX1 = ToDataX(rectangle.Left - margin.Left);
+            double newX2 = ToDataX(rectangle.Right - margin.Left);
+            double diffX = this.dataService.GetMax(Axis.X) - this.dataService.GetMin(Axis.X);
 
-            if (increase)
+            double newY1 = ToDataY(screenHeight - rectangle.Bottom); // Invert and to data
+            double newY2 = ToDataY(screenHeight - rectangle.Top); // Invert and to data
+            double diffY = this.dataService.GetMax(Axis.Y) - this.dataService.GetMin(Axis.Y);
+
+            if (!increase)
             {
-                this.scaleState.X1 = x1;
-                this.scaleState.Y1 = y1;
-                this.scaleState.X2 = x2;
-                this.scaleState.Y2 = y2;
+                newX1 = this.scaleState.X1 - Math.Abs(newX1 - this.scaleState.X1);
+                newX2 = this.scaleState.X2 + Math.Abs(this.scaleState.X2 - newX2);
+                newY1 = this.scaleState.Y1 - Math.Abs(newY1 - this.scaleState.Y1);
+                newY2 = this.scaleState.Y2 + Math.Abs(this.scaleState.Y2 - newY2);
             }
-            else
+
+            // Limit zooming diff to 1/10000 and 10000x
+            if (newX2 - newX1 > diffX / ScaleService.ZoomLimit && newX2 - newX1 < diffX * ScaleService.ZoomLimit
+                && newY2 - newY1 > diffY / ScaleService.ZoomLimit && newY2 - newY1 < diffY * ScaleService.ZoomLimit)
             {
-                this.scaleState.X1 -= Math.Abs(x1 - this.scaleState.X1);
-                this.scaleState.Y1 -= Math.Abs(y1 - this.scaleState.Y1);
-                this.scaleState.X2 += Math.Abs(this.scaleState.X2 - x2);
-                this.scaleState.Y2 += Math.Abs(this.scaleState.Y2 - y2);
-            }            
+                this.scaleState.X1 = newX1;
+                this.scaleState.X2 = newX2;
+
+                this.scaleState.Y1 = newY1;
+                this.scaleState.Y2 = newY2;
+            }
         }
 
+        /// <summary>
+        /// Point related zoom (IScaleControl)
+        /// </summary>
+        /// <param name="location">point in screen coordinates</param>
+        /// <param name="wheelDelta">if greather than zero - zoom out, oterwise zoom in</param>
         public void Zoom(System.Drawing.Point location, int wheelDelta)
         {
             if (wheelDelta == 0)
@@ -317,6 +446,10 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Zoom in or out the scale (IScaleControl)
+        /// </summary>
+        /// <param name="wheelDelta">if greather than zero - zoom out, oterwise zoom in</param>
         public void Zoom(int wheelDelta)
         {
             if (wheelDelta == 0)
@@ -349,6 +482,11 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Shift scale to offset in scren coordinates
+        /// </summary>
+        /// <param name="offsetX">X offset in screen coordinates</param>
+        /// <param name="offsetY">Y offset in screen coordinates</param>
         public void Move(int offsetX, int offsetY)
         {
             double xDataOffset = ScaleToDataX(offsetX);
@@ -357,22 +495,6 @@ namespace GraphControl.Core.Services
             this.scaleState.Y1 -= yDataOffset;
             this.scaleState.X2 += xDataOffset;
             this.scaleState.Y2 -= yDataOffset;
-        }
-
-        public bool IsItemVisible(IDataItem item)
-        {
-            if (item == null)
-            {
-                throw new InvalidArgumentException("parameter \"item\" is null");
-            }
-
-            return item.X >= this.State.X1 && item.X <= this.State.X2 &&
-                item.Y >= this.State.Y1 && item.Y <= this.State.Y2;
-        }
-
-        public bool IsItemsVisible(ICollection<IDataItem> items)
-        {
-            return items.Where((item) => IsItemVisible(item)).Count() > 0;
         }
         #endregion
 
