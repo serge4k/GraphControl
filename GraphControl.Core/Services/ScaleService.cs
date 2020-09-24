@@ -3,11 +3,11 @@ using GraphControl.Core.Definitions;
 using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces.Services;
-using GraphControl.Core.Models;
+using GraphControl.Core.Views;
 using GraphControl.Core.Interfaces;
-using GraphControl.Core.Structs;
 using System.Collections.Generic;
 using System.Linq;
+using GraphControl.Core.Interfaces.Views;
 
 namespace GraphControl.Core.Services
 {
@@ -24,8 +24,6 @@ namespace GraphControl.Core.Services
 
         public event EventHandler StateStepUpdated;
 
-        public bool Initialized { get; private set; }
-
         private const double ZoomLimit = 10000;
         #endregion
 
@@ -37,7 +35,6 @@ namespace GraphControl.Core.Services
         #region Constructors
         public ScaleService(IScaleState scaleState, IDataService dataService, IMargin margin)
         {
-            this.Initialized = false;
             if (scaleState == null)
             {
                 throw new InvalidArgumentException("parameter is null");
@@ -155,11 +152,6 @@ namespace GraphControl.Core.Services
             return value / this.scaleState.ScaleY;
         }
 
-        public void CanvasSizeChanged(DrawOptions drawOptions)
-        {
-            UpdateScale(drawOptions);
-        }
-
         public void SetStep(Axis axis, double value)
         {
             try
@@ -194,8 +186,13 @@ namespace GraphControl.Core.Services
             this.StateStepUpdated?.Invoke(this, new EventArgs());
         }
 
-        public void UpdateScale(DrawOptions options)
+        public void UpdateScale(IDrawOptions options)
         {
+            if (options == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
+
             var canvasSize = options.CanvasSize;
             var margin = this.scaleState.Margin;
             if (options.FitToX)
@@ -249,8 +246,6 @@ namespace GraphControl.Core.Services
                 }
                 this.scaleState.ScaleY = (canvasSize.Height - margin.Top - margin.Bottom) / (y2 - y1);
             }
-
-            this.Initialized = true;
         }
 
         public void UpdateMargin(IMargin margin)

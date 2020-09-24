@@ -18,10 +18,10 @@ namespace GraphControl.Tests.Views
         public static IGridView Create(IApplicationController applicationController, IDataProviderService provider)
         {
             TestFactory.CreateBaseServices(applicationController, provider,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
-            return new GridView(gridState, scaleService, itemFormatter, margin);
+            return new GridView(scaleService);
         }
     }
 }

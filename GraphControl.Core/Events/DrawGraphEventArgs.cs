@@ -1,5 +1,5 @@
 ﻿using GraphControl.Core.Interfaces;
-using GraphControl.Core.Structs;
+using GraphControl.Core.Interfaces.Views;
 using System;
 
 namespace GraphControl.Core.Events
@@ -8,9 +8,9 @@ namespace GraphControl.Core.Events
     {
         public IDrawing Drawing { get; private set; }
 
-        public DrawOptions DrawOptions { get; private set; }
+        public IDrawOptions DrawOptions { get; private set; }
 
-        public DrawGraphEventArgs(IDrawing drawing, DrawOptions drawOptions)
+        public DrawGraphEventArgs(IDrawing drawing, IDrawOptions drawOptions)
         {
             this.Drawing = drawing;
             this.DrawOptions = drawOptions;

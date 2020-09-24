@@ -2,6 +2,5 @@
 {
     public interface IGridView : IDrawingView
     {
-        IMargin LabelMargin { get; set; }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using GraphControl.Core.Definitions;
-using GraphControl.Core.Interfaces.Models;
-using GraphControl.Core.Interfaces;
+﻿using GraphControl.Core.Interfaces;
 using GraphControl.Core.Structs;
 using GraphControl.Core.Exceptions;
+using GraphControl.Core.Interfaces.Views;
 
-namespace GraphControl.Core.Models
+namespace GraphControl.Core.Views
 {
     public class ScaleState : IScaleState
     {

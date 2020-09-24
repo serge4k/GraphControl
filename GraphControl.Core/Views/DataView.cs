@@ -10,43 +10,62 @@ namespace GraphControl.Core.Views
 {
     public class DataView : IDataView
     {
-        public IGraphState State { get; set; }
-
+        #region Private members
         private readonly IScaleService scaleService;
 
+        /// <summary>
+        ///  DataService access optimization
+        /// </summary>
         private readonly IDataService dataService;
-                
-        public DataView(IGraphState graphState, IScaleService scaleService, IDataService dataService)
+        #endregion
+
+        #region Constructors
+        public DataView(IScaleService scaleService, IDataService dataService)
         {
-            if (graphState == null || scaleService == null || dataService == null)
+            if (scaleService == null || dataService == null)
             {
                 throw new InvalidArgumentException("parameter is null");
             }
-            this.State = graphState;
             this.scaleService = scaleService;
             this.dataService = dataService;            
         }
+        #endregion
 
-        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
+        #region Public methods
+        /// <summary>
+        /// Draws the view
+        /// </summary>
+        /// <param name="drawing">drawing wrapper</param>
+        /// <param name="options">drawing options</param>
+        /// <param name="margin">drawing margin</param>
+        public virtual void Draw(IDrawing drawing, IDrawOptions options, IMargin margin)
         {
             if (drawing == null || margin == null)
             {
                 throw new InvalidArgumentException("parameter is null");
             }
 
+            if (!(options is DataDrawOptions))
+            {
+                throw new InvalidArgumentException("options is not compatible");
+            }
+            var state = ((DataDrawOptions)options).State;
+
             var canvasSize = options.CanvasSize;
             var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
             if (options.DrawOnlyNewData)
             {
-                DrawNewData(drawing, options, margin, canvasSize, clip);
+                DrawNewData(state, drawing, options, margin, canvasSize, clip);
             }
             else
             {
-                DrawAllData(drawing, margin, canvasSize, clip);
+                DrawAllData(state, drawing, margin, canvasSize, clip);
             }
         }
+        #endregion
 
-        private void DrawNewData(IDrawing drawing, DrawOptions options, IMargin margin, Size canvasSize, System.Drawing.RectangleF clip)
+        #region Private methods
+        private void DrawNewData(IDataDrawState state, IDrawing drawing, IDrawOptions options, IMargin margin, Size canvasSize, System.Drawing.RectangleF clip)
         {
             if (options.NewItems.Count == 1)
             {
@@ -57,7 +76,7 @@ namespace GraphControl.Core.Views
                     {
                         var x = this.scaleService.ToScreen(Axis.X, item.X);
                         var y = this.scaleService.ToScreen(Axis.Y, item.Y);
-                        drawing.Circle(this.State.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4, clip);
+                        drawing.Circle(state.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4, clip);
                     }
                 }
 
@@ -78,14 +97,14 @@ namespace GraphControl.Core.Views
                         var x2 = this.scaleService.ToScreen(Axis.X, item.X);
                         var y2 = this.scaleService.ToScreen(Axis.Y, item.Y);
 
-                        drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
+                        drawing.Line(state.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
                     }
                     prevItem = item;
                 }
             }
         }
 
-        private void DrawAllData(IDrawing drawing, IMargin margin, Size canvasSize, System.Drawing.RectangleF clip)
+        private void DrawAllData(IDataDrawState state, IDrawing drawing, IMargin margin, Size canvasSize, System.Drawing.RectangleF clip)
         {
             var startX = this.scaleService.State.X1;
             var endX = this.scaleService.State.X2;
@@ -99,7 +118,7 @@ namespace GraphControl.Core.Views
                     {
                         var x = this.scaleService.ToScreen(Axis.X, item.X);
                         var y = this.scaleService.ToScreen(Axis.Y, item.Y);
-                        drawing.Circle(this.State.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4, clip);
+                        drawing.Circle(state.LineColor, margin.Left + x, canvasSize.Height - margin.Bottom - y, 4, clip);
                     }
                 }
 
@@ -120,17 +139,13 @@ namespace GraphControl.Core.Views
                         var x2 = this.scaleService.ToScreen(Axis.X, item.X);
                         var y2 = this.scaleService.ToScreen(Axis.Y, item.Y);
 
-                        drawing.Line(this.State.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
+                        drawing.Line(state.LineColor, margin.Left + x1, canvasSize.Height - margin.Bottom - y1, margin.Left + x2, canvasSize.Height - margin.Bottom - y2, clip);
                     }
                     
                     prevItem = item;
                 }
             }
         }
-
-        public void Show()
-        {
-            throw new System.NotImplementedException();
-        }
+        #endregion
     }
 }

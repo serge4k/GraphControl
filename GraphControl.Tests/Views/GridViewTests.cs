@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GraphControl.Core.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GraphControl.Core.Views;
 using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces.Views;
 using GraphControl.Core.Models;
@@ -18,7 +19,6 @@ using GraphControl.Core.Structs;
 using GraphControl.Tests.Unitilies;
 using GraphControl.Tests.Services;
 using GraphControl.Core.Interfaces;
-using System.Threading;
 
 namespace GraphControl.Tests.Views
 {
@@ -28,7 +28,7 @@ namespace GraphControl.Tests.Views
         [TestMethod()]
         public void CreateWithNullsTest()
         {
-            Assert.ThrowsException<InvalidArgumentException>(() => new GridView(null, null, null, null));
+            Assert.ThrowsException<InvalidArgumentException>(() => new GridView(null));
         }
 
         [TestMethod()]
@@ -42,7 +42,7 @@ namespace GraphControl.Tests.Views
         public void DrawNullTest()
         {
             var gridView = TestGridView.Create();
-            Assert.ThrowsException<InvalidArgumentException>(() => gridView.Draw(null, new DrawOptions(), null));
+            Assert.ThrowsException<InvalidArgumentException>(() => gridView.Draw(null, new DrawOptions(new Size(0, 0), true, true, null), null));
         }
 
         [TestMethod()]
@@ -54,7 +54,7 @@ namespace GraphControl.Tests.Views
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true, null);
+                var options = new GridDrawOptions(size, true, true, null, new GridState());
                 gridView.Draw(drawing, options, margin);
             }
             Assert.IsTrue(drawing.Lines.Count > 0);
@@ -85,7 +85,7 @@ namespace GraphControl.Tests.Views
             using (drawing = new TestDrawingWrapper())
             {
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true, null);
+                var options = new GridDrawOptions(size, true, true, null, new GridState());
 
                 var scaleService = applicationController.GetInstance<IScaleService>();
                 applicationController.GetInstance<IDataService>().DataUpdated += (sender, e) =>
@@ -105,13 +105,6 @@ namespace GraphControl.Tests.Views
             }
             dataProviderService.Dispose();
             return drawing;
-        }
-
-        [TestMethod()]
-        public void ShowMethodShouldThrowNotImplementedExceptionTest()
-        {
-            var gridView = TestGridView.Create();
-            Assert.ThrowsException<NotImplementedException>(() => gridView.Show());
         }
 
         [TestMethod()]

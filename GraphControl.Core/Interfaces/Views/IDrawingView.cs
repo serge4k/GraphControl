@@ -1,9 +1,15 @@
-﻿using GraphControl.Core.Structs;
+﻿using GraphControl.Core.Interfaces.Models;
 
 namespace GraphControl.Core.Interfaces.Views
 {
-    public interface IDrawingView : IView
+    public interface IDrawingView
     {
-        void Draw(IDrawing drawing, DrawOptions options, IMargin margin);
+        /// <summary>
+        /// Draws the view
+        /// </summary>
+        /// <param name="drawing">drawing wrapper</param>
+        /// <param name="options">drawing options</param>
+        /// <param name="margin">drawing margin</param>
+        void Draw(IDrawing drawing, IDrawOptions options, IMargin margin);
     }
 }

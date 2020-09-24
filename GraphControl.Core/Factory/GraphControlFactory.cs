@@ -36,41 +36,69 @@ namespace GraphControl.Core.Factory
             {
                 throw new InvalidArgumentException("parameter is null");
             }
-
-            var margin = formView.GraphMargin;
-            var itemFormatter = formView.ItemFormatter;
-            var labelMargin = formView.LabelMargin;
-
+            
             applicationController.RegisterService<IBufferedDrawingService, BufferedDrawingService>();
 
-            CreateStateInstancees(applicationController,
-                out IBackgroundState backgroundState, out IGridState gridState, out IScaleState scaleState, out IGraphState graphState, out IGraphControlFormState graphControlFormState);
+            CreateStateInstances(applicationController,
+                formView.ItemFormatter,
+                formView.LabelMargin,
+                out IBackgroundState backgroundState, 
+                out IGridState gridState, 
+                out IScaleState scaleState, 
+                out IDataDrawState graphState,
+                out IScalingState scalingState,
+                out IGraphControlFormState graphControlFormState);
 
             CreateServiceInstances(applicationController,
-                margin, scaleState,
-                out IDataService dataService, out IScaleService scaleService, out IBufferedDrawingService bufferedDrawingService);
+                formView.GraphMargin, scaleState,
+                out IDataService dataService, 
+                out IScaleService scaleService, 
+                out IBufferedDrawingService bufferedDrawingService);
 
             CreateViewInstances(applicationController,
-                controlView, itemFormatter, labelMargin,
-                backgroundState, gridState, graphState,
-                dataService, scaleService,
-                formView.UserBackgroundView, formView.UserGridView, formView.UserDataView, formView.UserScalingSelectionView,
-                out IBackgroundPresenter backgroundPresenter, out IGridPresenter gridPresenter, out IDataPresenter dataPresenter, out IScalingSelectionView scalingView);
+                controlView,
+                dataService, 
+                scaleService,
+                formView.UserBackgroundView, 
+                formView.UserGridView, 
+                formView.UserDataView, 
+                formView.UserScalingSelectionView,
+                backgroundState,
+                gridState,
+                graphState,
+                out IBackgroundPresenter backgroundPresenter, 
+                out IGridPresenter gridPresenter, 
+                out IDataPresenter dataPresenter, 
+                out IScalingSelectionView scalingView);
 
             CreatePresenterInstances(applicationController, 
-                formView, controlView, scalingView,
+                formView, 
+                controlView, 
+                scalingView,
                 graphControlFormState,
-                dataService, scaleService, bufferedDrawingService, 
-                backgroundPresenter, gridPresenter, dataPresenter);
+                scalingState,
+                dataService, 
+                scaleService, 
+                bufferedDrawingService, 
+                backgroundPresenter, 
+                gridPresenter, 
+                dataPresenter);
         }
 
         private static void CreatePresenterInstances(IApplicationController applicationController, 
-            IGraphControlFormView formView, IGraphControlView controlView, IScalingSelectionView scalingView,
-            IGraphControlFormState graphControlFormState, 
-            IDataService dataService, IScaleService scaleService, IBufferedDrawingService bufferedDrawingService, 
-            IBackgroundPresenter backgroundPresenter, IGridPresenter gridPresenter, IDataPresenter dataPresenter)
+            IGraphControlFormView formView, 
+            IGraphControlView controlView, 
+            IScalingSelectionView scalingView,
+            IGraphControlFormState graphControlFormState,
+            IScalingState scalingState,
+            IDataService dataService, 
+            IScaleService scaleService, 
+            IBufferedDrawingService bufferedDrawingService, 
+            IBackgroundPresenter backgroundPresenter, 
+            IGridPresenter gridPresenter, 
+            IDataPresenter dataPresenter)
         {
-            var scalingPresenter = new ScalingSelectionPresenter(scalingView, controlView, scaleService);
+            var scalingPresenter = new ScalingSelectionPresenter(scalingView, scalingState, controlView, scaleService);
             applicationController.RegisterInstance<IScalingSelectionPresenter>(scalingPresenter);
 
             var graphControlPresenter = new GraphControlPresenter(applicationController,
@@ -91,26 +119,35 @@ namespace GraphControl.Core.Factory
                 graphControlFormState,
                 graphControlPresenter
                 );
-            applicationController.RegisterInstance<IGraphControlFormPresenter>(graphControlFormPresenter);
+            applicationController.RegisterInstance<GraphControlFormPresenter>(graphControlFormPresenter);
         }
 
         private static void CreateViewInstances(IApplicationController applicationController, 
-            IGraphControlView controlView, IItemFormatter itemFormatter, IMargin labelMargin,
-            IBackgroundState backgroundState, IGridState gridState, IGraphState graphState, 
-            IDataService dataService, IScaleService scaleService, 
-            IBackgroundView userBackGroundView, IGridView userGridView, IDataView userDataView, IScalingSelectionView userScalingSelectionView, 
-            out IBackgroundPresenter backgroundPresenter, out IGridPresenter gridPresenter, out IDataPresenter dataPresenter, out IScalingSelectionView scalingView)
+            IGraphControlView controlView, 
+            IDataService dataService, 
+            IScaleService scaleService, 
+            IBackgroundView userBackgroundView, 
+            IGridView userGridView, 
+            IDataView userDataView, 
+            IScalingSelectionView userScalingSelectionView,
+            IBackgroundState userBackgroundState,
+            IGridState userGridState,
+            IDataDrawState userDataDrawState,
+            out IBackgroundPresenter backgroundPresenter, 
+            out IGridPresenter gridPresenter, 
+            out IDataPresenter dataPresenter, 
+            out IScalingSelectionView scalingView)
         {
-            var backgroundView = userBackGroundView ?? new BackgroundView(backgroundState);
-            backgroundPresenter = new BackgroundPresenter(backgroundView);
+            var backgroundView = userBackgroundView ?? new BackgroundView();
+            backgroundPresenter = new BackgroundPresenter(backgroundView, userBackgroundState);
             applicationController.RegisterInstance<IBackgroundPresenter>(backgroundPresenter);
 
-            var gridView = userGridView ?? new GridView(gridState, scaleService, itemFormatter, labelMargin);
-            gridPresenter = new GridPresenter(gridView);
+            var gridView = userGridView ?? new GridView(scaleService);
+            gridPresenter = new GridPresenter(gridView, userGridState);
             applicationController.RegisterInstance<IGridPresenter>(gridPresenter);
 
-            var dataView = userDataView ?? new DataView(graphState, scaleService, dataService);
-            dataPresenter = new DataPresenter(dataView, dataService);
+            var dataView = userDataView ?? new DataView(scaleService, dataService);
+            dataPresenter = new DataPresenter(dataView, userDataDrawState, dataService);
             applicationController.RegisterInstance<IDataPresenter>(dataPresenter);
 
             scalingView = userScalingSelectionView ?? new ScalingSelectionView();
@@ -120,8 +157,11 @@ namespace GraphControl.Core.Factory
         }
 
         private static void CreateServiceInstances(IApplicationController applicationController, 
-            IMargin margin, IScaleState scaleState, 
-            out IDataService dataService, out IScaleService scaleService, out IBufferedDrawingService bufferedDrawingService)
+            IMargin margin, 
+            IScaleState scaleState, 
+            out IDataService dataService, 
+            out IScaleService scaleService, 
+            out IBufferedDrawingService bufferedDrawingService)
         {
             dataService = new DataService();
             applicationController.RegisterInstance<IDataService>(dataService);
@@ -133,20 +173,32 @@ namespace GraphControl.Core.Factory
             applicationController.RegisterInstance<IBufferedDrawingService>(bufferedDrawingService);
         }
 
-        private static void CreateStateInstancees(IApplicationController applicationController, 
-            out IBackgroundState backgroundState, out IGridState gridState, out IScaleState scaleState, out IGraphState graphState, out IGraphControlFormState graphControlFormState)
+        private static void CreateStateInstances(IApplicationController applicationController,
+            IItemFormatter itemFormatter,
+            IMargin labelMargin,
+            out IBackgroundState backgroundState, 
+            out IGridState gridState, 
+            out IScaleState scaleState, 
+            out IDataDrawState graphState,
+            out IScalingState scalingState,
+            out IGraphControlFormState graphControlFormState)
         {
             backgroundState = new BackgroundState();
             applicationController.RegisterInstance<IBackgroundState>(backgroundState);
 
             gridState = new GridState();
+            gridState.LabelPadding = labelMargin;
+            gridState.ItemFormatter = itemFormatter;
             applicationController.RegisterInstance<IGridState>(gridState);
 
             scaleState = new ScaleState();
             applicationController.RegisterInstance<IScaleState>(scaleState);
 
-            graphState = new GraphState();
-            applicationController.RegisterInstance<IGraphState>(graphState);
+            graphState = new DataDrawState();
+            applicationController.RegisterInstance<IDataDrawState>(graphState);
+
+            scalingState = new ScalingState();
+            applicationController.RegisterInstance<IScalingState>(scalingState);
 
             graphControlFormState = new GraphControlFormState();
             applicationController.RegisterInstance<IGraphControlFormState>(graphControlFormState);

@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
 
-namespace GraphControl.Core.Structs
+namespace GraphControl.Core.Views
 {
-    public struct DrawOptions : IEquatable<DrawOptions>
+    public class DrawOptions : IDrawOptions, IEquatable<DrawOptions>
     {
+        /// <summary>
+        /// Canvas area width and heigth
+        /// </summary>
         public Size CanvasSize { get; private set; }
 
+        /// <summary>
+        /// Fix by X option
+        /// </summary>
         public bool FitToX { get; private set; }
 
+        /// <summary>
+        /// Fix by X option
+        /// </summary>
         public bool FitToY { get; private set; }
 
+        /// <summary>
+        /// Contains new items or null when all items should be drawn
+        /// </summary>
         public ICollection<IDataItem> NewItems { get; private set; }
 
         public bool DrawOnlyNewData
@@ -31,8 +46,12 @@ namespace GraphControl.Core.Structs
             this.NewItems = dataItems;
         }
 
-        public DrawOptions(DrawOptions options)
+        public DrawOptions(IDrawOptions options)
         {
+            if (options == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
             this.CanvasSize = options.CanvasSize;
             this.FitToX = options.FitToX;
             this.FitToY = options.FitToY;
@@ -57,6 +76,10 @@ namespace GraphControl.Core.Structs
 
         public bool Equals(DrawOptions other)
         {
+            if (other == null)
+            {
+                return false;
+            }
             return this.CanvasSize.Equals(other.CanvasSize)
                 && this.FitToX.Equals(other.FitToX)
                 && this.FitToY.Equals(other.FitToY)
@@ -65,12 +88,37 @@ namespace GraphControl.Core.Structs
 
         public static bool operator ==(DrawOptions options1, DrawOptions options2)
         {
+            if (options1 == null)
+            {
+                return false;
+            }
             return options1.Equals(options2);
         }
 
         public static bool operator !=(DrawOptions options1, DrawOptions options2)
         {
+            if (options1 == null)
+            {
+                return false;
+            }
             return !options1.Equals(options2);
+        }
+    }
+
+    public class DrawOptions<TState> : DrawOptions
+    {
+        public TState State { get; private set; }
+
+        public DrawOptions(IDrawOptions options, TState state)
+            : base(options)
+        {
+            this.State = state;
+        }
+
+        public DrawOptions(Size canvasSize, bool fitToX, bool fitToY, ICollection<IDataItem> dataItems, TState state)
+            : base(canvasSize, fitToX, fitToY, dataItems)
+        {
+            this.State = state;
         }
     }
 }

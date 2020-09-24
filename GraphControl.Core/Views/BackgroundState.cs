@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Views;
 
-namespace GraphControl.Core.Models
+namespace GraphControl.Core.Views
 {
     public class BackgroundState : IBackgroundState
     {

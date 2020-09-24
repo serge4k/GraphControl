@@ -1,55 +1,60 @@
 ﻿using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces;
 using GraphControl.Core.Interfaces.Views;
-using GraphControl.Core.Structs;
 using System.Drawing;
 
 namespace GraphControl.Core.Views
 {
     public class ScalingSelectionView : IScalingSelectionView
     {
-        public Point? MovingStart { get; set; }
+        #region Public properties
 
-        public Point? MovingPosition { get; set; }
+        #endregion
 
-        public Point? ScalingStart { get; set; }
-
-        public Point? ScalingPosition { get; set; }
-
-        public bool ZoomIncrease { get; set; }
-
-        public Color MovingPenColor { get; set; }
-
-        public Color ZoomInPenColor { get; set; }
-
-        public Color ZoomOutPenColor { get; set; }
-
+        #region Constructors
         public ScalingSelectionView()
         {
         }
+        #endregion
 
-        public virtual void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
+        #region Public methods
+        /// <summary>
+        /// Draws the view
+        /// </summary>
+        /// <param name="drawing">drawing wrapper</param>
+        /// <param name="options">drawing options</param>
+        /// <param name="margin">drawing margin</param>
+        public virtual void Draw(IDrawing drawing, IDrawOptions options, IMargin margin)
         {
             if (drawing == null || margin == null)
             {
                 throw new InvalidArgumentException("parameter is null");
             }
-            var canvasSize = options.CanvasSize;
-            var clip = new System.Drawing.RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
 
-            if (this.MovingStart != null && this.MovingPosition != null)
+            if (!(options is ScalingDrawOptions))
             {
-                drawing.Line(this.MovingPenColor, this.MovingStart.Value.X, this.MovingStart.Value.Y, this.MovingPosition.Value.X, this.MovingPosition.Value.Y, clip);
+                throw new InvalidArgumentException("options is not compatible");
+            }
+            var state = ((ScalingDrawOptions)options).State;
+
+            var canvasSize = options.CanvasSize;
+            var clip = new RectangleF((float)margin.Left, (float)margin.Top, (float)(canvasSize.Width - margin.LeftAndRight), (float)(canvasSize.Height - margin.TopAndBottom));
+
+            if (state.MovingStart != null && state.MovingPosition != null)
+            {
+                drawing.Line(state.MovingPenColor, state.MovingStart.Value.X, state.MovingStart.Value.Y, state.MovingPosition.Value.X, state.MovingPosition.Value.Y, clip);
             }
 
-            if (this.ScalingStart != null && this.ScalingPosition != null)
+            if (state.ScalingStart != null && state.ScalingPosition != null)
             {
-                Rectangle rectangle = SortCoordinates(this.ScalingStart.Value, this.ScalingPosition.Value);
-                var color = this.ZoomIncrease ? this.ZoomInPenColor : this.ZoomOutPenColor;
+                Rectangle rectangle = SortCoordinates(state.ScalingStart.Value, state.ScalingPosition.Value);
+                var color = state.ZoomIncrease ? state.ZoomInPenColor : state.ZoomOutPenColor;
                 drawing.Rectangle(color, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, clip);
             }
         }
+        #endregion
 
+        #region Private methods
         private static Rectangle SortCoordinates(Point scalingStart, Point scalingPos)
         {
             var x1 = scalingStart.X;
@@ -68,10 +73,6 @@ namespace GraphControl.Core.Views
             }
             return new Rectangle(x1, y1, x2 - x1, y2 - y1);
         }
-
-        public void Show()
-        {
-            throw new System.NotImplementedException();
-        }
+        #endregion
     }
 }

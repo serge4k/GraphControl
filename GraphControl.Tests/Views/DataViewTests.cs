@@ -25,7 +25,7 @@ namespace GraphControl.Tests.Views
         [TestMethod()]
         public void CreateWithNullsTest()
         {
-            Assert.ThrowsException<InvalidArgumentException>(() => new DataView(null, null, null));
+            Assert.ThrowsException<InvalidArgumentException>(() => new DataView(null, null));
         }
 
         [TestMethod()]
@@ -39,7 +39,7 @@ namespace GraphControl.Tests.Views
         public void DrawWithNullParamsTest()
         {
             var view = TestDataView.Create();
-            Assert.ThrowsException<InvalidArgumentException>(() => view.Draw(null, new DrawOptions(), null));
+            Assert.ThrowsException<InvalidArgumentException>(() => view.Draw(null, new DrawOptions(new Size(0,0), true, true, null), null));
         }
 
         [TestMethod()]
@@ -94,13 +94,12 @@ namespace GraphControl.Tests.Views
             int receivedPoints = 0;
             try
             {
-                IDataView view;
                 // Create all services
                 provider = TestSinusDataProviderService.Create(pointsNumber);
-                view = TestDataView.Create(controller, provider, bufferedDrawingService);
+                var view = TestDataView.Create(controller, provider, bufferedDrawingService);
                 
                 var margin = new Margin(100, 5, 5, 60);
-                var options = new DrawOptions(size, true, true, null);
+                var options = new DataDrawOptions(size, true, true, null, new DataDrawState());
                 scaleService = controller.GetInstance<IScaleService>();
                 scaleService.UpdateScale(options); // to prepare scaling service without presenter
 
@@ -148,13 +147,6 @@ namespace GraphControl.Tests.Views
             }
 
             return drawing;
-        }
-
-        [TestMethod()]
-        public void ShowMethodShouldThrowNotImplementedExceptionTest()
-        {
-            var view = TestGridView.Create();
-            Assert.ThrowsException<NotImplementedException>(() => view.Show());
         }
 
         [TestMethod()]

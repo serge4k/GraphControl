@@ -7,10 +7,8 @@ using GraphControl.Core.Interfaces;
 
 namespace GraphControl.Core.Presenters
 {
-    public class GraphControlFormPresenter : BasePresenter<IGraphControlFormView>, IGraphControlFormPresenter
+    public class GraphControlFormPresenter : BasePresenter<IGraphControlFormView>
     {
-        public new IGraphControlFormView View { get; set; }
-
         #region Prevate fields
         private readonly IGraphControlFormState state;
         private readonly IGraphControlPresenter graphControlPresenter;
@@ -42,12 +40,14 @@ namespace GraphControl.Core.Presenters
         #region Private methods
         private void UpdateState()
         {
+            // Update view
             this.View.SetFitToScreenAlways(this.state.FitToScreenAlways);
             this.View.EnableFitByX(!this.state.FitToScreenAlways);
             this.View.EnableFitByY(!this.state.FitToScreenAlways);
             this.graphControlPresenter.UpdateFormState(this.state);
             if (!this.state.FitToScreenAlways)
             {
+                // Disable FitByX and ByY after button click
                 this.state.FitToScreenByX = false;
                 this.state.FitToScreenByY = false;
                 this.graphControlPresenter.UpdateFormState(this.state);

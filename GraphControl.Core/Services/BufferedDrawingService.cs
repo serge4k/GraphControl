@@ -2,21 +2,35 @@
 using System.Threading;
 using System.Threading.Tasks;
 using GraphControl.Core.Events;
+using GraphControl.Core.Interfaces.Views;
 using GraphControl.Core.Interfaces.Services;
-using GraphControl.Core.Structs;
 using GraphControl.Core.Utilities;
+using GraphControl.Core.Exceptions;
 
 namespace GraphControl.Core.Services
 {
     public class BufferedDrawingService : IBufferedDrawingService
     {
         #region Public properties
+        /// <summary>
+        /// Callback to update scale during draw
+        /// </summary>
         public event EventHandler<UpdateScaleEventArgs> UpdateScale;
 
+        /// <summary>
+        /// Callback to set image
+        /// </summary>
         public event EventHandler<DrawGraphEventArgs> DrawGraph;
 
+        /// <summary>
+        /// Queue overflow datetime (for unit tests)
+        /// </summary>
         public event EventHandler<SetImageEventArgs> SetImage;
 
+        /// <summary>
+        /// Posts event to draw in buffer async
+        /// </summary>
+        /// <param name="options">draw options</param>
         public DateTime LastQueueOverflow { get; private set; }
         #endregion
 
@@ -26,7 +40,7 @@ namespace GraphControl.Core.Services
         private ManualResetEvent drawingRequestEvent;
         private CancellationTokenSource drawingTaskCancellation;
         private object drawingTaskSink;
-        private DrawOptions drawingTaskCanvasOptions;
+        private IDrawOptions drawingTaskCanvasOptions;
         #endregion
 
         #region Constructors
@@ -40,7 +54,11 @@ namespace GraphControl.Core.Services
         #endregion
 
         #region Interface implementation
-        public void DrawGraphInBufferAsync(DrawOptions options)
+        /// <summary>
+        /// Posts event to draw in buffer async
+        /// </summary>
+        /// <param name="options">draw options</param>
+        public void DrawGraphInBufferAsync(IDrawOptions options)
         {
             lock (this.drawingTaskSink)
             {
@@ -70,7 +88,7 @@ namespace GraphControl.Core.Services
                 {
                     if (EventWaitHandle.WaitAny(new[] { this.drawingTaskCancellation.Token.WaitHandle, this.drawingRequestEvent }) == 1)
                     {
-                        DrawOptions options;
+                        IDrawOptions options;
                         lock (this.drawingTaskSink)
                         {
                             options = this.drawingTaskCanvasOptions;
@@ -90,28 +108,33 @@ namespace GraphControl.Core.Services
             }
         }
 
-        protected virtual void DrawGraphInBuffer(DrawOptions drawOptions)
+        protected virtual void DrawGraphInBuffer(IDrawOptions options)
         {
+            if (options == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
+
             // Do not draw if canvas size is 0
-            if (drawOptions.CanvasSize.Width == 0 || drawOptions.CanvasSize.Height == 0)
+            if (options.CanvasSize.Width == 0 || options.CanvasSize.Height == 0)
             {
                 return;
             }
 
             // Check that buffer was not created or recreate when size was changed
             if (this.drawingBuffer == null ||
-                this.drawingBuffer.CanvasSize.Width != drawOptions.CanvasSize.Width ||
-                this.drawingBuffer.CanvasSize.Height != drawOptions.CanvasSize.Height)
+                this.drawingBuffer.CanvasSize.Width != options.CanvasSize.Width ||
+                this.drawingBuffer.CanvasSize.Height != options.CanvasSize.Height)
             {
-                this.drawingBuffer = new DrawingBuffer(drawOptions.CanvasSize);
+                this.drawingBuffer = new DrawingBuffer(options.CanvasSize);
             }
 
-            this.UpdateScale?.Invoke(this, new UpdateScaleEventArgs(drawOptions));
+            this.UpdateScale?.Invoke(this, new UpdateScaleEventArgs(options));
 
             // Draw in buffer
             using (var drawing = new Drawing2DWrapper(this.drawingBuffer.Graphics))
             {
-                this.DrawGraph?.Invoke(this, new DrawGraphEventArgs(drawing, drawOptions));
+                this.DrawGraph?.Invoke(this, new DrawGraphEventArgs(drawing, options));
             }
         }
         #endregion

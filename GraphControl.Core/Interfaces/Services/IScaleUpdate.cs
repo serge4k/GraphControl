@@ -1,9 +1,13 @@
-﻿using GraphControl.Core.Structs;
+﻿using GraphControl.Core.Interfaces.Views;
 
 namespace GraphControl.Core.Interfaces.Services
 {
     public interface IScaleUpdate
     {
-        void UpdateScale(DrawOptions options);
+        /// <summary>
+        /// Update scale interface
+        /// </summary>
+        /// <param name="options">drawing options</param>
+        void UpdateScale(IDrawOptions options);
     }
 }

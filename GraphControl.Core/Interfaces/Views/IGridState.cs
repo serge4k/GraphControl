@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace GraphControl.Core.Interfaces.Models
+namespace GraphControl.Core.Interfaces.Views
 {
     public interface IGridState
     {
@@ -28,5 +28,16 @@ namespace GraphControl.Core.Interfaces.Models
         /// Text color for Y axis
         /// </summary>
         Color TextYColor { get; set; }
+
+        /// <summary>
+        /// Grid label text padding
+        /// </summary>
+        IMargin LabelPadding { get; set; }
+
+        /// <summary>
+        /// Text formatter
+        /// </summary>
+        IItemFormatter ItemFormatter { get; set; }
+
     }
 }

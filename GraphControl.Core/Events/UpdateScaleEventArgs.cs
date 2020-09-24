@@ -1,13 +1,13 @@
 ﻿using System;
-using GraphControl.Core.Structs;
+using GraphControl.Core.Interfaces.Views;
 
 namespace GraphControl.Core.Events
 {
     public class UpdateScaleEventArgs : EventArgs
     {
-        public DrawOptions DrawOptions { get; private set; }
+        public IDrawOptions DrawOptions { get; private set; }
 
-        public UpdateScaleEventArgs(DrawOptions drawOptions)
+        public UpdateScaleEventArgs(IDrawOptions drawOptions)
         {
             this.DrawOptions = drawOptions;
         }

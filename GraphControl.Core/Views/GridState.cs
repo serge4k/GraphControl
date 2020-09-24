@@ -1,7 +1,10 @@
 ﻿using System.Drawing;
-using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Structs;
+using GraphControl.Core.Utilities;
 
-namespace GraphControl.Core.Models
+namespace GraphControl.Core.Views
 {
     public class GridState : IGridState
     {
@@ -32,6 +35,16 @@ namespace GraphControl.Core.Models
         /// </summary>
         public Color TextYColor { get; set; }
 
+        /// <summary>
+        /// Grid label text padding
+        /// </summary>
+        public IMargin LabelPadding { get; set; }
+
+        /// <summary>
+        /// Text formatter
+        /// </summary>
+        public IItemFormatter ItemFormatter { get; set; }
+
         public GridState()
         {
             // Fill defaults
@@ -40,6 +53,8 @@ namespace GraphControl.Core.Models
             this.GridColor = Color.FromArgb(180, 180, 180);
             this.TextXColor = Color.FromArgb(0, 220, 0);
             this.TextYColor = Color.FromArgb(0, 0, 222);
+            this.LabelPadding = new Margin(5, 5, 5, 5);
+            this.ItemFormatter = new ItemFormatter();
         }
     }
 }

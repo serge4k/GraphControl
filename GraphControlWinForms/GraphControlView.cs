@@ -3,27 +3,58 @@ using System.Drawing;
 using System.Windows.Forms;
 using GraphControl.Core.Events;
 using GraphControl.Core.Interfaces;
+using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Models;
 using GraphControl.Core.Structs;
+using GraphControl.Core.Views;
 
 namespace GraphControlWinForms
 {
     internal class GraphControlView : PictureBox, IGraphControlView
     {
-        public global::GraphControl.Core.Structs.Size ControlSize { get => new global::GraphControl.Core.Structs.Size(this.ClientSize.Width, this.ClientSize.Height); }
+        #region Public properties
+        /// <summary>
+        /// Controls clients area size / ClientSize
+        /// </summary>
+        public global::GraphControl.Core.Structs.Size ControlSize => new global::GraphControl.Core.Structs.Size(this.ClientSize.Width, this.ClientSize.Height);
 
-        public event EventHandler<ControlSizeChangedEventArgs> ControlSizeChanged;
-
+        /// <summary>
+        /// Mouse action forwaring event overriding
+        /// </summary>
         public new event EventHandler<ScaleUserSelectionEventArgs> MouseDown;
 
+        /// <summary>
+        /// Mouse action forwaring event overriding
+        /// </summary>
         public new event EventHandler<ScaleUserSelectionEventArgs> MouseMove;
 
+        /// <summary>
+        /// Mouse action forwaring event overriding
+        /// </summary>
         public new event EventHandler<ScaleUserSelectionEventArgs> MouseUp;
 
+        /// <summary>
+        /// Mouse action forwaring event overriding
+        /// </summary>
         public new event EventHandler<ScaleUserSelectionEventArgs> MouseWheel;
 
-        public event EventHandler<DrawGraphEventArgs> DrawGraphInBuffer;
+        /// <summary>
+        /// Sets view bounds/size
+        /// </summary>
+        /// <param name="left">position</param>
+        /// <param name="top">position</param>
+        /// <param name="width">size</param>
+        /// <param name="height">size</param>
+        public event EventHandler<DrawGraphEventArgs> DrawGraph;
 
+        /// <summary>
+        /// Control size was changed forwarding event (IControlViewSize)
+        /// </summary>
+        public event EventHandler<ControlSizeChangedEventArgs> ControlSizeChanged;
+        #endregion
+
+        #region Constructors
         public GraphControlView() : base()
         {
             // Whithout the ResizeRedraw statement, the control is redrawn only partially
@@ -38,11 +69,13 @@ namespace GraphControlWinForms
             base.MouseWheel += CtrlView_MouseWheel;
             base.SizeChanged += CtrlView_SizeChanged;
         }
+        #endregion
 
-        public void Draw(IDrawing drawing, DrawOptions options, IMargin margin)
-        {
-        }
-
+        #region Public methods
+        /// <summary>
+        /// Sets image in view from buffer
+        /// </summary>
+        /// <param name="bitmap">buffer with pre-rendered image</param>
         public void SetImage(Bitmap bitmap)
         {
             if (this.InvokeRequired)
@@ -55,16 +88,23 @@ namespace GraphControlWinForms
             }
         }
 
+        /// <summary>
+        /// Refresh view / control with default options (IRefreshControlView implementation)
+        /// </summary>
         public void RefreshView()
         {
-            DrawOptions options = new DrawOptions(this.ControlSize, false, false, null);
-            this.DrawGraphInBuffer?.Invoke(this, new DrawGraphEventArgs(null, options));
+            IDrawOptions options = new DrawOptions(this.ControlSize, false, false, null);
+            this.DrawGraph?.Invoke(this, new DrawGraphEventArgs(null, options));
         }
 
-        public void RefreshView(DrawOptions options)
+        /// <summary>
+        /// Refresh view / control with options (IRefreshControlView implementation)
+        /// </summary>
+        public void RefreshView(IDrawOptions options)
         {
-            this.DrawGraphInBuffer?.Invoke(this, new DrawGraphEventArgs(null, options));
+            this.DrawGraph?.Invoke(this, new DrawGraphEventArgs(null, options));
         }
+        #endregion
 
         #region Graph control handlers        
         private void CtrlView_SizeChanged(object sender, EventArgs e)

@@ -8,8 +8,6 @@ namespace GraphControl.Core.Interfaces
     {
         Size ControlSize { get; }
 
-        event EventHandler<DrawGraphEventArgs> DrawGraph;
-
         event EventHandler<ControlSizeChangedEventArgs> ControlSizeChanged;
     }
 }

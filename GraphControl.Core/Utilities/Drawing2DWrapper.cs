@@ -131,10 +131,10 @@ namespace GraphControl.Core.Utilities
                     {
                         // Set clip when not equals and store old
                         RectangleF oldClip = new RectangleF();
-                        if (item.Clip != null && !graphicsCanvas.ClipBounds.Equals(item.Clip.Value))
+                        if (item.Clip != null && !this.graphicsCanvas.ClipBounds.Equals(item.Clip.Value))
                         {
                             oldClip = graphicsCanvas.ClipBounds;
-                            graphicsCanvas.SetClip(item.Clip.Value);
+                            this.graphicsCanvas.SetClip(item.Clip.Value);
                         }
 
                         if (item.Brush != null)
@@ -154,9 +154,9 @@ namespace GraphControl.Core.Utilities
                         }
 
                         // Restore clip when not equals
-                        if (item.Clip != null && !graphicsCanvas.ClipBounds.Equals(oldClip))
+                        if (item.Clip != null && !this.graphicsCanvas.ClipBounds.Equals(oldClip))
                         {
-                            graphicsCanvas.SetClip(oldClip);
+                            this.graphicsCanvas.SetClip(oldClip);
                         }
                     }
                     finally

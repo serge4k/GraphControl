@@ -4,6 +4,5 @@ namespace GraphControl.Core.Interfaces.Views
 {
     public interface IBackgroundView : IDrawingView
     {
-        IBackgroundState State { get; set; }
     }
 }

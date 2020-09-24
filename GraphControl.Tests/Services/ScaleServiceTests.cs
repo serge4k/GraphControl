@@ -1,17 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GraphControl.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GraphControl.Core.Exceptions;
 using GraphControl.Tests.Unitilies;
-using GraphControl.Core.Interfaces.Models;
 using GraphControl.Core.Interfaces;
 using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Models;
 using GraphControl.Core.Definitions;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Views;
 
 namespace GraphControl.Core.Services.Tests
 {
@@ -28,7 +24,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToScreenTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -43,7 +39,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToScreenXTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -55,7 +51,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToScreenYTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.Y, 0) == (0 - scaleService.State.Y1) * scaleService.State.ScaleY);
@@ -66,7 +62,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToScreenTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -81,7 +77,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToScreenXTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -93,7 +89,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToScreenYTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             Assert.IsTrue(scaleService.ScaleToScreenY(0) == 0);
@@ -104,7 +100,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToDataTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -119,7 +115,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToDataXTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -131,7 +127,7 @@ namespace GraphControl.Core.Services.Tests
         public void ToDataYTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 
@@ -143,7 +139,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToDataTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -158,7 +154,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToDataXTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
@@ -170,7 +166,7 @@ namespace GraphControl.Core.Services.Tests
         public void ScaleToDataYTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 
@@ -188,7 +184,7 @@ namespace GraphControl.Core.Services.Tests
         public void SetStepTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 
@@ -204,7 +200,7 @@ namespace GraphControl.Core.Services.Tests
         public void SetStepXTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 
@@ -217,7 +213,7 @@ namespace GraphControl.Core.Services.Tests
         public void SetStepYTest()
         {
             TestFactory.CreateBaseServices(null, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 
@@ -243,7 +239,7 @@ namespace GraphControl.Core.Services.Tests
         {
             var controller = TestFactory.CreateApplicationController();
             TestFactory.CreateBaseServices(controller, null,
-                out IGridState gridState, out IGraphState graphState,
+                out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
 

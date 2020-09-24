@@ -14,8 +14,14 @@ namespace GraphControl.Core.Services
     public class DataService : IDataService
     {
         #region Public properties
+        /// <summary>
+        /// Data updated core event to notify about new DataItems block was received
+        /// </summary>
         public event EventHandler<DataUpdatedEventArgs> DataUpdated;
 
+        /// <summary>
+        /// Data items number
+        /// </summary>
         public int ItemCount
         {
             get
@@ -52,6 +58,10 @@ namespace GraphControl.Core.Services
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// Registers external data provider (IRegisterDataProvider)
+        /// </summary>
+        /// <param name="dataProvider">data provider</param>
         public void RegisterDataProvider(IGraphDataProvider dataProvider)
         {
             if (dataProvider == null)
@@ -67,6 +77,11 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Returns cached min value for stored data for X or Y
+        /// </summary>
+        /// <param name="axis">X or Y</param>
+        /// <returns>min value</returns>
         public double GetMin(Axis axis)
         {
             lock (this.sink)
@@ -83,6 +98,11 @@ namespace GraphControl.Core.Services
             }
         }
 
+        /// <summary>
+        /// Returns cached max value for stored data for X or Y
+        /// </summary>
+        /// <param name="axis">X or Y</param>
+        /// <returns>max value</returns>
         public double GetMax(Axis axis)
         {
             lock (this.sink)
@@ -98,7 +118,13 @@ namespace GraphControl.Core.Services
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Enumerates items
+        /// </summary>
+        /// <param name="startX">filter by min startX value</param>
+        /// <param name="endX">filter by max endX value</param>
+        /// <returns></returns>
         public IEnumerable<IDataItem> GetItems(double startX, double endX)
         {
             lock (this.sink)

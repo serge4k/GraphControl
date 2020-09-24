@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GraphControl.Core.Presenters.BackgroundPresenter" Collapsed="true">
+    <Position X="4.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAABABAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Presenters\BackgroundPresenter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IBackgroundView" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GraphControl.Core.Presenters.GridPresenter" Collapsed="true">
+    <Position X="6.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAgAAAAAAAAAAAAAAAAAEAQAAAAAAAAA=</HashCode>
+      <FileName>Presenters\GridPresenter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="IGridView" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GraphControl.Core.Presenters.DataPresenter" Collapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAQAAAAAAAggAAAEAQAAAAAAAAA=</HashCode>
+      <FileName>Presenters\DataPresenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GraphControl.Core.Presenters.ScalingSelectionPresenter" Collapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAkgAAAAAAAAAAAABEAAEAYAAAACAAwA=</HashCode>
+      <FileName>Presenters\ScalingSelectionPresenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IGraphControlFormView" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAgAAAABCAAIACAAAABgAAAAAAEgAhAQAAgBAI=</HashCode>
+      <FileName>Interfaces\Views\IGraphControlFormView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IGraphControlView" Collapsed="true">
+    <Position X="1.75" Y="2.5" Width="1.75" />
+    <InheritanceLine Type="GraphControl.Core.Interfaces.Views.IRefreshControlView" ManuallyRouted="true">
+      <Path>
+        <Point X="3.25" Y="1.062" />
+        <Point X="3.25" Y="1.578" />
+        <Point X="2.625" Y="1.578" />
+        <Point X="2.625" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <InheritanceLine Type="GraphControl.Core.Interfaces.Views.IControlViewSize" ManuallyRouted="true">
+      <Path>
+        <Point X="5" Y="1.062" />
+        <Point X="5" Y="1.777" />
+        <Point X="2.625" Y="1.777" />
+        <Point X="2.625" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAEAAAAAAAAEAAAAAEAAAAIBAAACAAAA=</HashCode>
+      <FileName>Interfaces\Views\IGraphControlView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IGridView" Collapsed="true">
+    <Position X="6.25" Y="2.5" Width="1.5" />
+    <InheritanceLine Type="GraphControl.Core.Interfaces.Views.IDrawingView" ManuallyRouted="true">
+      <Path>
+        <Point X="8.25" Y="1.062" />
+        <Point X="8.25" Y="1.983" />
+        <Point X="7" Y="1.983" />
+        <Point X="7" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IGridView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IBackgroundView" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <InheritanceLine Type="GraphControl.Core.Interfaces.Views.IDrawingView" ManuallyRouted="true">
+      <Path>
+        <Point X="8.25" Y="1.062" />
+        <Point X="8.25" Y="1.779" />
+        <Point X="5.5" Y="1.779" />
+        <Point X="5.5" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IBackgroundView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IScalingSelectionView" Collapsed="true">
+    <Position X="9.25" Y="2.5" Width="1.75" />
+    <InheritanceLine Type="GraphControl.Core.Interfaces.Views.IDrawingView" ManuallyRouted="true">
+      <Path>
+        <Point X="8.25" Y="1.062" />
+        <Point X="8.25" Y="1.454" />
+        <Point X="10.125" Y="1.454" />
+        <Point X="10.125" Y="2.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IScalingSelectionView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IDrawingView" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IDrawingView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IView" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IRefreshControlView" Collapsed="true">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IRefreshControlView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IControlViewSize" Collapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Interfaces\Views\IControlViewSize.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="GraphControl.Core.Interfaces.Views.IDataView" Collapsed="true">
+    <Position X="11.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\Views\IDataView.cs</FileName>
+      <NewMemberFileName>Interfaces\Views\IDataDrawState.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,8 +1,8 @@
 ﻿using GraphControl.Core.Exceptions;
-using GraphControl.Core.Interfaces.Models;
+using GraphControl.Core.Interfaces.Views;
 using System;
 
-namespace GraphControl.Core.Models
+namespace GraphControl.Core.Views
 {
     public class GraphControlFormState : IGraphControlFormState
     {

@@ -1,9 +1,13 @@
-﻿using GraphControl.Core.Structs;
+﻿using GraphControl.Core.Interfaces.Views;
 
 namespace GraphControl.Core.Interfaces.Models
 {
     public interface ICanvasSizeChanged
     {
-        void CanvasSizeChanged(DrawOptions drawOptions);
+        /// <summary>
+        /// Canvas size changed event
+        /// </summary>
+        /// <param name="options"></param>
+        void CanvasSizeChanged(IDrawOptions options);
     }
 }

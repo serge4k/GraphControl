@@ -8,6 +8,7 @@ using GraphControl.Core.Interfaces.Presenters;
 using GraphControl.Core.Interfaces.Services;
 using GraphControl.Core.Interfaces.Views;
 using GraphControl.Core.Structs;
+using GraphControl.Core.Views;
 
 namespace GraphControl.Core.Presenters
 {
@@ -38,7 +39,6 @@ namespace GraphControl.Core.Presenters
             {
                 throw new InvalidArgumentException("data sevice is null");
             }
-            this.View = view;
             this.scaleService = scaleService;
             this.backgroundPresenter = backgroundPresenter;
             this.gridPresenter = gridPresenter;
@@ -47,7 +47,7 @@ namespace GraphControl.Core.Presenters
 
             dataService.DataUpdated += GraphControlPresenter_DataUpdated;
 
-            this.View.DrawGraphInBuffer += View_GraphPaintInBuffer;
+            this.View.DrawGraph += View_DrawGraph;
             this.View.ControlSizeChanged += View_ControlSizeChanged;
 
             this.View.MouseDown += this.scalingSelectionPresenter.MouseDown;
@@ -80,7 +80,7 @@ namespace GraphControl.Core.Presenters
         }
 
         /// <summary>
-        /// Updates control size after load of control form 
+        /// Updates control size after load of the parent control
         /// </summary>
         /// <param name="e"></param>
         public void OnLoad(LoadEventArgs e)
@@ -94,7 +94,7 @@ namespace GraphControl.Core.Presenters
         #endregion
 
         #region Buffer drawing service handlers
-        private void View_GraphPaintInBuffer(object sender, DrawGraphEventArgs e)
+        private void View_DrawGraph(object sender, DrawGraphEventArgs e)
         {
             // Update options from state
             var options = e.DrawOptions;
@@ -114,7 +114,6 @@ namespace GraphControl.Core.Presenters
         private void BufferedDrawingService_DrawGraph(object sender, DrawGraphEventArgs e)
         {
             var margin = this.scaleService.State.Margin;
-            this.View.Draw(e.Drawing, e.DrawOptions, margin);
             if (!e.DrawOptions.DrawOnlyNewData)
             {
                 // When no new items, then if whould be request to update all like resize

@@ -11,6 +11,8 @@ using GraphControl.Tests.Services;
 using GraphControl.Core.Interfaces;
 using GraphControl.Core.Models;
 using GraphControl.Core.Services;
+using GraphControl.Core.Interfaces.Views;
+using GraphControl.Core.Views;
 
 namespace GraphControl.Tests.Unitilies
 {
@@ -21,7 +23,7 @@ namespace GraphControl.Tests.Unitilies
             return GraphControlFactory.CreateController();
         }
 
-        public static void CreateBaseServices(int testPointNumber, out IGridState gridState, out IGraphState graphState, out IDataService dataService, out IScaleService scaleService)
+        public static void CreateBaseServices(int testPointNumber, out IGridState gridState, out IDataDrawState graphState, out IDataService dataService, out IScaleService scaleService)
         {
             var provider = TestSinusDataProviderService.Create(testPointNumber);
             TestFactory.CreateBaseServices(null, provider,
@@ -32,7 +34,7 @@ namespace GraphControl.Tests.Unitilies
         }
 
         public static void CreateBaseServices(IApplicationController applicationController, IDataProviderService provider,
-            out IGridState gridState, out IGraphState graphState,
+            out IGridState gridState, out IDataDrawState graphState,
             out IItemFormatter itemFormatter, out IMargin margin,
             out IDataService dataService, out IScaleService scaleService)
         {
@@ -46,7 +48,7 @@ namespace GraphControl.Tests.Unitilies
         }
 
         public static void CreateBaseServices(IApplicationController applicationController, IDataProviderService provider,
-            out IGridState gridState, out IGraphState graphState,
+            out IGridState gridState, out IDataDrawState graphState,
             out IItemFormatter itemFormatter, out IMargin margin,
             out IDataService dataService, out IScaleService scaleService, ref IBufferedDrawingService bufferedDrawingService)
         {
@@ -73,7 +75,7 @@ namespace GraphControl.Tests.Unitilies
         }
 
         private static void CreateStateInstancees(IApplicationController applicationController, 
-            out IBackgroundState backgroundState, out IGridState gridState, out IScaleState scaleState, out IGraphState graphState, out IGraphControlFormState graphControlFormState)
+            out IBackgroundState backgroundState, out IGridState gridState, out IScaleState scaleState, out IDataDrawState graphState, out IGraphControlFormState graphControlFormState)
         {
             backgroundState = new BackgroundState();
             applicationController.RegisterInstance<IBackgroundState>(backgroundState);
@@ -84,8 +86,8 @@ namespace GraphControl.Tests.Unitilies
             scaleState = new ScaleState();
             applicationController.RegisterInstance<IScaleState>(scaleState);
 
-            graphState = new GraphState();
-            applicationController.RegisterInstance<IGraphState>(graphState);
+            graphState = new DataDrawState();
+            applicationController.RegisterInstance<IDataDrawState>(graphState);
 
             graphControlFormState = new GraphControlFormState();
             applicationController.RegisterInstance<IGraphControlFormState>(graphControlFormState);

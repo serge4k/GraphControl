@@ -2,6 +2,9 @@
 {
     public interface IView
     {
+        /// <summary>
+        /// Show a view (to show control)
+        /// </summary>
         void Show();
     }
 }
