@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl.Tests", "Graph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphControl.Core", "GraphControl.Core\GraphControl.Core.csproj", "{D693660A-7F01-4442-87CD-0F627F11B7F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45BC3860-8600-48E6-874D-40C7BAF44BF5}"
+	ProjectSection(SolutionItems) = preProject
+		Report20200924-1204.diagsession = Report20200924-1204.diagsession
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
