@@ -115,7 +115,7 @@
     <Compile Include="Interfaces\Services\IBufferedDrawingService.cs" />
     <Compile Include="Services\ScaleService.cs" />
     <Compile Include="Interfaces\Views\IScalingState.cs" />
-    <Compile Include="Views\ScaleState.cs" />
+    <Compile Include="Services\ScaleState.cs" />
     <Compile Include="Views\GridState.cs" />
     <Compile Include="Presenters\BackgroundPresenter.cs" />
     <Compile Include="Presenters\DataPresenter.cs" />
@@ -152,7 +152,7 @@
     <Compile Include="Interfaces\Views\IScalingSelectionView.cs" />
     <Compile Include="Views\ScalingDrawOptions.cs" />
     <Compile Include="Views\ScalingState.cs" />
-    <Compile Include="Views\ScalingSelectionView.cs" />
+    <Compile Include="Views\ScalingView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram\GraphControl.Core.MVP.cd" />

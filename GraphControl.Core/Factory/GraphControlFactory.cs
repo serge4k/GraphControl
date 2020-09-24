@@ -150,7 +150,7 @@ namespace GraphControl.Core.Factory
             dataPresenter = new DataPresenter(dataView, userDataDrawState, dataService);
             applicationController.RegisterInstance<IDataPresenter>(dataPresenter);
 
-            scalingView = userScalingSelectionView ?? new ScalingSelectionView();
+            scalingView = userScalingSelectionView ?? new ScalingView();
 
             // Register IGraphControlView here
             applicationController.RegisterInstance<IGraphControlView>(controlView);

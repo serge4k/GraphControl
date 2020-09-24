@@ -3,7 +3,7 @@ using GraphControl.Core.Structs;
 using GraphControl.Core.Exceptions;
 using GraphControl.Core.Interfaces.Views;
 
-namespace GraphControl.Core.Views
+namespace GraphControl.Core.Services
 {
     public class ScaleState : IScaleState
     {

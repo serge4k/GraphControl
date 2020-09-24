@@ -5,14 +5,14 @@ using System.Drawing;
 
 namespace GraphControl.Core.Views
 {
-    public class ScalingSelectionView : IScalingSelectionView
+    public class ScalingView : IScalingSelectionView
     {
         #region Public properties
 
         #endregion
 
         #region Constructors
-        public ScalingSelectionView()
+        public ScalingView()
         {
         }
         #endregion
