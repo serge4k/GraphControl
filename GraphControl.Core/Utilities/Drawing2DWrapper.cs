@@ -161,7 +161,7 @@ namespace GraphControl.Core.Utilities
                     }
                     finally
                     {
-                        item.Path.Dispose();
+                        item.Dispose();
                     }                    
                 }
                 
