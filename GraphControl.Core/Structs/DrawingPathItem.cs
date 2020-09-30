@@ -62,9 +62,9 @@ namespace GraphControl.Core.Structs
 
         public void Dispose()
         {
-            this.Path.Dispose();
-            this.Brush.Dispose();
-            this.Pen.Dispose();
+            this.Path?.Dispose();
+            this.Brush?.Dispose();
+            this.Pen?.Dispose();
         }
     }
 }
