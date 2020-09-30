@@ -60,10 +60,10 @@ namespace GraphControl.Core.Views
 
         public override int GetHashCode()
         {
-            return this.CanvasSize.GetHashCode() ^ 137
-                + this.FitToX.GetHashCode() ^ 137
-                + this.FitToY.GetHashCode() ^ 137
-                + (this.NewItems != null ? this.NewItems.GetHashCode() ^ 137 : 0);
+            return this.CanvasSize.GetHashCode() ^ 2147483647
+                + this.FitToX.GetHashCode() ^ 2147483647
+                + this.FitToY.GetHashCode() ^ 2147483647
+                + (this.NewItems != null ? this.NewItems.GetHashCode() ^ 2147483647 : 0);
         }
 
         public override bool Equals(object obj)

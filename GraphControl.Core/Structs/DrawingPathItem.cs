@@ -28,10 +28,10 @@ namespace GraphControl.Core.Structs
 
         public override int GetHashCode()
         {
-            return this.Path.GetHashCode() ^ 137
-                + this.Brush.GetHashCode() ^ 137
-                + this.Pen.GetHashCode() ^ 137
-                + (this.Clip != null ? this.Clip.GetHashCode() ^ 137 : 0);
+            return this.Path.GetHashCode() ^ 2147483647
+                + this.Brush.GetHashCode() ^ 2147483647
+                + this.Pen.GetHashCode() ^ 2147483647
+                + (this.Clip != null ? this.Clip.GetHashCode() ^ 2147483647 : 0);
         }
 
         public override bool Equals(object obj)

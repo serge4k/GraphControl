@@ -16,8 +16,8 @@ namespace GraphControl.Core.Structs
 
         public override int GetHashCode()
         {
-            return this.Width.GetHashCode() ^ 137
-                + this.Height.GetHashCode() ^ 137;
+            return this.Width.GetHashCode() ^ 2147483647
+                + this.Height.GetHashCode() ^ 2147483647;
         }
 
         public override bool Equals(object obj)

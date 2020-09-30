@@ -75,10 +75,10 @@ namespace GraphControl.Core.Structs
 
         public override int GetHashCode()
         {
-            return this.Left.GetHashCode() ^ 137 
-                + this.Top.GetHashCode() ^ 137
-                + this.Right.GetHashCode() ^ 137 
-                + this.Bottom.GetHashCode() ^ 137;
+            return this.Left.GetHashCode() ^ 2147483647 
+                + this.Top.GetHashCode() ^ 2147483647
+                + this.Right.GetHashCode() ^ 2147483647 
+                + this.Bottom.GetHashCode() ^ 2147483647;
         }
 
         public override bool Equals(object obj)

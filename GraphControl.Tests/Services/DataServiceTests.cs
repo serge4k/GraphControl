@@ -12,7 +12,7 @@ using GraphControl.Core.Models;
 using GraphControl.Core.Definitions;
 using GraphControl.Core.Exceptions;
 
-namespace GraphControl.Core.Services.Tests
+namespace GraphControl.Tests.Services
 {
     [TestClass()]
     public class DataServiceTests

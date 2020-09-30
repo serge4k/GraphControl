@@ -19,5 +19,9 @@ namespace GraphControl.Core.Interfaces.Views
         Color ZoomInPenColor { get; set; }
 
         Color ZoomOutPenColor { get; set; }
+
+        bool FitByX { get; set; }
+
+        bool FitByY { get; set; }
     }
 }

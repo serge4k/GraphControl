@@ -4,12 +4,11 @@ using GraphControl.Core.Exceptions;
 using GraphControl.Tests.Unitilies;
 using GraphControl.Core.Interfaces;
 using GraphControl.Core.Interfaces.Services;
-using GraphControl.Core.Models;
 using GraphControl.Core.Definitions;
 using GraphControl.Core.Interfaces.Views;
-using GraphControl.Core.Views;
+using GraphControl.Core.Services;
 
-namespace GraphControl.Core.Services.Tests
+namespace GraphControl.Tests.Services
 {
     [TestClass()]
     public class ScaleServiceTests
@@ -28,11 +27,11 @@ namespace GraphControl.Core.Services.Tests
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.X, 0) == (0 - scaleService.State.X1) * scaleService.State.ScaleX);
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.X, x) == (x - scaleService.State.X1) * scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ToScreen(Axis.X, 0) == (0 - scaleService.State.X1) * scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ToScreen(Axis.X, x) == (x - scaleService.State.X1) * scaleService.State.ScaleX);
 
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.Y, 0) == (0 - scaleService.State.Y1) * scaleService.State.ScaleY);
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.Y, .5) == (.5 - scaleService.State.Y1) * scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ToScreen(Axis.Y, 0) == (0 - scaleService.State.Y1) * scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ToScreen(Axis.Y, .5) == (.5 - scaleService.State.Y1) * scaleService.State.ScaleY);
         }
 
         [TestMethod()]
@@ -43,8 +42,8 @@ namespace GraphControl.Core.Services.Tests
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.X, 0) == (0 - scaleService.State.X1) * scaleService.State.ScaleX);
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.X, x) == (x - scaleService.State.X1) * scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ToScreen(Axis.X, 0) == (0 - scaleService.State.X1) * scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ToScreen(Axis.X, x) == (x - scaleService.State.X1) * scaleService.State.ScaleX);
         }
 
         [TestMethod()]
@@ -54,8 +53,8 @@ namespace GraphControl.Core.Services.Tests
                 out IGridState gridState, out IDataDrawState graphState,
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.Y, 0) == (0 - scaleService.State.Y1) * scaleService.State.ScaleY);
-            Assert.IsTrue(scaleService.ToScreen(Definitions.Axis.Y, .5) == (.5 - scaleService.State.Y1) * scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ToScreen(Axis.Y, 0) == (0 - scaleService.State.Y1) * scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ToScreen(Axis.Y, .5) == (.5 - scaleService.State.Y1) * scaleService.State.ScaleY);
         }
 
         [TestMethod()]
@@ -66,11 +65,11 @@ namespace GraphControl.Core.Services.Tests
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
-            Assert.IsTrue(scaleService.ScaleToScreen(Definitions.Axis.X, 0) == 0);
-            Assert.IsTrue(scaleService.ScaleToScreen(Definitions.Axis.X, x) == x * scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ScaleToScreen(Axis.X, 0) == 0);
+            Assert.IsTrue(scaleService.ScaleToScreen(Axis.X, x) == x * scaleService.State.ScaleX);
 
-            Assert.IsTrue(scaleService.ScaleToScreen(Definitions.Axis.Y, 0) == 0);
-            Assert.IsTrue(scaleService.ScaleToScreen(Definitions.Axis.Y, .5) == .5 * scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ScaleToScreen(Axis.Y, 0) == 0);
+            Assert.IsTrue(scaleService.ScaleToScreen(Axis.Y, .5) == .5 * scaleService.State.ScaleY);
         }
 
         [TestMethod()]
@@ -104,11 +103,11 @@ namespace GraphControl.Core.Services.Tests
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
-            Assert.IsTrue(scaleService.ToData(Definitions.Axis.X, 0) == 0 / scaleService.State.ScaleX + scaleService.State.X1);
-            Assert.IsTrue(scaleService.ToData(Definitions.Axis.X, x) == x / scaleService.State.ScaleX + scaleService.State.X1);
+            Assert.IsTrue(scaleService.ToData(Axis.X, 0) == 0 / scaleService.State.ScaleX + scaleService.State.X1);
+            Assert.IsTrue(scaleService.ToData(Axis.X, x) == x / scaleService.State.ScaleX + scaleService.State.X1);
 
-            Assert.IsTrue(scaleService.ToData(Definitions.Axis.Y, 0) == 0 / scaleService.State.ScaleY + scaleService.State.Y1);
-            Assert.IsTrue(scaleService.ToData(Definitions.Axis.Y, .5) == .5 / scaleService.State.ScaleY + scaleService.State.Y1);
+            Assert.IsTrue(scaleService.ToData(Axis.Y, 0) == 0 / scaleService.State.ScaleY + scaleService.State.Y1);
+            Assert.IsTrue(scaleService.ToData(Axis.Y, .5) == .5 / scaleService.State.ScaleY + scaleService.State.Y1);
         }
 
         [TestMethod()]
@@ -143,11 +142,11 @@ namespace GraphControl.Core.Services.Tests
                 out IItemFormatter itemFormatter, out IMargin margin,
                 out IDataService dataService, out IScaleService scaleService);
             double x = new DateTime(1985, 6, 23).Ticks / TimeSpan.TicksPerMillisecond;
-            Assert.IsTrue(scaleService.ScaleToData(Definitions.Axis.X, 0) == 0 / scaleService.State.ScaleX);
-            Assert.IsTrue(scaleService.ScaleToData(Definitions.Axis.X, x) == x / scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ScaleToData(Axis.X, 0) == 0 / scaleService.State.ScaleX);
+            Assert.IsTrue(scaleService.ScaleToData(Axis.X, x) == x / scaleService.State.ScaleX);
 
-            Assert.IsTrue(scaleService.ScaleToData(Definitions.Axis.Y, 0) == 0 / scaleService.State.ScaleY);
-            Assert.IsTrue(scaleService.ScaleToData(Definitions.Axis.Y, .5) == .5 / scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ScaleToData(Axis.Y, 0) == 0 / scaleService.State.ScaleY);
+            Assert.IsTrue(scaleService.ScaleToData(Axis.Y, .5) == .5 / scaleService.State.ScaleY);
         }
 
         [TestMethod()]
