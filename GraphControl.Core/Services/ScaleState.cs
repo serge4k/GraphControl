@@ -52,16 +52,6 @@ namespace GraphControl.Core.Services
         /// </summary>
         public double StepY { get; set; }
 
-        /// <summary>
-        /// Current fit mode
-        /// </summary>
-        public bool FitByX { get; set; }
-
-        /// <summary>
-        /// Current fit mode
-        /// </summary>
-        public bool FitByY { get; set; }
-
         public ScaleState()
         {
             this.Margin = new Margin();
@@ -73,8 +63,6 @@ namespace GraphControl.Core.Services
             this.ScaleY = 1;
             this.StepX = 1;
             this.StepY = 1;
-            this.FitByX = false;
-            this.FitByY = false;
         }
 
         public ScaleState(IScaleState state)
@@ -92,23 +80,19 @@ namespace GraphControl.Core.Services
             this.ScaleY = state.ScaleY;
             this.StepX = state.StepX;
             this.StepY = state.StepY;
-            this.FitByX = state.FitByX;
-            this.FitByY = state.FitByY;
         }
 
         public override int GetHashCode()
         {
-            return this.Margin.GetHashCode() ^ 137
-                + this.X1.GetHashCode() ^ 137 
-                + this.X2.GetHashCode() ^ 137 
-                + this.Y1.GetHashCode() ^ 137 
-                + this.Y2.GetHashCode() ^ 137
-                + this.ScaleX.GetHashCode() ^ 137 
-                + this.ScaleY.GetHashCode() ^ 137
-                + this.StepX.GetHashCode() ^ 137 
-                + this.StepY.GetHashCode() ^ 137
-                + this.FitByX.GetHashCode() ^ 137
-                + this.FitByY.GetHashCode() ^ 137;
+            return this.Margin.GetHashCode() ^ 2147483647
+                + this.X1.GetHashCode() ^ 2147483647 
+                + this.X2.GetHashCode() ^ 2147483647 
+                + this.Y1.GetHashCode() ^ 2147483647 
+                + this.Y2.GetHashCode() ^ 2147483647
+                + this.ScaleX.GetHashCode() ^ 2147483647 
+                + this.ScaleY.GetHashCode() ^ 2147483647
+                + this.StepX.GetHashCode() ^ 2147483647 
+                + this.StepY.GetHashCode() ^ 2147483647;
         }
 
         public override bool Equals(object obj)
@@ -133,9 +117,9 @@ namespace GraphControl.Core.Services
                 && this.ScaleX.Equals(other.ScaleX)
                 && this.ScaleY.Equals(other.ScaleY)
                 && this.StepX.Equals(other.StepX)
-                && this.StepY.Equals(other.StepY)
-                && this.FitByX.Equals(other.FitByX)
-                && this.FitByY.Equals(other.FitByY);
+                && this.StepY.Equals(other.StepY);
+                ////&& this.FitByX.Equals(other.FitByX) // TODO remove
+                ////&& this.FitByY.Equals(other.FitByY);
         }
 
         public static bool operator ==(ScaleState obj1, IScaleState obj2)

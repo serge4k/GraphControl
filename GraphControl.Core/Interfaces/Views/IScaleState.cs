@@ -48,15 +48,5 @@ namespace GraphControl.Core.Interfaces.Views
         /// Last division value by Y
         /// </summary>
         double StepY { get; set; }
-
-        /// <summary>
-        /// Current fit mode
-        /// </summary>
-        bool FitByX { get; set; }
-
-        /// <summary>
-        /// Current fit mode
-        /// </summary>
-        bool FitByY { get; set; }
     }
 }

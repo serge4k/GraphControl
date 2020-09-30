@@ -53,6 +53,16 @@ namespace GraphControl.Core.Presenters
         /// <param name="margin">drawing margin</param>
         public void Draw(IDrawing drawing, IDrawOptions options, IMargin margin)
         {
+            if (options == null)
+            {
+                throw new InvalidArgumentException("parameter is null");
+            }
+            
+            // Fix 1 - User can not move/zoom after pressing Fit by Y button
+            // Update Fit By states from curent drawing operation
+            this.state.FitByX = options.FitToX;
+            this.state.FitByY = options.FitToY;
+
             this.view.Draw(drawing, new ScalingDrawOptions(options, this.state), margin);
         }
 
@@ -62,7 +72,7 @@ namespace GraphControl.Core.Presenters
             {
                 throw new InvalidArgumentException("parameter is null");
             }
-            if (!this.scaleService.State.FitByX && !this.scaleService.State.FitByY)
+            if (!this.state.FitByX && !this.state.FitByY)
             {
                 switch (e.Button)
                 {

@@ -161,7 +161,7 @@ namespace GraphControl.Core.Presenters
         public void UpdateFormState(IGraphControlFormState formState)
         {
             this.state = formState;
-            UpdateView(false, null); // Update view FixByX or Y state was changed
+            UpdateView(true, null); // Update view FixByX or Y state was changed
         }
 
         /// <summary>
